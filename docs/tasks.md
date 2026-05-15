@@ -21,6 +21,8 @@ Phase 01 - Foundation.
 
 ## Completadas
 Ver checklist.
+- Corrección P1 EditorPanel: inicialización de CodeMirror estabilizada con `onChangeRef` y efecto único de montaje.
+- Ajuste CI: `pnpm/action-setup` ahora toma la versión de `package.json` (`packageManager`) para evitar conflicto de versiones.
 
 ## Pendientes
 - Validación de instalador en Windows real.
