@@ -1,0 +1,2 @@
+.panel { background: var(--color-panel); border: 1px solid var(--color-border); border-radius: 8px; padding: 0.75rem; }
+.editor { min-height: 340px; background: #0f172a; }

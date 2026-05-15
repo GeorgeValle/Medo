@@ -1,0 +1,10 @@
+:root {
+  --color-bg: #111827;
+  --color-panel: #1f2937;
+  --color-text: #e5e7eb;
+  --color-border: #374151;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+* { box-sizing: border-box; }
+body { margin: 0; }
+button, textarea { font: inherit; }
