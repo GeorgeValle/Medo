@@ -31,6 +31,14 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm test
       - run: pnpm build
+      - name: Generate temporary Tauri icon
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force -Path src-tauri/icons | Out-Null
+          $iconBase64 = 'AAABAAEAICAAAAAAIABtAAAAFgAAAIlQTkcNChoKAAAADUlIRIAAAAgAAAAIAgGAAAAc3p69AAAADRJREFUeJztzjEBADAIxMCnDrrVAf4VFhksFwO5uq9/FjubcwAAAAAAAAAAAAAAAAAAgCQZKqcBj3kh12YAAAAASUVORK5CYII='
+          $pngBase64 = 'iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAANElEQVR4nO3OMQEAMAjEwKcOutUB/hUWGSwXA7m6r38WO5tzAAAAAAAAAAAAAAAAAACAJBkqpwGPeSHXZgAAAABJRU5ErkJggg=='
+          [IO.File]::WriteAllBytes('src-tauri/icons/icon.ico', [Convert]::FromBase64String($iconBase64))
+          [IO.File]::WriteAllBytes('src-tauri/icons/icon.png', [Convert]::FromBase64String($pngBase64))
       - run: pnpm tauri:build
       - name: Upload Windows NSIS artifact
         if: success()
