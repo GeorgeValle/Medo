@@ -82,8 +82,9 @@ function appendTableColumn(selected: string): string {
     .map((line, index) => {
       const trimmed = line.trim();
       if (!trimmed.startsWith('|')) return line;
-      if (index === 1) return `${line.slice(0, -1)} | --- |`;
-      return `${line.slice(0, -1)} | Nueva columna |`;
+      const baseLine = line.endsWith('|') ? line.slice(0, -1) : line;
+      if (index === 1) return `${baseLine} | --- |`;
+      return `${baseLine} | Nueva columna |`;
     })
     .join('\n');
 }

@@ -32,6 +32,7 @@ Phase 05 - Release.
 - Barra de formato ajustada: `Código inline`, `Bloque código`, `Tabla`, `Fila` y `Columna` con inserciones Markdown predecibles.
 - Mejora de visibilidad del caret del editor en tema oscuro (blanco de alto contraste).
 - Mejora incremental del TXT→MD para separar párrafos de forma más predecible.
+- Corrección en `appendTableColumn` para preservar texto de filas sin `|` final y tests de regresión para ambos casos.
 
 ## Pendientes
 - Ejecutar validación manual completa en Windows con instalador NSIS generado desde CI.

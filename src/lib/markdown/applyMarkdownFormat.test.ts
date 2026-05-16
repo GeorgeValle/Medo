@@ -37,4 +37,16 @@ describe('applyMarkdownFormat', () => {
     expect(result.content).toBe('| Columna 1 | Columna 2 |\n| --- | --- |\n| Valor 1 | Valor 2 |');
   });
 
+  it('agrega columna preservando filas con pipe final', () => {
+    const table = '| a | b |\n| --- | --- |\n| c | d |';
+    const result = applyMarkdownFormat({ content: table, from: 0, to: table.length, action: 'tableColumn' });
+    expect(result.content).toBe('| a | b  | Nueva columna |\n| --- | ---  | --- |\n| c | d  | Nueva columna |');
+  });
+
+  it('agrega columna preservando filas sin pipe final', () => {
+    const table = '| a | b\n| --- | ---\n| c | d';
+    const result = applyMarkdownFormat({ content: table, from: 0, to: table.length, action: 'tableColumn' });
+    expect(result.content).toBe('| a | b | Nueva columna |\n| --- | --- | --- |\n| c | d | Nueva columna |');
+  });
+
 });
