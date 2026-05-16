@@ -21,24 +21,26 @@ Phase 05 - Release.
 - [ ] Validación manual final en Windows instalado
 
 ## Completadas
-- Correcciones post-validación manual en Windows instalado:
-  - Registro explícito de permisos/capabilities para `dialog` y `fs` en Tauri v2.
-  - Mejoras de error en `Abrir`, `Guardar` y `Guardar como` con detalle técnico.
-  - `Nuevo` ahora limpia editor, preview, ruta actual, textarea del conversor TXT→MD y error visible.
-  - Cursor de CodeMirror con alto contraste en fondo oscuro.
-  - Configuración Rust para evitar ventana de consola en builds release de Windows.
-  - Configuración NSIS en español con `languages: ["Spanish"]`.
+- Validación manual en Windows instalada:
+  - `Nuevo` funciona.
+  - `Abrir`, `Guardar` y `Guardar como` funcionan para archivos esperados.
+  - Conversor TXT→MD funciona y aplica al editor.
+  - Preview se actualiza en vivo.
+  - No aparece ventana de consola en builds release.
+- Corrección de visibilidad de caret en CodeMirror con tema del editor.
+- Barra de formato Markdown integrada junto al editor (encabezados, listas, negrita, cursiva, enlace, imagen, cita y código).
+- Mejora incremental del TXT→MD para separar párrafos de forma más predecible.
 
 ## Pendientes
 - Ejecutar validación manual completa en Windows con instalador NSIS generado desde CI.
-- Confirmar en Windows real que `Abrir/Guardar/Guardar como` funcionan con `.md` y `.txt`.
-- Confirmar que no aparece consola al abrir desde menú inicio/atajo en build instalado.
+- Confirmar en Windows real que `Abrir/Guardar/Guardar como` funcionan con `.md` y `.txt` en múltiples rutas.
+- Confirmar usabilidad de barra de formato Markdown con selección y sin selección (incluye repetir H1/H2/H3 y numeración con líneas en blanco).
 
 ## Bloqueadas
 - `pnpm tauri:build` en Linux puede fallar por dependencias GTK/GLib del entorno; usar runner Windows para validación final del instalador.
 
 ## Bugs conocidos
-- Pendiente validar en Windows si existe alguna restricción adicional de NSIS/Tauri para localización completa del instalador.
+- Corregido: numeración de listas ordenadas con líneas en blanco y reinicio del selector de encabezado para aplicar H1/H2/H3 repetidamente.
 
 ## Decisiones pendientes
 - Estrategia de firma de instalador.
