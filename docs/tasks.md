@@ -34,13 +34,13 @@ Phase 05 - Release.
 ## Pendientes
 - Ejecutar validación manual completa en Windows con instalador NSIS generado desde CI.
 - Confirmar en Windows real que `Abrir/Guardar/Guardar como` funcionan con `.md` y `.txt` en múltiples rutas.
-- Confirmar usabilidad de barra de formato Markdown con selección y sin selección.
+- Confirmar usabilidad de barra de formato Markdown con selección y sin selección (incluye repetir H1/H2/H3 y numeración con líneas en blanco).
 
 ## Bloqueadas
 - `pnpm tauri:build` en Linux puede fallar por dependencias GTK/GLib del entorno; usar runner Windows para validación final del instalador.
 
 ## Bugs conocidos
-- Ninguno crítico bloqueante; seguir verificando UX de edición Markdown enriquecida.
+- Corregido: numeración de listas ordenadas con líneas en blanco y reinicio del selector de encabezado para aplicar H1/H2/H3 repetidamente.
 
 ## Decisiones pendientes
 - Estrategia de firma de instalador.

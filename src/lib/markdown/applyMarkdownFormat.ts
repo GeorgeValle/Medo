@@ -43,12 +43,15 @@ function applyLinePrefix(text: string, prefix: string): string {
 }
 
 function applyList(text: string, ordered: boolean): string {
+  let itemNumber = 0;
   return text
     .split('\n')
-    .map((line, index) => {
+    .map((line) => {
       const clean = line.replace(/^\s*([-*]|\d+\.)\s+/, '').trim();
       if (!clean) return '';
-      return ordered ? `${index + 1}. ${clean}` : `- ${clean}`;
+      if (!ordered) return `- ${clean}`;
+      itemNumber += 1;
+      return `${itemNumber}. ${clean}`;
     })
     .join('\n');
 }

@@ -16,4 +16,10 @@ describe('applyMarkdownFormat', () => {
     const result = applyMarkdownFormat({ content: 'uno\ndos', from: 0, to: 7, action: 'numberedList' });
     expect(result.content).toBe('1. uno\n2. dos');
   });
+
+  it('renumera lista numerada ignorando líneas en blanco', () => {
+    const result = applyMarkdownFormat({ content: 'uno\n\ndos', from: 0, to: 8, action: 'numberedList' });
+    expect(result.content).toBe('1. uno\n\n2. dos');
+  });
+
 });

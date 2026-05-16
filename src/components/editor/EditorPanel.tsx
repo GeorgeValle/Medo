@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { EditorSelection, EditorState } from '@codemirror/state';
 import { EditorView } from '@codemirror/view';
 import { markdown } from '@codemirror/lang-markdown';
@@ -26,6 +26,7 @@ export function EditorPanel({ value, onChange }: Props) {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const viewRef = useRef<EditorView | null>(null);
   const onChangeRef = useRef(onChange);
+  const [headingValue, setHeadingValue] = useState<MarkdownFormatAction>('h0');
 
   const applyFormat = (action: MarkdownFormatAction) => {
     const view = viewRef.current;
@@ -92,7 +93,15 @@ export function EditorPanel({ value, onChange }: Props) {
       <div className={styles.formatToolbar}>
         <label>
           Formato
-          <select aria-label="Selector de encabezado" onChange={(e) => applyFormat(e.target.value as MarkdownFormatAction)} defaultValue="h0">
+          <select
+            aria-label="Selector de encabezado"
+            value={headingValue}
+            onChange={(e) => {
+              const action = e.target.value as MarkdownFormatAction;
+              applyFormat(action);
+              setHeadingValue('h0');
+            }}
+          >
             {headingOptions.map((option) => (
               <option key={option.value} value={option.value}>{option.label}</option>
             ))}
