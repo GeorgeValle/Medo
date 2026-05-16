@@ -10,7 +10,7 @@ type Props = { value: string; onChange: (value: string) => void };
 const editorTheme = EditorView.theme({
   '&': { height: '100%' },
   '.cm-content, .cm-gutters': { backgroundColor: '#0f172a', color: 'var(--color-text)' },
-  '.cm-cursor, .cm-dropCursor': { borderLeftColor: '#facc15', borderLeftWidth: '2px' },
+  '.cm-cursor, .cm-dropCursor': { borderLeftColor: '#ffffff', borderLeftWidth: '2px' },
   '&.cm-focused': { outline: '1px solid #facc15' },
   '.cm-selectionBackground, &.cm-focused .cm-selectionBackground, ::selection': { backgroundColor: 'rgba(250, 204, 21, 0.3)' }
 });
@@ -114,7 +114,11 @@ export function EditorPanel({ value, onChange }: Props) {
         <button title="Enlace" onClick={() => applyFormat('link')}>Enlace</button>
         <button title="Imagen" onClick={() => applyFormat('image')}>Imagen</button>
         <button title="Cita" onClick={() => applyFormat('quote')}>Cita</button>
-        <button title="Código" onClick={() => applyFormat('code')}>Código</button>
+        <button title="Código inline" onClick={() => applyFormat('codeInline')}>Código inline</button>
+        <button title="Bloque código" onClick={() => applyFormat('codeBlock')}>Bloque código</button>
+        <button title="Insertar tabla" onClick={() => applyFormat('table')}>Tabla</button>
+        <button title="Agregar fila de tabla" onClick={() => applyFormat('tableRow')}>Fila</button>
+        <button title="Agregar columna de tabla" onClick={() => applyFormat('tableColumn')}>Columna</button>
       </div>
       <div ref={containerRef} className={styles.editor} />
     </section>
