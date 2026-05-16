@@ -17,15 +17,25 @@
         "height": 800,
         "resizable": true
       }
-    ]
+    ],
+    "security": {
+      "capabilities": [
+        "default"
+      ]
+    }
   },
   "bundle": {
     "active": true,
-    "targets": ["nsis"],
+    "targets": [
+      "nsis"
+    ],
     "windows": {
       "nsis": {
         "installMode": "currentUser",
-        "startMenuFolder": "Medo"
+        "startMenuFolder": "Medo",
+        "languages": [
+          "Spanish"
+        ]
       }
     }
   }

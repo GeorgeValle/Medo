@@ -2,11 +2,20 @@ import { open, save } from '@tauri-apps/plugin-dialog';
 import { readTextFile, writeTextFile } from '@tauri-apps/plugin-fs';
 import type { DocumentState } from './documentState';
 
+function buildError(prefix: string, error: unknown): Error {
+  const detail = error instanceof Error ? error.message : String(error);
+  return new Error(`${prefix} Detalle: ${detail}`);
+}
+
 export async function openDocument(): Promise<{ path: string; content: string } | null> {
-  const selected = await open({ multiple: false, filters: [{ name: 'Texto', extensions: ['md', 'txt'] }] });
-  if (!selected || Array.isArray(selected)) return null;
-  const content = await readTextFile(selected);
-  return { path: selected, content };
+  try {
+    const selected = await open({ multiple: false, filters: [{ name: 'Texto', extensions: ['md', 'txt'] }] });
+    if (!selected || Array.isArray(selected)) return null;
+    const content = await readTextFile(selected);
+    return { path: selected, content };
+  } catch (error) {
+    throw buildError('Error al abrir archivo.', error);
+  }
 }
 
 export async function saveDocument(state: DocumentState): Promise<DocumentState> {
@@ -15,13 +24,23 @@ export async function saveDocument(state: DocumentState): Promise<DocumentState>
     if (!saved) throw new Error('Guardado cancelado.');
     return saved;
   }
-  await writeTextFile(state.path, state.content);
-  return { ...state, hasUnsavedChanges: false };
+
+  try {
+    await writeTextFile(state.path, state.content);
+    return { ...state, hasUnsavedChanges: false };
+  } catch (error) {
+    throw buildError('Error al guardar archivo.', error);
+  }
 }
 
 export async function saveDocumentAs(state: DocumentState): Promise<DocumentState | null> {
   const selected = await save({ defaultPath: state.path ?? 'medo-note.md', filters: [{ name: 'Markdown', extensions: ['md'] }] });
   if (!selected) return null;
-  await writeTextFile(selected, state.content);
-  return { ...state, path: selected, hasUnsavedChanges: false };
+
+  try {
+    await writeTextFile(selected, state.content);
+    return { ...state, path: selected, hasUnsavedChanges: false };
+  } catch (error) {
+    throw buildError('Error al guardar como.', error);
+  }
 }

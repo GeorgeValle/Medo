@@ -4,7 +4,7 @@
 En progreso.
 
 ## Fase actual
-Phase 01 - Foundation.
+Phase 05 - Release.
 
 ## Checklist por fase
 - [x] Base Tauri + React + TS + Vite + pnpm
@@ -18,22 +18,27 @@ Phase 01 - Foundation.
 - [x] Configuración inicial Tauri Windows NSIS
 - [x] CI inicial
 - [ ] Validación de empaquetado final en runner Windows (NSIS)
+- [ ] Validación manual final en Windows instalado
 
 ## Completadas
-Ver checklist.
-- Se agregó job `windows-release-validation` en CI para ejecutar `pnpm tauri:build` en `windows-latest` y publicar artefacto NSIS.
-- Se agregó generación temporal de icono Tauri en el workflow Windows para evitar subir binarios al repositorio.
-- Corrección P1 EditorPanel: inicialización de CodeMirror estabilizada con `onChangeRef` y efecto único de montaje.
-- Ajuste CI: `pnpm/action-setup` ahora toma la versión de `package.json` (`packageManager`) para evitar conflicto de versiones.
+- Correcciones post-validación manual en Windows instalado:
+  - Registro explícito de permisos/capabilities para `dialog` y `fs` en Tauri v2.
+  - Mejoras de error en `Abrir`, `Guardar` y `Guardar como` con detalle técnico.
+  - `Nuevo` ahora limpia editor, preview, ruta actual, textarea del conversor TXT→MD y error visible.
+  - Cursor de CodeMirror con alto contraste en fondo oscuro.
+  - Configuración Rust para evitar ventana de consola en builds release de Windows.
+  - Configuración NSIS en español con `languages: ["Spanish"]`.
 
 ## Pendientes
-- Windows NSIS validation workflow added; first successful CI run pending.
+- Ejecutar validación manual completa en Windows con instalador NSIS generado desde CI.
+- Confirmar en Windows real que `Abrir/Guardar/Guardar como` funcionan con `.md` y `.txt`.
+- Confirmar que no aparece consola al abrir desde menú inicio/atajo en build instalado.
 
 ## Bloqueadas
-- `pnpm tauri:build` falló en Linux por librerías del sistema GTK/GLib faltantes; validar empaquetado final en runner Windows con toolchain completa.
+- `pnpm tauri:build` en Linux puede fallar por dependencias GTK/GLib del entorno; usar runner Windows para validación final del instalador.
 
 ## Bugs conocidos
-- Ninguno crítico reportado en esta fase.
+- Pendiente validar en Windows si existe alguna restricción adicional de NSIS/Tauri para localización completa del instalador.
 
 ## Decisiones pendientes
 - Estrategia de firma de instalador.

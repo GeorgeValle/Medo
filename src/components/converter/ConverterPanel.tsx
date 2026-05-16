@@ -1,9 +1,19 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styles from './ConverterPanel.module.css';
 import { convertTxtToMarkdown } from '../../lib/txt-to-md/convertTxtToMarkdown';
 
-export function ConverterPanel({ onApply }: { onApply: (content: string) => void }) {
+type Props = {
+  onApply: (content: string) => void;
+  resetKey: number;
+};
+
+export function ConverterPanel({ onApply, resetKey }: Props) {
   const [txt, setTxt] = useState('Titulo\n\nTexto plano para convertir.');
+
+  useEffect(() => {
+    setTxt('');
+  }, [resetKey]);
+
   return (
     <section className={styles.panel}>
       <h2>Conversor TXT → MD</h2>

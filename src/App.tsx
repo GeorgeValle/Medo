@@ -13,11 +13,13 @@ const initialContent = `# Medo\n\nBienvenido a **Medo**.\n\n- Editor Markdown\n-
 export function App() {
   const [document, setDocument] = useState(() => createNewDocument(initialContent));
   const [error, setError] = useState<string | null>(null);
+  const [converterResetKey, setConverterResetKey] = useState(0);
 
   const html = useMemo(() => renderMarkdown(document.content), [document.content]);
 
   const onNew = () => {
     setDocument(createNewDocument(''));
+    setConverterResetKey((key) => key + 1);
     setError(null);
   };
 
@@ -28,7 +30,9 @@ export function App() {
       setDocument({ content: file.content, path: file.path, hasUnsavedChanges: false });
       setError(null);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Error al abrir archivo.');
+      const errorMessage = err instanceof Error ? err.message : 'Error al abrir archivo.';
+      console.error('Fallo en Abrir:', err);
+      setError(errorMessage);
     }
   };
 
@@ -38,7 +42,9 @@ export function App() {
       setDocument(saved);
       setError(null);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Error al guardar archivo.');
+      const errorMessage = err instanceof Error ? err.message : 'Error al guardar archivo.';
+      console.error('Fallo en Guardar:', err);
+      setError(errorMessage);
     }
   };
 
@@ -50,7 +56,9 @@ export function App() {
       }
       setError(null);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Error al guardar como.');
+      const errorMessage = err instanceof Error ? err.message : 'Error al guardar como.';
+      console.error('Fallo en Guardar como:', err);
+      setError(errorMessage);
     }
   };
 
@@ -69,7 +77,10 @@ export function App() {
         />
         <PreviewPanel html={html} />
       </section>
-      <ConverterPanel onApply={(content) => setDocument((prev) => updateDocumentContent(prev, content))} />
+      <ConverterPanel
+        resetKey={converterResetKey}
+        onApply={(content) => setDocument((prev) => updateDocumentContent(prev, content))}
+      />
     </main>
   );
 }
