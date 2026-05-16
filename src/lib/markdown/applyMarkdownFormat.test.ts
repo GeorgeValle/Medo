@@ -22,4 +22,19 @@ describe('applyMarkdownFormat', () => {
     expect(result.content).toBe('1. uno\n\n2. dos');
   });
 
+  it('inserta código inline sin selección', () => {
+    const result = applyMarkdownFormat({ content: '', from: 0, to: 0, action: 'codeInline' });
+    expect(result.content).toBe('`codigo`');
+  });
+
+  it('inserta bloque de código con triple backtick', () => {
+    const result = applyMarkdownFormat({ content: '', from: 0, to: 0, action: 'codeBlock' });
+    expect(result.content).toBe('\n```\ncodigo\n```\n');
+  });
+
+  it('inserta tabla base', () => {
+    const result = applyMarkdownFormat({ content: '', from: 0, to: 0, action: 'table' });
+    expect(result.content).toBe('| Columna 1 | Columna 2 |\n| --- | --- |\n| Valor 1 | Valor 2 |');
+  });
+
 });

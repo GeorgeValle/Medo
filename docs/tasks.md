@@ -29,12 +29,15 @@ Phase 05 - Release.
   - No aparece ventana de consola en builds release.
 - Corrección de visibilidad de caret en CodeMirror con tema del editor.
 - Barra de formato Markdown integrada junto al editor (encabezados, listas, negrita, cursiva, enlace, imagen, cita y código).
+- Barra de formato ajustada: `Código inline`, `Bloque código`, `Tabla`, `Fila` y `Columna` con inserciones Markdown predecibles.
+- Mejora de visibilidad del caret del editor en tema oscuro (blanco de alto contraste).
 - Mejora incremental del TXT→MD para separar párrafos de forma más predecible.
 
 ## Pendientes
 - Ejecutar validación manual completa en Windows con instalador NSIS generado desde CI.
 - Confirmar en Windows real que `Abrir/Guardar/Guardar como` funcionan con `.md` y `.txt` en múltiples rutas.
 - Confirmar usabilidad de barra de formato Markdown con selección y sin selección (incluye repetir H1/H2/H3 y numeración con líneas en blanco).
+- Validar manualmente UX de tabla (`Tabla`, `Fila`, `Columna`) en selección simple y multilinea.
 
 ## Bloqueadas
 - `pnpm tauri:build` en Linux puede fallar por dependencias GTK/GLib del entorno; usar runner Windows para validación final del instalador.
