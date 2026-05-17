@@ -66,7 +66,6 @@ export function App() {
     <main className={styles.app}>
       <header className={styles.header}>
         <h1>Medo</h1>
-        <p>Editor Markdown de escritorio</p>
       </header>
       <Toolbar onNew={onNew} onOpen={onOpen} onSave={onSave} onSaveAs={onSaveAs} />
       {error && <p className={styles.error}>{error}</p>}

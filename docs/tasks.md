@@ -30,7 +30,7 @@ Phase 05 - Release.
 - Corrección de visibilidad de caret en CodeMirror con tema del editor.
 - Barra de formato Markdown integrada junto al editor (encabezados, listas, negrita, cursiva, enlace, imagen, cita y código).
 - Barra de formato ajustada: `Código inline`, `Bloque código`, `Tabla`, `Fila` y `Columna` con inserciones Markdown predecibles.
-- Mejora de visibilidad del caret del editor en tema oscuro (blanco de alto contraste).
+- Follow-up UX Windows validado manualmente: caret de CodeMirror con alto contraste (amarillo/blanco) en editor oscuro, cabecera compacta sin subtítulo redundante, botón `Separador` y mejora visual de `code` inline en preview.
 - Mejora incremental del TXT→MD para separar párrafos de forma más predecible.
 - Corrección en `appendTableColumn` para preservar texto de filas sin `|` final y tests de regresión para ambos casos.
 
@@ -39,6 +39,11 @@ Phase 05 - Release.
 - Confirmar en Windows real que `Abrir/Guardar/Guardar como` funcionan con `.md` y `.txt` en múltiples rutas.
 - Confirmar usabilidad de barra de formato Markdown con selección y sin selección (incluye repetir H1/H2/H3 y numeración con líneas en blanco).
 - Validar manualmente UX de tabla (`Tabla`, `Fila`, `Columna`) en selección simple y multilinea.
+- Exportación PDF (idea futura, fuera de este PR).
+- Soporte de rutas WSL (idea futura, fuera de este PR).
+- Rediseño de selector/botones de listas (idea futura, fuera de este PR).
+- Soporte de listas alfabéticas (idea futura, fuera de este PR).
+- Bloques de código con botón copiar en preview (idea futura, fuera de este PR).
 
 ## Bloqueadas
 - `pnpm tauri:build` en Linux puede fallar por dependencias GTK/GLib del entorno; usar runner Windows para validación final del instalador.

@@ -49,4 +49,9 @@ describe('applyMarkdownFormat', () => {
     expect(result.content).toBe('| a | b | Nueva columna |\n| --- | --- | --- |\n| c | d | Nueva columna |');
   });
 
+  it('inserta separador horizontal markdown', () => {
+    const result = applyMarkdownFormat({ content: 'Texto', from: 5, to: 5, action: 'separator' });
+    expect(result.content).toBe(`Texto\n---\n`);
+  });
+
 });

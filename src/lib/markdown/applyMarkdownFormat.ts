@@ -14,7 +14,8 @@ export type MarkdownFormatAction =
   | 'codeBlock'
   | 'table'
   | 'tableRow'
-  | 'tableColumn';
+  | 'tableColumn'
+  | 'separator';
 
 export type ApplyMarkdownFormatInput = {
   content: string;
@@ -140,6 +141,9 @@ export function applyMarkdownFormat({ content, from, to, action }: ApplyMarkdown
       break;
     case 'tableColumn':
       inserted = appendTableColumn(selected);
+      break;
+    case 'separator':
+      inserted = `\n---\n`;
       break;
   }
 

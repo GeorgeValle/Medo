@@ -1,5 +1,6 @@
-.app { padding: 1rem; color: var(--color-text); background: var(--color-bg); min-height: 100vh; }
-.header { margin-bottom: 0.75rem; border-bottom: 1px solid var(--color-border); }
+.app { padding: 0.6rem 1rem 1rem; color: var(--color-text); background: var(--color-bg); min-height: 100vh; }
+.header { margin: 0 0 0.25rem; border-bottom: 1px solid var(--color-border); padding: 0 0 0.35rem; }
+.header h1 { margin: 0; font-size: 1.7rem; line-height: 1.2; }
 .workspace { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-.error { color: #ef4444; }
+.error { color: #ef4444; margin: 0.4rem 0; }
 @media (max-width: 960px) { .workspace { grid-template-columns: 1fr; } }
