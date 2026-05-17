@@ -33,6 +33,11 @@ describe('applyMarkdownFormat', () => {
     expect(result.content).toBe('a. uno\nb. dos\nc. tres\nd. cuatro');
   });
 
+  it('convierte varias líneas a checklist markdown', () => {
+    const result = applyMarkdownFormat({ content: 'uno\ndos\ntres', from: 0, to: 12, action: 'checkList' });
+    expect(result.content).toBe('- [ ] uno\n- [ ] dos\n- [ ] tres');
+  });
+
   it('inserta código inline sin selección', () => {
     const result = applyMarkdownFormat({ content: '', from: 0, to: 0, action: 'codeInline' });
     expect(result.content).toBe('`codigo`');

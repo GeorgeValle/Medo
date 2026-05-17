@@ -34,6 +34,11 @@ Phase 05 - Release.
 - Follow-up UX post-testing manual en Windows (editor/preview): contención de ancho en layout y bloques de código para evitar scroll horizontal global; sincronización proporcional de scroll editor→preview; selector único de listas (desordenada, numérica, alfabética) con reinicio tras aplicar; limpieza visual de toolbar retirando etiqueta visible “Formato”.
 - Follow-up UX Windows (esta iteración): listas alfabéticas secuenciales con continuidad por contexto (`a.`→`b.`→`c.`), contención global de texto largo sin cortes de layout (preview + editor), y botón `Acerca` con modal informativo (proyecto, autor, contacto, versión y fecha).
 
+- Follow-up UX Windows (post-testing manual): botón `Copiar` por bloque de código fenced en preview con feedback básico (`Copiado`/`Error`) y fallback cuando Clipboard API no está disponible.
+- Follow-up UX Windows (post-testing manual): estilo de texto verde para bloques de código fenced en preview (sin alterar estilo de `code` inline).
+- Follow-up UX Windows (post-testing manual): formato `Checklist` agregado al selector de listas (`- [ ] Elemento`) para selección simple y multilinea.
+- Follow-up UX Windows (post-testing manual): continuidad alfabética básica al presionar Enter dentro de ítems `a.`/`b.` en el editor.
+
 ## Pendientes
 - Ejecutar validación manual completa en Windows con instalador NSIS generado desde CI.
 - Confirmar en Windows real que `Abrir/Guardar/Guardar como` funcionan con `.md` y `.txt` en múltiples rutas.
@@ -41,7 +46,7 @@ Phase 05 - Release.
 - Validar manualmente UX de tabla (`Tabla`, `Fila`, `Columna`) en selección simple y multilinea.
 - Exportación PDF (idea futura, fuera de este PR).
 - Soporte de rutas WSL (idea futura, fuera de este PR).
-- Bloques de código con botón copiar en preview (idea futura, fuera de este PR).
+- Mejorar continuidad automática alfabética en casos avanzados (p. ej. salir de lista con línea vacía) como seguimiento futuro.
 
 ## Bloqueadas
 - `pnpm tauri:build` en Linux puede fallar por dependencias GTK/GLib del entorno; usar runner Windows para validación final del instalador.

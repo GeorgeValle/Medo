@@ -57,10 +57,37 @@
   border: 0;
   border-radius: 0;
   padding: 0;
-  color: #e2e8f0;
+  color: #86efac;
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
   font-size: 0.9rem;
   white-space: pre-wrap;
   overflow-wrap: anywhere;
   word-break: break-word;
+}
+
+.preview .codeBlockWrap {
+  position: relative;
+}
+
+.preview .codeCopyButton {
+  position: absolute;
+  top: 0.55rem;
+  right: 0.55rem;
+  z-index: 1;
+  background: #0f172a;
+  color: #cbd5e1;
+  border: 1px solid #334155;
+  border-radius: 0.35rem;
+  font-size: 0.75rem;
+  padding: 0.2rem 0.45rem;
+  cursor: pointer;
+}
+
+.preview .codeCopyButton:hover {
+  color: #f8fafc;
+  border-color: #64748b;
+}
+
+.preview .codeBlockWrap pre {
+  margin-top: 0;
 }
