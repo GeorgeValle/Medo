@@ -3,7 +3,7 @@
 Medo es una aplicación de escritorio para Windows, construida con Tauri 2 + React + TypeScript, enfocada en edición Markdown.
 
 ## Estado
-Inicial (fundación + UI base + editor + preview + conversor TXT→MD).
+Inicial (fundación + UI base + editor + preview).
 
 ## Stack
 - Tauri 2

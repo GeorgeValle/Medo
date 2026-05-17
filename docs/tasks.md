@@ -13,7 +13,6 @@ Phase 05 - Release.
 - [x] UI inicial con CSS Modules
 - [x] Editor Markdown (CodeMirror)
 - [x] Preview Markdown
-- [x] Conversor TXT→MD + tests
 - [x] Integración inicial abrir/guardar/guardar como
 - [x] Configuración inicial Tauri Windows NSIS
 - [x] CI inicial
@@ -24,14 +23,13 @@ Phase 05 - Release.
 - Validación manual en Windows instalada:
   - `Nuevo` funciona.
   - `Abrir`, `Guardar` y `Guardar como` funcionan para archivos esperados.
-  - Conversor TXT→MD funciona y aplica al editor.
   - Preview se actualiza en vivo.
   - No aparece ventana de consola en builds release.
 - Corrección de visibilidad de caret en CodeMirror con tema del editor.
 - Barra de formato Markdown integrada junto al editor (encabezados, listas, negrita, cursiva, enlace, imagen, cita y código).
 - Barra de formato ajustada: `Código inline`, `Bloque código`, `Tabla`, `Fila` y `Columna` con inserciones Markdown predecibles.
 - Follow-up UX Windows validado manualmente: caret de CodeMirror con alto contraste (amarillo/blanco) en editor oscuro, cabecera compacta sin subtítulo redundante, botón `Separador` y mejora visual de `code` inline en preview.
-- Mejora incremental del TXT→MD para separar párrafos de forma más predecible.
+- Follow-up UX post-validación manual en Windows: retiro de conversor TXT→MD del layout principal por bajo valor MVP; editor y preview con scroll interno independiente para documentos largos; bloques de código (fenced) con estilo visual diferenciado en preview.
 - Corrección en `appendTableColumn` para preservar texto de filas sin `|` final y tests de regresión para ambos casos.
 
 ## Pendientes
