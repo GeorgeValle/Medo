@@ -3,23 +3,20 @@ import styles from './App.module.css';
 import { Toolbar } from './components/toolbar/Toolbar';
 import { EditorPanel } from './components/editor/EditorPanel';
 import { PreviewPanel } from './components/preview/PreviewPanel';
-import { ConverterPanel } from './components/converter/ConverterPanel';
 import { renderMarkdown } from './lib/markdown/renderMarkdown';
 import { createNewDocument, updateDocumentContent } from './lib/documents/documentState';
 import { openDocument, saveDocument, saveDocumentAs } from './lib/documents/fileSystem';
 
-const initialContent = `# Medo\n\nBienvenido a **Medo**.\n\n- Editor Markdown\n- Preview en vivo\n- Conversor TXT → MD`;
+const initialContent = `# Medo\n\nBienvenido a **Medo**.\n\n- Editor Markdown\n- Preview en vivo`; 
 
 export function App() {
   const [document, setDocument] = useState(() => createNewDocument(initialContent));
   const [error, setError] = useState<string | null>(null);
-  const [converterResetKey, setConverterResetKey] = useState(0);
 
   const html = useMemo(() => renderMarkdown(document.content), [document.content]);
 
   const onNew = () => {
     setDocument(createNewDocument(''));
-    setConverterResetKey((key) => key + 1);
     setError(null);
   };
 
@@ -76,10 +73,6 @@ export function App() {
         />
         <PreviewPanel html={html} />
       </section>
-      <ConverterPanel
-        resetKey={converterResetKey}
-        onApply={(content) => setDocument((prev) => updateDocumentContent(prev, content))}
-      />
     </main>
   );
 }
