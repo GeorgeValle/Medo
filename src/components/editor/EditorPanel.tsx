@@ -19,7 +19,8 @@ const editorTheme = EditorView.theme({
   '.cm-dropCursor': { borderLeftColor: '#ffffff', borderLeftWidth: '2px' },
   '&.cm-focused .cm-cursor': { borderLeftColor: '#facc15' },
   '&.cm-focused': { outline: '1px solid #facc15' },
-  '.cm-selectionBackground, &.cm-focused .cm-selectionBackground, ::selection': { backgroundColor: 'rgba(250, 204, 21, 0.3)' }
+  '.cm-selectionBackground, &.cm-focused .cm-selectionBackground, ::selection': { backgroundColor: 'rgba(250, 204, 21, 0.3)' },
+  '.cm-scroller': { overflow: 'auto', maxWidth: '100%' }
 });
 
 const headingOptions: Array<{ label: string; value: MarkdownFormatAction }> = [

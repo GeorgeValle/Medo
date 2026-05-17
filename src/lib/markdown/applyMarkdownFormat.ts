@@ -48,8 +48,31 @@ function applyLinePrefix(text: string, prefix: string): string {
     .join('\n');
 }
 
-function applyList(text: string, listType: 'bullet' | 'numbered' | 'alpha'): string {
-  let itemNumber = 0;
+function getAlphaListStart(before: string): number {
+  const lines = before.split('\n');
+
+  for (let index = lines.length - 1; index >= 0; index -= 1) {
+    const line = lines[index].trim();
+    if (!line) continue;
+
+    const alphaMatch = line.match(/^([a-zA-Z])\.\s+/);
+    if (!alphaMatch) {
+      return 1;
+    }
+
+    const previousCode = alphaMatch[1].toLowerCase().charCodeAt(0);
+    if (previousCode < 97 || previousCode > 122) {
+      return 1;
+    }
+
+    return Math.min(previousCode - 96 + 1, 26);
+  }
+
+  return 1;
+}
+
+function applyList(text: string, listType: 'bullet' | 'numbered' | 'alpha', startAt = 1): string {
+  let itemNumber = startAt - 1;
   return text
     .split('\n')
     .map((line) => {
@@ -120,7 +143,7 @@ export function applyMarkdownFormat({ content, from, to, action }: ApplyMarkdown
       inserted = applyList(selected || 'Elemento', 'numbered');
       break;
     case 'alphaList':
-      inserted = applyList(selected || 'Elemento', 'alpha');
+      inserted = applyList(selected || 'Elemento', 'alpha', getAlphaListStart(before));
       break;
     case 'bold':
       inserted = wrapInline(selected, '**', '**', 'texto en negrita');

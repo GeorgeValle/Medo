@@ -19,4 +19,34 @@
   overflow: hidden;
 }
 .error { color: #ef4444; margin: 0.4rem 0; }
+.modalBackdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(2, 6, 23, 0.7);
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+  z-index: 20;
+}
+.modal {
+  width: min(420px, 100%);
+  background: #0f172a;
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  padding: 1rem;
+}
+.modal h2 {
+  margin-top: 0;
+}
+.modal p {
+  margin: 0.35rem 0;
+}
+.modal button {
+  margin-top: 0.8rem;
+  background: var(--color-panel);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  padding: 0.45rem 0.8rem;
+}
 @media (max-width: 960px) { .workspace { grid-template-columns: 1fr; } }
