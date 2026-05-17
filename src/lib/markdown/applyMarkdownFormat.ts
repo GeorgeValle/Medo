@@ -5,6 +5,7 @@ export type MarkdownFormatAction =
   | 'h3'
   | 'bulletList'
   | 'numberedList'
+  | 'alphaList'
   | 'bold'
   | 'italic'
   | 'link'
@@ -47,16 +48,19 @@ function applyLinePrefix(text: string, prefix: string): string {
     .join('\n');
 }
 
-function applyList(text: string, ordered: boolean): string {
+function applyList(text: string, listType: 'bullet' | 'numbered' | 'alpha'): string {
   let itemNumber = 0;
   return text
     .split('\n')
     .map((line) => {
-      const clean = line.replace(/^\s*([-*]|\d+\.)\s+/, '').trim();
+      const clean = line.replace(/^\s*([-*]|\d+\.|[a-zA-Z]\.)\s+/, '').trim();
       if (!clean) return '';
-      if (!ordered) return `- ${clean}`;
+      if (listType === 'bullet') return `- ${clean}`;
       itemNumber += 1;
-      return `${itemNumber}. ${clean}`;
+      if (listType === 'numbered') {
+        return `${itemNumber}. ${clean}`;
+      }
+      return `${String.fromCharCode(96 + ((itemNumber - 1) % 26) + 1)}. ${clean}`;
     })
     .join('\n');
 }
@@ -110,10 +114,13 @@ export function applyMarkdownFormat({ content, from, to, action }: ApplyMarkdown
       inserted = applyLinePrefix(selected || 'Texto', linePrefixByAction[action]);
       break;
     case 'bulletList':
-      inserted = applyList(selected || 'Elemento', false);
+      inserted = applyList(selected || 'Elemento', 'bullet');
       break;
     case 'numberedList':
-      inserted = applyList(selected || 'Elemento', true);
+      inserted = applyList(selected || 'Elemento', 'numbered');
+      break;
+    case 'alphaList':
+      inserted = applyList(selected || 'Elemento', 'alpha');
       break;
     case 'bold':
       inserted = wrapInline(selected, '**', '**', 'texto en negrita');

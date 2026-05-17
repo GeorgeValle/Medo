@@ -7,11 +7,12 @@ import { renderMarkdown } from './lib/markdown/renderMarkdown';
 import { createNewDocument, updateDocumentContent } from './lib/documents/documentState';
 import { openDocument, saveDocument, saveDocumentAs } from './lib/documents/fileSystem';
 
-const initialContent = `# Medo\n\nBienvenido a **Medo**.\n\n- Editor Markdown\n- Preview en vivo`; 
+const initialContent = `# Medo\n\nBienvenido a **Medo**.\n\n- Editor Markdown\n- Preview en vivo`;
 
 export function App() {
   const [document, setDocument] = useState(() => createNewDocument(initialContent));
   const [error, setError] = useState<string | null>(null);
+  const [editorScrollProgress, setEditorScrollProgress] = useState(0);
 
   const html = useMemo(() => renderMarkdown(document.content), [document.content]);
 
@@ -70,8 +71,9 @@ export function App() {
         <EditorPanel
           value={document.content}
           onChange={(content) => setDocument((prev) => updateDocumentContent(prev, content))}
+          onEditorScroll={setEditorScrollProgress}
         />
-        <PreviewPanel html={html} />
+        <PreviewPanel html={html} syncedScrollProgress={editorScrollProgress} />
       </section>
     </main>
   );

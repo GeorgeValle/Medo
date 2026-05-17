@@ -22,6 +22,11 @@ describe('applyMarkdownFormat', () => {
     expect(result.content).toBe('1. uno\n\n2. dos');
   });
 
+  it('convierte varias líneas a lista alfabética', () => {
+    const result = applyMarkdownFormat({ content: 'uno\ndos\ntres', from: 0, to: 12, action: 'alphaList' });
+    expect(result.content).toBe('a. uno\nb. dos\nc. tres');
+  });
+
   it('inserta código inline sin selección', () => {
     const result = applyMarkdownFormat({ content: '', from: 0, to: 0, action: 'codeInline' });
     expect(result.content).toBe('`codigo`');
@@ -53,5 +58,4 @@ describe('applyMarkdownFormat', () => {
     const result = applyMarkdownFormat({ content: 'Texto', from: 5, to: 5, action: 'separator' });
     expect(result.content).toBe(`Texto\n---\n`);
   });
-
 });
