@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { EditorSelection, EditorState } from '@codemirror/state';
 import { EditorView } from '@codemirror/view';
 import { markdown } from '@codemirror/lang-markdown';
+import { keymap } from '@codemirror/view';
 import styles from './EditorPanel.module.css';
 import { applyMarkdownFormat, type MarkdownFormatAction } from '../../lib/markdown/applyMarkdownFormat';
 
@@ -34,8 +35,24 @@ const listOptions: Array<{ label: string; value: MarkdownFormatAction | 'none' }
   { label: 'Lista', value: 'none' },
   { label: 'Desordenada', value: 'bulletList' },
   { label: 'Numérica', value: 'numberedList' },
-  { label: 'Alfabética', value: 'alphaList' }
+  { label: 'Alfabética', value: 'alphaList' },
+  { label: 'Checklist', value: 'checkList' }
 ];
+
+function continueAlphaListOnEnter(view: EditorView): boolean {
+  const range = view.state.selection.main;
+  if (!range.empty) return false;
+  const line = view.state.doc.lineAt(range.from);
+  const beforeCursor = line.text.slice(0, range.from - line.from);
+  const match = beforeCursor.match(/^(\s*)([a-zA-Z])\.\s+(.+)$/);
+  if (!match) return false;
+  const current = match[2].toLowerCase().charCodeAt(0);
+  if (current < 97 || current >= 122) return false;
+  const next = String.fromCharCode(current + 1);
+  const insert = `\n${match[1]}${next}. `;
+  view.dispatch(view.state.replaceSelection(insert));
+  return true;
+}
 
 export function EditorPanel({ value, onChange, onEditorScroll }: Props) {
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -80,6 +97,12 @@ export function EditorPanel({ value, onChange, onEditorScroll }: Props) {
         markdown(),
         editorTheme,
         EditorView.lineWrapping,
+        keymap.of([
+          {
+            key: 'Enter',
+            run: continueAlphaListOnEnter
+          }
+        ]),
         EditorView.updateListener.of((update) => {
           if (update.docChanged) {
             onChangeRef.current(update.state.doc.toString());

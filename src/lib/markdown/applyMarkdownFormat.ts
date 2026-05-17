@@ -6,6 +6,7 @@ export type MarkdownFormatAction =
   | 'bulletList'
   | 'numberedList'
   | 'alphaList'
+  | 'checkList'
   | 'bold'
   | 'italic'
   | 'link'
@@ -71,7 +72,7 @@ function getAlphaListStart(before: string): number {
   return 1;
 }
 
-function applyList(text: string, listType: 'bullet' | 'numbered' | 'alpha', startAt = 1): string {
+function applyList(text: string, listType: 'bullet' | 'numbered' | 'alpha' | 'check', startAt = 1): string {
   let itemNumber = startAt - 1;
   return text
     .split('\n')
@@ -79,6 +80,7 @@ function applyList(text: string, listType: 'bullet' | 'numbered' | 'alpha', star
       const clean = line.replace(/^\s*([-*]|\d+\.|[a-zA-Z]\.)\s+/, '').trim();
       if (!clean) return '';
       if (listType === 'bullet') return `- ${clean}`;
+      if (listType === 'check') return `- [ ] ${clean}`;
       itemNumber += 1;
       if (listType === 'numbered') {
         return `${itemNumber}. ${clean}`;
@@ -144,6 +146,9 @@ export function applyMarkdownFormat({ content, from, to, action }: ApplyMarkdown
       break;
     case 'alphaList':
       inserted = applyList(selected || 'Elemento', 'alpha', getAlphaListStart(before));
+      break;
+    case 'checkList':
+      inserted = applyList(selected || 'Elemento', 'check');
       break;
     case 'bold':
       inserted = wrapInline(selected, '**', '**', 'texto en negrita');

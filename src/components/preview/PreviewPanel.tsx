@@ -16,6 +16,43 @@ export function PreviewPanel({ html, syncedScrollProgress }: { html: string; syn
     });
   }, [syncedScrollProgress, html]);
 
+  useEffect(() => {
+    const preview = previewRef.current;
+    if (!preview) return;
+
+    const onClick = async (event: MouseEvent) => {
+      const target = event.target as HTMLElement | null;
+      const button = target?.closest('button.codeCopyButton') as HTMLButtonElement | null;
+      if (!button) return;
+
+      const rawCode = button.dataset.code;
+      if (!rawCode) return;
+
+      const decoded = rawCode
+        .replace(/&quot;/g, '"')
+        .replace(/&lt;/g, '<')
+        .replace(/&gt;/g, '>')
+        .replace(/&amp;/g, '&');
+
+      try {
+        if (!navigator?.clipboard?.writeText) {
+          throw new Error('Clipboard API no disponible');
+        }
+        await navigator.clipboard.writeText(decoded);
+        button.textContent = 'Copiado';
+      } catch {
+        button.textContent = 'Error';
+      }
+
+      window.setTimeout(() => {
+        button.textContent = 'Copiar';
+      }, 1200);
+    };
+
+    preview.addEventListener('click', onClick);
+    return () => preview.removeEventListener('click', onClick);
+  }, [html]);
+
   return (
     <section className={styles.panel}>
       <h2>Vista previa</h2>
