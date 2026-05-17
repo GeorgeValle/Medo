@@ -5,7 +5,11 @@ import { markdown } from '@codemirror/lang-markdown';
 import styles from './EditorPanel.module.css';
 import { applyMarkdownFormat, type MarkdownFormatAction } from '../../lib/markdown/applyMarkdownFormat';
 
-type Props = { value: string; onChange: (value: string) => void };
+type Props = {
+  value: string;
+  onChange: (value: string) => void;
+  onEditorScroll?: (progress: number) => void;
+};
 
 const editorTheme = EditorView.theme({
   '&': { height: '100%' },
@@ -25,11 +29,20 @@ const headingOptions: Array<{ label: string; value: MarkdownFormatAction }> = [
   { label: 'Subtítulo / H3', value: 'h3' }
 ];
 
-export function EditorPanel({ value, onChange }: Props) {
+const listOptions: Array<{ label: string; value: MarkdownFormatAction | 'none' }> = [
+  { label: 'Lista', value: 'none' },
+  { label: 'Desordenada', value: 'bulletList' },
+  { label: 'Numérica', value: 'numberedList' },
+  { label: 'Alfabética', value: 'alphaList' }
+];
+
+export function EditorPanel({ value, onChange, onEditorScroll }: Props) {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const viewRef = useRef<EditorView | null>(null);
   const onChangeRef = useRef(onChange);
+  const onEditorScrollRef = useRef(onEditorScroll);
   const [headingValue, setHeadingValue] = useState<MarkdownFormatAction>('h0');
+  const [listValue, setListValue] = useState<MarkdownFormatAction | 'none'>('none');
 
   const applyFormat = (action: MarkdownFormatAction) => {
     const view = viewRef.current;
@@ -54,6 +67,10 @@ export function EditorPanel({ value, onChange }: Props) {
   }, [onChange]);
 
   useEffect(() => {
+    onEditorScrollRef.current = onEditorScroll;
+  }, [onEditorScroll]);
+
+  useEffect(() => {
     if (!containerRef.current || viewRef.current) return;
 
     const state = EditorState.create({
@@ -65,6 +82,12 @@ export function EditorPanel({ value, onChange }: Props) {
         EditorView.updateListener.of((update) => {
           if (update.docChanged) {
             onChangeRef.current(update.state.doc.toString());
+          }
+          if (update.viewportChanged || update.geometryChanged) {
+            const scrollDOM = update.view.scrollDOM;
+            const maxScroll = scrollDOM.scrollHeight - scrollDOM.clientHeight;
+            const progress = maxScroll <= 0 ? 0 : scrollDOM.scrollTop / maxScroll;
+            onEditorScrollRef.current?.(progress);
           }
         })
       ]
@@ -94,24 +117,36 @@ export function EditorPanel({ value, onChange }: Props) {
     <section className={styles.panel}>
       <h2>Editor Markdown</h2>
       <div className={styles.formatToolbar}>
-        <label>
-          Formato
-          <select
-            aria-label="Selector de encabezado"
-            value={headingValue}
-            onChange={(e) => {
-              const action = e.target.value as MarkdownFormatAction;
+        <select
+          aria-label="Selector de encabezado"
+          title="Formato de encabezado"
+          value={headingValue}
+          onChange={(e) => {
+            const action = e.target.value as MarkdownFormatAction;
+            applyFormat(action);
+            setHeadingValue('h0');
+          }}
+        >
+          {headingOptions.map((option) => (
+            <option key={option.value} value={option.value}>{option.label}</option>
+          ))}
+        </select>
+        <select
+          aria-label="Selector de listas"
+          title="Insertar formato de lista"
+          value={listValue}
+          onChange={(e) => {
+            const action = e.target.value as MarkdownFormatAction | 'none';
+            if (action !== 'none') {
               applyFormat(action);
-              setHeadingValue('h0');
-            }}
-          >
-            {headingOptions.map((option) => (
-              <option key={option.value} value={option.value}>{option.label}</option>
-            ))}
-          </select>
-        </label>
-        <button title="Lista con viñetas" onClick={() => applyFormat('bulletList')}>• Lista</button>
-        <button title="Lista numerada" onClick={() => applyFormat('numberedList')}>1. Lista</button>
+            }
+            setListValue('none');
+          }}
+        >
+          {listOptions.map((option) => (
+            <option key={option.value} value={option.value}>{option.label}</option>
+          ))}
+        </select>
         <button title="Negrita" onClick={() => applyFormat('bold')}><strong>N</strong></button>
         <button title="Cursiva" onClick={() => applyFormat('italic')}><em>I</em></button>
         <button title="Enlace" onClick={() => applyFormat('link')}>Enlace</button>

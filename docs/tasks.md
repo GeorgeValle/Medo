@@ -31,6 +31,7 @@ Phase 05 - Release.
 - Follow-up UX Windows validado manualmente: caret de CodeMirror con alto contraste (amarillo/blanco) en editor oscuro, cabecera compacta sin subtítulo redundante, botón `Separador` y mejora visual de `code` inline en preview.
 - Follow-up UX post-validación manual en Windows: retiro de conversor TXT→MD del layout principal por bajo valor MVP; editor y preview con scroll interno independiente para documentos largos; bloques de código (fenced) con estilo visual diferenciado en preview.
 - Corrección en `appendTableColumn` para preservar texto de filas sin `|` final y tests de regresión para ambos casos.
+- Follow-up UX post-testing manual en Windows (editor/preview): contención de ancho en layout y bloques de código para evitar scroll horizontal global; sincronización proporcional de scroll editor→preview; selector único de listas (desordenada, numérica, alfabética) con reinicio tras aplicar; limpieza visual de toolbar retirando etiqueta visible “Formato”.
 
 ## Pendientes
 - Ejecutar validación manual completa en Windows con instalador NSIS generado desde CI.
@@ -39,8 +40,6 @@ Phase 05 - Release.
 - Validar manualmente UX de tabla (`Tabla`, `Fila`, `Columna`) en selección simple y multilinea.
 - Exportación PDF (idea futura, fuera de este PR).
 - Soporte de rutas WSL (idea futura, fuera de este PR).
-- Rediseño de selector/botones de listas (idea futura, fuera de este PR).
-- Soporte de listas alfabéticas (idea futura, fuera de este PR).
 - Bloques de código con botón copiar en preview (idea futura, fuera de este PR).
 
 ## Bloqueadas

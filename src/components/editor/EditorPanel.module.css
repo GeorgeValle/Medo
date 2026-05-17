@@ -1,6 +1,27 @@
-.panel { background: var(--color-panel); border: 1px solid var(--color-border); border-radius: 8px; padding: 0.75rem; display: flex; flex-direction: column; min-height: 0; max-height: calc(100vh - 180px); }
+.panel {
+  background: var(--color-panel);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  padding: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  max-height: calc(100vh - 180px);
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
+  box-sizing: border-box;
+}
 .formatToolbar { display: flex; gap: 0.4rem; margin-bottom: 0.6rem; flex-wrap: wrap; align-items: center; }
-.formatToolbar label { display: flex; align-items: center; gap: 0.4rem; font-size: 0.9rem; }
 .formatToolbar select,
 .formatToolbar button { background: #0f172a; color: var(--color-text); border: 1px solid var(--color-border); border-radius: 6px; padding: 0.35rem 0.6rem; }
-.editor { min-height: 340px; height: 100%; overflow: auto; background: #0f172a; border: 1px solid var(--color-border); border-radius: 6px; }
+.editor {
+  min-height: 340px;
+  height: 100%;
+  overflow: auto;
+  background: #0f172a;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  min-width: 0;
+  max-width: 100%;
+}
