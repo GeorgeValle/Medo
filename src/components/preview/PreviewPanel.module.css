@@ -22,6 +22,17 @@
   max-width: 100%;
   box-sizing: border-box;
 }
+
+.preview,
+.preview * {
+  box-sizing: border-box;
+  max-width: 100%;
+}
+
+.preview :where(p, li, td, th, blockquote, h1, h2, h3, h4, h5, h6) {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
 .preview :not(pre) > code {
   background: rgba(148, 163, 184, 0.2);
   color: #f8fafc;

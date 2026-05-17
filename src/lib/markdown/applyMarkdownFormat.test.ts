@@ -27,6 +27,12 @@ describe('applyMarkdownFormat', () => {
     expect(result.content).toBe('a. uno\nb. dos\nc. tres');
   });
 
+  it('continúa lista alfabética desde el contexto previo', () => {
+    const content = 'a. uno\nb. dos\ntres\ncuatro';
+    const result = applyMarkdownFormat({ content, from: 13, to: content.length, action: 'alphaList' });
+    expect(result.content).toBe('a. uno\nb. dos\nc. tres\nd. cuatro');
+  });
+
   it('inserta código inline sin selección', () => {
     const result = applyMarkdownFormat({ content: '', from: 0, to: 0, action: 'codeInline' });
     expect(result.content).toBe('`codigo`');
