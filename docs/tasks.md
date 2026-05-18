@@ -46,6 +46,7 @@ Phase 05 - Release.
 - Follow-up UX desktop (esta iteración): pulido visual del botón/menú desplegable `Medo` (estilo sobrio oscuro con espacio para insignia temporal) y navegación completa por teclado en menú (`ArrowUp/Down`, `Home`, `End`, `Escape`, `Enter`, `Space`) con foco accesible.
 
 - Follow-up UX desktop (esta iteración): toolbar de editor Markdown compacta con botones de acción directa en iconos locales (`lucide-react`), tooltips con delay (~0.5s), selectores conservados con texto, y botón de copiar en bloques de código reemplazado por icono con feedback visual (`copiado`/`error`) sin cambiar lógica de formato.
+- Pulido de accesibilidad/robustez pre-merge: botones de iconos de la toolbar con `type="button"` preventivo y tooltip visible del botón de copiar sincronizado con los estados `Copiar`/`Copiado`/`Error al copiar`, manteniendo iconos y `data-status`.
 
 ## Pendientes
 - Ejecutar validación manual completa en Windows con instalador NSIS generado desde CI.

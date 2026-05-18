@@ -200,7 +200,7 @@ export function EditorPanel({ value, onChange, onEditorScroll }: Props) {
           ))}
         </select>
         {iconButtons.map(({ label, action, icon: Icon }) => (
-          <button key={action} aria-label={label} className={styles.iconButton} onClick={() => applyFormat(action)}>
+          <button key={action} type="button" aria-label={label} className={styles.iconButton} onClick={() => applyFormat(action)}>
             <Icon aria-hidden="true" size={16} strokeWidth={2.2} />
             <span className={styles.tooltip} role="tooltip">{label}</span>
           </button>

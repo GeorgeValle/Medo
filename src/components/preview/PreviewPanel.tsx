@@ -1,9 +1,30 @@
 import { useEffect, useRef } from 'react';
 import styles from './PreviewPanel.module.css';
 
+type CopyStatus = 'idle' | 'copied' | 'error';
+
+const copyStatusText: Record<CopyStatus, string> = {
+  idle: 'Copiar',
+  copied: 'Copiado',
+  error: 'Error al copiar'
+};
+
+function setCopyButtonStatus(button: HTMLButtonElement, status: CopyStatus) {
+  const label = copyStatusText[status];
+  button.dataset.status = status;
+  button.ariaLabel = label;
+  button.title = label;
+
+  const tooltip = button.querySelector<HTMLElement>('.codeCopyTooltip');
+  if (tooltip) {
+    tooltip.textContent = label;
+  }
+}
+
 export function PreviewPanel({ html, syncedScrollProgress }: { html: string; syncedScrollProgress: number }) {
   const previewRef = useRef<HTMLElement | null>(null);
   const isSyncingRef = useRef(false);
+  const resetTimersRef = useRef(new WeakMap<HTMLButtonElement, number>());
 
   useEffect(() => {
     const preview = previewRef.current;
@@ -28,6 +49,11 @@ export function PreviewPanel({ html, syncedScrollProgress }: { html: string; syn
       const rawCode = button.dataset.code;
       if (!rawCode) return;
 
+      const currentTimer = resetTimersRef.current.get(button);
+      if (currentTimer) {
+        window.clearTimeout(currentTimer);
+      }
+
       const decoded = rawCode
         .replace(/&quot;/g, '"')
         .replace(/&lt;/g, '<')
@@ -39,20 +65,16 @@ export function PreviewPanel({ html, syncedScrollProgress }: { html: string; syn
           throw new Error('Clipboard API no disponible');
         }
         await navigator.clipboard.writeText(decoded);
-        button.dataset.status = 'copied';
-        button.ariaLabel = 'Copiado';
-        button.title = 'Copiado';
+        setCopyButtonStatus(button, 'copied');
       } catch {
-        button.dataset.status = 'error';
-        button.ariaLabel = 'Error al copiar';
-        button.title = 'Error al copiar';
+        setCopyButtonStatus(button, 'error');
       }
 
-      window.setTimeout(() => {
-        button.dataset.status = 'idle';
-        button.ariaLabel = 'Copiar';
-        button.title = 'Copiar';
+      const resetTimer = window.setTimeout(() => {
+        setCopyButtonStatus(button, 'idle');
+        resetTimersRef.current.delete(button);
       }, 1200);
+      resetTimersRef.current.set(button, resetTimer);
     };
 
     preview.addEventListener('click', onClick);
