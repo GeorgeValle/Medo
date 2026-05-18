@@ -74,9 +74,8 @@ export function App() {
   return (
     <main className={styles.app}>
       <header className={styles.header}>
-        <h1>Medo</h1>
+        <Toolbar onNew={onNew} onOpen={onOpen} onSave={onSave} onSaveAs={onSaveAs} onAbout={() => setIsAboutOpen(true)} />
       </header>
-      <Toolbar onNew={onNew} onOpen={onOpen} onSave={onSave} onSaveAs={onSaveAs} onAbout={() => setIsAboutOpen(true)} />
       {error && <p className={styles.error}>{error}</p>}
       {isAboutOpen && (
         <div className={styles.modalBackdrop} role="presentation" onClick={() => setIsAboutOpen(false)}>

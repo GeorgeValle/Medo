@@ -1,2 +1,70 @@
-.toolbar { display: flex; gap: 0.5rem; margin: 0.35rem 0 0.7rem; }
-.toolbar button { background: var(--color-panel); color: var(--color-text); border: 1px solid var(--color-border); border-radius: 6px; padding: 0.45rem 0.8rem; }
+.toolbar {
+  position: relative;
+  display: inline-flex;
+}
+
+.menuButton {
+  background: linear-gradient(160deg, #475569, #334155 50%, #1e293b);
+  color: #f8fafc;
+  border: 1px solid #64748b;
+  border-radius: 0.7rem;
+  padding: 0.45rem 0.9rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgba(2, 6, 23, 0.3);
+  transition: transform 140ms ease, box-shadow 140ms ease, border-color 140ms ease;
+}
+
+.menuButton:hover {
+  transform: translateY(-1px);
+  border-color: #94a3b8;
+  box-shadow: 0 8px 24px rgba(2, 6, 23, 0.4);
+}
+
+.menuButton:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 14px rgba(2, 6, 23, 0.35);
+}
+
+.menuButton:focus-visible {
+  outline: 2px solid #facc15;
+  outline-offset: 2px;
+}
+
+.menu {
+  position: absolute;
+  top: calc(100% + 0.45rem);
+  left: 0;
+  min-width: 12rem;
+  background: #0f172a;
+  border: 1px solid #475569;
+  border-radius: 0.65rem;
+  padding: 0.3rem;
+  display: grid;
+  gap: 0.2rem;
+  z-index: 30;
+  box-shadow: 0 12px 28px rgba(2, 6, 23, 0.45);
+}
+
+.menuItem {
+  width: 100%;
+  background: transparent;
+  color: var(--color-text);
+  border: 1px solid transparent;
+  border-radius: 0.45rem;
+  padding: 0.45rem 0.55rem;
+  text-align: left;
+  cursor: pointer;
+}
+
+.menuItem:hover {
+  background: rgba(148, 163, 184, 0.16);
+  border-color: rgba(148, 163, 184, 0.45);
+}
+
+.menuItem:focus-visible {
+  outline: 2px solid #facc15;
+  outline-offset: 1px;
+}
