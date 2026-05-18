@@ -125,6 +125,7 @@ export function applyMarkdownFormat({ content, from, to, action }: ApplyMarkdown
   const before = content.slice(0, start);
   const selected = content.slice(start, end);
   const after = content.slice(end);
+  const hasSelection = start !== end;
 
   let inserted = selected;
 
@@ -157,10 +158,14 @@ export function applyMarkdownFormat({ content, from, to, action }: ApplyMarkdown
       inserted = wrapInline(selected, '*', '*', 'texto en cursiva');
       break;
     case 'link':
-      inserted = selected ? `[${selected}](https://)` : '[texto del enlace](https://)';
+      inserted = hasSelection ? `${selected}
+
+[texto del enlace](https://)` : '[texto del enlace](https://)';
       break;
     case 'image':
-      inserted = selected ? `![${selected}](https://)` : '![descripción de la imagen](https://)';
+      inserted = hasSelection ? `${selected}
+
+![descripción de la imagen](https://)` : '![descripción de la imagen](https://)';
       break;
     case 'codeInline':
       inserted = wrapInline(selected, '`', '`', 'codigo');
@@ -178,7 +183,7 @@ export function applyMarkdownFormat({ content, from, to, action }: ApplyMarkdown
       inserted = appendTableColumn(selected);
       break;
     case 'separator':
-      inserted = `\n---\n`;
+      inserted = hasSelection ? `${selected}\n\n---` : `\n---\n`;
       break;
   }
 

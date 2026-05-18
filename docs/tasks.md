@@ -20,6 +20,7 @@ Phase 05 - Release.
 - [ ] Validación manual final en Windows instalado
 
 ## Completadas
+- Ajuste de formato Markdown con selección: acciones directas (negrita/cursiva/código/cita/listas/encabezados) aplican sobre selección y acciones ambiguas (enlace/imagen/separador) conservan selección e insertan plantilla debajo, con cobertura de tests unitarios.
 - Validación manual en Windows instalada:
   - `Nuevo` funciona.
   - `Abrir`, `Guardar` y `Guardar como` funcionan para archivos esperados.

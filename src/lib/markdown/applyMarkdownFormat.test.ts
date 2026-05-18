@@ -65,6 +65,52 @@ describe('applyMarkdownFormat', () => {
     expect(result.content).toBe('| a | b | Nueva columna |\n| --- | --- | --- |\n| c | d | Nueva columna |');
   });
 
+
+
+  it('envuelve selección en negrita sin perder contenido', () => {
+    const result = applyMarkdownFormat({ content: 'Texto seleccionado', from: 0, to: 'Texto seleccionado'.length, action: 'bold' });
+    expect(result.content).toBe('**Texto seleccionado**');
+  });
+
+  it('envuelve selección en cursiva sin perder contenido', () => {
+    const result = applyMarkdownFormat({ content: 'Texto seleccionado', from: 0, to: 'Texto seleccionado'.length, action: 'italic' });
+    expect(result.content).toBe('*Texto seleccionado*');
+  });
+
+  it('envuelve selección en código inline sin perder contenido', () => {
+    const result = applyMarkdownFormat({ content: 'Texto seleccionado', from: 0, to: 'Texto seleccionado'.length, action: 'codeInline' });
+    expect(result.content).toBe('`Texto seleccionado`');
+  });
+
+  it('inserta bloque de código usando selección como contenido', () => {
+    const result = applyMarkdownFormat({ content: 'Texto seleccionado', from: 0, to: 'Texto seleccionado'.length, action: 'codeBlock' });
+    expect(result.content).toBe('\n```\nTexto seleccionado\n```\n');
+  });
+
+  it('convierte cita multilinea preservando líneas seleccionadas', () => {
+    const result = applyMarkdownFormat({ content: 'uno\ndos', from: 0, to: 7, action: 'quote' });
+    expect(result.content).toBe('> uno\n> dos');
+  });
+
+  it('convierte lista con selección multilinea preservando líneas', () => {
+    const result = applyMarkdownFormat({ content: 'uno\ndos', from: 0, to: 7, action: 'bulletList' });
+    expect(result.content).toBe('- uno\n- dos');
+  });
+
+  it('con selección en enlace conserva texto y agrega plantilla debajo', () => {
+    const result = applyMarkdownFormat({ content: 'Texto seleccionado', from: 0, to: 'Texto seleccionado'.length, action: 'link' });
+    expect(result.content).toBe('Texto seleccionado\n\n[texto del enlace](https://)');
+  });
+
+  it('con selección en imagen conserva texto y agrega plantilla debajo', () => {
+    const result = applyMarkdownFormat({ content: 'Texto seleccionado', from: 0, to: 'Texto seleccionado'.length, action: 'image' });
+    expect(result.content).toBe('Texto seleccionado\n\n![descripción de la imagen](https://)');
+  });
+
+  it('con selección en separador conserva texto y agrega separador debajo', () => {
+    const result = applyMarkdownFormat({ content: 'Texto seleccionado', from: 0, to: 'Texto seleccionado'.length, action: 'separator' });
+    expect(result.content).toBe('Texto seleccionado\n\n---');
+  });
   it('inserta separador horizontal markdown', () => {
     const result = applyMarkdownFormat({ content: 'Texto', from: 5, to: 5, action: 'separator' });
     expect(result.content).toBe(`Texto\n---\n`);
