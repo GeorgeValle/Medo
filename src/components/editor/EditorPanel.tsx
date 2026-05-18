@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import { EditorSelection, EditorState } from '@codemirror/state';
-import { EditorView } from '@codemirror/view';
+import { EditorView, keymap } from '@codemirror/view';
+import { indentWithTab } from '@codemirror/commands';
 import { markdown } from '@codemirror/lang-markdown';
-import { keymap } from '@codemirror/view';
 import styles from './EditorPanel.module.css';
 import { applyMarkdownFormat, type MarkdownFormatAction } from '../../lib/markdown/applyMarkdownFormat';
 
@@ -98,6 +98,7 @@ export function EditorPanel({ value, onChange, onEditorScroll }: Props) {
         editorTheme,
         EditorView.lineWrapping,
         keymap.of([
+          indentWithTab,
           {
             key: 'Enter',
             run: continueAlphaListOnEnter

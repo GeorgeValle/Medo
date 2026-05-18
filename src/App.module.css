@@ -1,4 +1,5 @@
 .app {
+  --workspace-offset: 128px;
   padding: 0.6rem 1rem 1rem;
   color: var(--color-text);
   background: var(--color-bg);
@@ -7,17 +8,23 @@
   overflow-x: hidden;
   box-sizing: border-box;
 }
-.header { margin: 0 0 0.25rem; border-bottom: 1px solid var(--color-border); padding: 0 0 0.35rem; }
-.header h1 { margin: 0; font-size: 1.7rem; line-height: 1.2; }
+
+.header {
+  margin: 0 0 0.45rem;
+  border-bottom: 1px solid var(--color-border);
+  padding: 0 0 0.55rem;
+}
+
 .workspace {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: 1rem;
-  min-height: calc(100vh - 180px);
+  min-height: calc(100vh - var(--workspace-offset));
   min-width: 0;
   max-width: 100%;
   overflow: hidden;
 }
+
 .error { color: #ef4444; margin: 0.4rem 0; }
 .modalBackdrop {
   position: fixed;
