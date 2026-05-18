@@ -160,12 +160,14 @@ export function applyMarkdownFormat({ content, from, to, action }: ApplyMarkdown
     case 'link':
       inserted = hasSelection ? `${selected}
 
-[texto del enlace](https://)` : '[texto del enlace](https://)';
+[texto del enlace](https://)
+` : '[texto del enlace](https://)';
       break;
     case 'image':
       inserted = hasSelection ? `${selected}
 
-![descripción de la imagen](https://)` : '![descripción de la imagen](https://)';
+![descripción de la imagen](https://)
+` : '![descripción de la imagen](https://)';
       break;
     case 'codeInline':
       inserted = wrapInline(selected, '`', '`', 'codigo');
@@ -183,7 +185,7 @@ export function applyMarkdownFormat({ content, from, to, action }: ApplyMarkdown
       inserted = appendTableColumn(selected);
       break;
     case 'separator':
-      inserted = hasSelection ? `${selected}\n\n---` : `\n---\n`;
+      inserted = hasSelection ? `${selected}\n\n---\n` : `\n---\n`;
       break;
   }
 

@@ -99,18 +99,44 @@ describe('applyMarkdownFormat', () => {
 
   it('con selección en enlace conserva texto y agrega plantilla debajo', () => {
     const result = applyMarkdownFormat({ content: 'Texto seleccionado', from: 0, to: 'Texto seleccionado'.length, action: 'link' });
-    expect(result.content).toBe('Texto seleccionado\n\n[texto del enlace](https://)');
+    expect(result.content).toBe('Texto seleccionado\n\n[texto del enlace](https://)\n');
   });
 
   it('con selección en imagen conserva texto y agrega plantilla debajo', () => {
     const result = applyMarkdownFormat({ content: 'Texto seleccionado', from: 0, to: 'Texto seleccionado'.length, action: 'image' });
-    expect(result.content).toBe('Texto seleccionado\n\n![descripción de la imagen](https://)');
+    expect(result.content).toBe('Texto seleccionado\n\n![descripción de la imagen](https://)\n');
   });
 
   it('con selección en separador conserva texto y agrega separador debajo', () => {
     const result = applyMarkdownFormat({ content: 'Texto seleccionado', from: 0, to: 'Texto seleccionado'.length, action: 'separator' });
-    expect(result.content).toBe('Texto seleccionado\n\n---');
+    expect(result.content).toBe('Texto seleccionado\n\n---\n');
   });
+
+
+  it('con selección intermedia en separador evita concatenar contenido posterior', () => {
+    const content = 'Inicio Texto seleccionado final';
+    const start = content.indexOf('Texto seleccionado');
+    const end = start + 'Texto seleccionado'.length;
+    const result = applyMarkdownFormat({ content, from: start, to: end, action: 'separator' });
+    expect(result.content).toBe('Inicio Texto seleccionado\n\n---\n final');
+  });
+
+  it('con selección intermedia en enlace evita concatenar contenido posterior', () => {
+    const content = 'Inicio Texto seleccionado final';
+    const start = content.indexOf('Texto seleccionado');
+    const end = start + 'Texto seleccionado'.length;
+    const result = applyMarkdownFormat({ content, from: start, to: end, action: 'link' });
+    expect(result.content).toBe('Inicio Texto seleccionado\n\n[texto del enlace](https://)\n final');
+  });
+
+  it('con selección intermedia en imagen evita concatenar contenido posterior', () => {
+    const content = 'Inicio Texto seleccionado final';
+    const start = content.indexOf('Texto seleccionado');
+    const end = start + 'Texto seleccionado'.length;
+    const result = applyMarkdownFormat({ content, from: start, to: end, action: 'image' });
+    expect(result.content).toBe('Inicio Texto seleccionado\n\n![descripción de la imagen](https://)\n final');
+  });
+
   it('inserta separador horizontal markdown', () => {
     const result = applyMarkdownFormat({ content: 'Texto', from: 5, to: 5, action: 'separator' });
     expect(result.content).toBe(`Texto\n---\n`);
