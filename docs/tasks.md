@@ -41,6 +41,8 @@ Phase 05 - Release.
 
 - Follow-up UX desktop (esta iteración): menú desplegable `Medo` en cabecera con acciones de archivo y `Acerca`, retiro de fila superior de botones para ganar alto útil en workspace, soporte `Tab`/`Shift+Tab` en CodeMirror con `indentWithTab`, y mejora de bordes/encabezados de tablas Markdown en preview oscura.
 
+- Follow-up UX desktop (esta iteración): pulido visual del botón/menú desplegable `Medo` (estilo sobrio oscuro con espacio para insignia temporal) y navegación completa por teclado en menú (`ArrowUp/Down`, `Home`, `End`, `Escape`, `Enter`, `Space`) con foco accesible.
+
 ## Pendientes
 - Ejecutar validación manual completa en Windows con instalador NSIS generado desde CI.
 - Confirmar en Windows real que `Abrir/Guardar/Guardar como` funcionan con `.md` y `.txt` en múltiples rutas.
