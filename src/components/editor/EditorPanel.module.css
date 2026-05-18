@@ -12,9 +12,62 @@
   overflow: hidden;
   box-sizing: border-box;
 }
-.formatToolbar { display: flex; gap: 0.4rem; margin-bottom: 0.6rem; flex-wrap: wrap; align-items: center; }
+
+.formatToolbar { display: flex; gap: 0.35rem; margin-bottom: 0.6rem; flex-wrap: wrap; align-items: center; }
+
 .formatToolbar select,
-.formatToolbar button { background: #0f172a; color: var(--color-text); border: 1px solid var(--color-border); border-radius: 6px; padding: 0.35rem 0.6rem; }
+.iconButton {
+  background: #0f172a;
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+}
+
+.formatToolbar select { padding: 0.35rem 0.5rem; }
+
+.iconButton {
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  cursor: pointer;
+  transition: border-color 120ms ease, background-color 120ms ease, color 120ms ease;
+}
+
+.iconButton:hover { border-color: #64748b; color: #f8fafc; }
+.iconButton:active { background: #1e293b; }
+.iconButton:focus-visible { outline: 2px solid #facc15; outline-offset: 1px; }
+
+.tooltip {
+  position: absolute;
+  bottom: calc(100% + 0.45rem);
+  left: 50%;
+  transform: translateX(-50%) translateY(2px);
+  pointer-events: none;
+  white-space: nowrap;
+  background: #020617;
+  border: 1px solid #334155;
+  color: #f8fafc;
+  border-radius: 6px;
+  padding: 0.2rem 0.4rem;
+  font-size: 0.72rem;
+  line-height: 1.1;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 120ms ease, transform 120ms ease, visibility 0ms linear 500ms;
+}
+
+.iconButton:hover .tooltip,
+.iconButton:focus-visible .tooltip {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+  transition-delay: 500ms;
+}
+
 .editor {
   min-height: 340px;
   height: 100%;

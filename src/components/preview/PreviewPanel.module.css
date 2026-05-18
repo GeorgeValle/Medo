@@ -74,18 +74,76 @@
   top: 0.55rem;
   right: 0.55rem;
   z-index: 1;
+  width: 1.9rem;
+  height: 1.9rem;
+  padding: 0;
   background: #0f172a;
   color: #cbd5e1;
   border: 1px solid #334155;
   border-radius: 0.35rem;
-  font-size: 0.75rem;
-  padding: 0.2rem 0.45rem;
   cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
 }
 
 .preview .codeCopyButton:hover {
   color: #f8fafc;
   border-color: #64748b;
+}
+
+.preview .codeCopyButton:focus-visible {
+  outline: 2px solid #facc15;
+  outline-offset: 1px;
+}
+
+.preview .codeCopyButton .icon {
+  width: 0.95rem;
+  height: 0.95rem;
+  display: none;
+}
+
+.preview .codeCopyButton .icon svg {
+  width: 100%;
+  height: 100%;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.preview .codeCopyButton[data-status='idle'] .iconCopy,
+.preview .codeCopyButton[data-status='copied'] .iconCheck,
+.preview .codeCopyButton[data-status='error'] .iconError {
+  display: inline-block;
+}
+
+.preview .codeCopyTooltip {
+  position: absolute;
+  bottom: calc(100% + 0.45rem);
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  background: #020617;
+  border: 1px solid #334155;
+  color: #f8fafc;
+  border-radius: 6px;
+  padding: 0.2rem 0.4rem;
+  font-size: 0.72rem;
+  line-height: 1.1;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 120ms ease, visibility 0ms linear 500ms;
+}
+
+.preview .codeCopyButton:hover .codeCopyTooltip,
+.preview .codeCopyButton:focus-visible .codeCopyTooltip {
+  opacity: 1;
+  visibility: visible;
+  transition-delay: 500ms;
 }
 
 .preview .codeBlockWrap pre {

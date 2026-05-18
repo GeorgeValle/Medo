@@ -39,13 +39,19 @@ export function PreviewPanel({ html, syncedScrollProgress }: { html: string; syn
           throw new Error('Clipboard API no disponible');
         }
         await navigator.clipboard.writeText(decoded);
-        button.textContent = 'Copiado';
+        button.dataset.status = 'copied';
+        button.ariaLabel = 'Copiado';
+        button.title = 'Copiado';
       } catch {
-        button.textContent = 'Error';
+        button.dataset.status = 'error';
+        button.ariaLabel = 'Error al copiar';
+        button.title = 'Error al copiar';
       }
 
       window.setTimeout(() => {
-        button.textContent = 'Copiar';
+        button.dataset.status = 'idle';
+        button.ariaLabel = 'Copiar';
+        button.title = 'Copiar';
       }, 1200);
     };
 
