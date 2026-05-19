@@ -100,6 +100,7 @@ export function App() {
         />
         <PreviewPanel html={html} syncedScrollProgress={editorScrollProgress} />
       </section>
+      <div className={styles.bottomDivider} aria-hidden="true" />
     </main>
   );
 }

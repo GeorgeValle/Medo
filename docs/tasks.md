@@ -20,6 +20,7 @@ Phase 05 - Release.
 - [ ] Validación manual final en Windows instalado
 
 ## Completadas
+- Follow-up UI/release (esta iteración): se agrega divisor inferior bajo el workspace de editor/preview con el mismo estilo del divisor superior y se reduce notablemente el espacio inferior; versión de app alineada a `0.2.0` en frontend/Tauri/Rust.
 - Follow-up release/icon config (esta iteración): CI de Windows deja de generar `src-tauri/icons/icon.ico` temporal; `bundle.icon` en Tauri se fija a archivos reales versionados (`32x32`, `128x128`, `icon.icns`, `icon.ico`); versión de app alineada a `0.1.1` en frontend/Tauri/Rust para pruebas de caché de iconos en Windows.
 - Follow-up UI/branding (esta iteración): menú `Medo` movido al header del panel de editor junto a `Editor Markdown`, uso de imagen de marca `medo-head.png` en botón, retiro del área superior vacía y conservación de línea divisoria superior.
 - Follow-up fix pre-merge: globalización completa de selectores CSS Modules para markup inyectado del botón de copiar en preview (`.icon`, `.iconCopy`, `.iconCheck`, `.iconError`, `.codeCopyTooltip`) para respetar estados `idle/copied/error` sin iconos apilados.
@@ -53,7 +54,7 @@ Phase 05 - Release.
 - Pulido de accesibilidad/robustez pre-merge: botones de iconos de la toolbar con `type="button"` preventivo y tooltip visible del botón de copiar sincronizado con los estados `Copiar`/`Copiado`/`Error al copiar`, manteniendo iconos y `data-status`.
 
 ## Pendientes
-- Ejecutar validación manual completa en Windows con instalador NSIS generado desde CI (confirmar icono final de Medo en instalador/accesos directos tras bump a 0.1.1).
+- Ejecutar validación manual completa en Windows con instalador NSIS generado desde CI (confirmar icono final de Medo en instalador/accesos directos tras bump a 0.2.0).
 - Confirmar en Windows real que `Abrir/Guardar/Guardar como` funcionan con `.md` y `.txt` en múltiples rutas.
 - Confirmar usabilidad de barra de formato Markdown con selección y sin selección (incluye repetir H1/H2/H3 y numeración con líneas en blanco).
 - Validar manualmente UX de tabla (`Tabla`, `Fila`, `Columna`) en selección simple y multilinea.
