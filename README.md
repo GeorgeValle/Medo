@@ -29,4 +29,4 @@ Inicial (fundación + UI base + editor + preview).
 - `docs/` documentación funcional, técnica y planificación
 
 ## Dependencias agregadas al MVP
-CodeMirror 6, markdown-it, Tauri API/plugins (dialog/fs), Vitest.
+CodeMirror 6, markdown-it, Tauri API/plugins (dialog/fs/opener/os), Vitest.
