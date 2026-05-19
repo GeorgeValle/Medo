@@ -1,6 +1,7 @@
 .toolbar {
   position: relative;
   display: inline-flex;
+  z-index: 5;
 }
 
 .menuButton {
@@ -32,24 +33,19 @@
 }
 
 .menuButton:focus-visible {
-  outline: 2px solid #90a4c2;
+  outline: 2px solid #facc15;
   outline-offset: 2px;
 }
 
 .brandMark {
-  width: 1.35rem;
-  height: 1.35rem;
-  border-radius: 0.42rem;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(155deg, #3a475a, #2f3b4d);
+  width: 1.55rem;
+  height: 1.55rem;
+  border-radius: 0.5rem;
+  object-fit: contain;
   border: 1px solid #66778f;
-  color: #f3f7ff;
-  font-size: 0.72rem;
-  font-weight: 800;
-  line-height: 1;
-  flex-shrink: 0;
+  background: linear-gradient(155deg, #3a475a, #2f3b4d);
+  padding: 0.06rem;
+  flex: 0 0 auto;
 }
 
 .brandText {

@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState, type KeyboardEvent as ReactKeyboardEvent } from 'react';
 import styles from './Toolbar.module.css';
+import medoHead from '../../assets/brand/medo-head.png';
 
 type Props = { onNew: () => void; onOpen: () => void; onSave: () => void; onSaveAs: () => void; onAbout: () => void };
 
@@ -142,9 +143,7 @@ export function Toolbar({ onNew, onOpen, onSave, onSaveAs, onAbout }: Props) {
         onClick={() => (isOpen ? closeMenu() : openMenu())}
         onKeyDown={handleButtonKeyDown}
       >
-        <span className={styles.brandMark} aria-hidden="true">
-          M
-        </span>
+        <img src={medoHead} alt="" aria-hidden="true" className={styles.brandMark} />
         <span className={styles.brandText}>Medo</span>
         <span className={styles.chevron} aria-hidden="true">
           ▾

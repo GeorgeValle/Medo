@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import type { ReactNode } from 'react';
 import { EditorSelection, EditorState } from '@codemirror/state';
 import { EditorView, keymap } from '@codemirror/view';
 import { indentWithTab } from '@codemirror/commands';
@@ -24,6 +25,7 @@ type Props = {
   value: string;
   onChange: (value: string) => void;
   onEditorScroll?: (progress: number) => void;
+  headerMenu?: ReactNode;
 };
 
 const editorTheme = EditorView.theme({
@@ -83,7 +85,7 @@ const iconButtons: Array<{ label: string; action: MarkdownFormatAction; icon: ty
   { label: 'Separador', action: 'separator', icon: Minus }
 ];
 
-export function EditorPanel({ value, onChange, onEditorScroll }: Props) {
+export function EditorPanel({ value, onChange, onEditorScroll, headerMenu }: Props) {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const viewRef = useRef<EditorView | null>(null);
   const onChangeRef = useRef(onChange);
@@ -169,7 +171,10 @@ export function EditorPanel({ value, onChange, onEditorScroll }: Props) {
 
   return (
     <section className={styles.panel}>
-      <h2>Editor Markdown</h2>
+      <div className={styles.panelHeader}>
+        {headerMenu}
+        <h2>Editor Markdown</h2>
+      </div>
       <div className={styles.formatToolbar}>
         <select
           aria-label="Selector de encabezado"
