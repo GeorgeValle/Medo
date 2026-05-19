@@ -3,6 +3,19 @@ import { EditorSelection, EditorState } from '@codemirror/state';
 import { EditorView, keymap } from '@codemirror/view';
 import { indentWithTab } from '@codemirror/commands';
 import { markdown } from '@codemirror/lang-markdown';
+import {
+  Bold,
+  Columns3,
+  Code,
+  FileCode2,
+  Image,
+  Italic,
+  Link,
+  Minus,
+  Quote,
+  Rows3,
+  Table
+} from 'lucide-react';
 import styles from './EditorPanel.module.css';
 import { applyMarkdownFormat, type MarkdownFormatAction } from '../../lib/markdown/applyMarkdownFormat';
 
@@ -33,10 +46,10 @@ const headingOptions: Array<{ label: string; value: MarkdownFormatAction }> = [
 
 const listOptions: Array<{ label: string; value: MarkdownFormatAction | 'none' }> = [
   { label: 'Lista', value: 'none' },
-  { label: 'Desordenada', value: 'bulletList' },
-  { label: 'Numérica', value: 'numberedList' },
-  { label: 'Alfabética', value: 'alphaList' },
-  { label: 'Checklist', value: 'checkList' }
+  { label: '- Lista desordenada', value: 'bulletList' },
+  { label: '1. Lista numérica', value: 'numberedList' },
+  { label: 'a. Lista alfabética', value: 'alphaList' },
+  { label: '[ ] Checklist', value: 'checkList' }
 ];
 
 function continueAlphaListOnEnter(view: EditorView): boolean {
@@ -53,6 +66,20 @@ function continueAlphaListOnEnter(view: EditorView): boolean {
   view.dispatch(view.state.replaceSelection(insert));
   return true;
 }
+
+const iconButtons: Array<{ label: string; action: MarkdownFormatAction; icon: typeof Bold }> = [
+  { label: 'Negrita', action: 'bold', icon: Bold },
+  { label: 'Cursiva', action: 'italic', icon: Italic },
+  { label: 'Enlace', action: 'link', icon: Link },
+  { label: 'Imagen', action: 'image', icon: Image },
+  { label: 'Cita', action: 'quote', icon: Quote },
+  { label: 'Código inline', action: 'codeInline', icon: Code },
+  { label: 'Bloque código', action: 'codeBlock', icon: FileCode2 },
+  { label: 'Tabla', action: 'table', icon: Table },
+  { label: 'Fila', action: 'tableRow', icon: Rows3 },
+  { label: 'Columna', action: 'tableColumn', icon: Columns3 },
+  { label: 'Separador', action: 'separator', icon: Minus }
+];
 
 export function EditorPanel({ value, onChange, onEditorScroll }: Props) {
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -172,17 +199,12 @@ export function EditorPanel({ value, onChange, onEditorScroll }: Props) {
             <option key={option.value} value={option.value}>{option.label}</option>
           ))}
         </select>
-        <button title="Negrita" onClick={() => applyFormat('bold')}><strong>N</strong></button>
-        <button title="Cursiva" onClick={() => applyFormat('italic')}><em>I</em></button>
-        <button title="Enlace" onClick={() => applyFormat('link')}>Enlace</button>
-        <button title="Imagen" onClick={() => applyFormat('image')}>Imagen</button>
-        <button title="Cita" onClick={() => applyFormat('quote')}>Cita</button>
-        <button title="Código inline" onClick={() => applyFormat('codeInline')}>Código inline</button>
-        <button title="Bloque código" onClick={() => applyFormat('codeBlock')}>Bloque código</button>
-        <button title="Insertar tabla" onClick={() => applyFormat('table')}>Tabla</button>
-        <button title="Agregar fila de tabla" onClick={() => applyFormat('tableRow')}>Fila</button>
-        <button title="Agregar columna de tabla" onClick={() => applyFormat('tableColumn')}>Columna</button>
-        <button title="Insertar separador" onClick={() => applyFormat('separator')}>Separador</button>
+        {iconButtons.map(({ label, action, icon: Icon }) => (
+          <button key={action} type="button" aria-label={label} className={styles.iconButton} onClick={() => applyFormat(action)}>
+            <Icon aria-hidden="true" size={16} strokeWidth={2.2} />
+            <span className={styles.tooltip} role="tooltip">{label}</span>
+          </button>
+        ))}
       </div>
       <div ref={containerRef} className={styles.editor} />
     </section>
