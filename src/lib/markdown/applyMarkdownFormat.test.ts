@@ -139,6 +139,28 @@ describe('applyMarkdownFormat', () => {
 
   it('inserta separador horizontal markdown', () => {
     const result = applyMarkdownFormat({ content: 'Texto', from: 5, to: 5, action: 'separator' });
-    expect(result.content).toBe(`Texto\n---\n`);
+    expect(result.content).toBe(`Texto\n\n---`);
   });
+
+  it('inserta separador con línea en blanco para evitar setext heading', () => {
+    const result = applyMarkdownFormat({ content: 'ff', from: 2, to: 2, action: 'separator' });
+    expect(result.content).toBe('ff\n\n---');
+  });
+
+  it('inserta tabla con límite de bloque seguro entre párrafos', () => {
+    const content = 'Texto arriba\nTexto abajo';
+    const result = applyMarkdownFormat({ content, from: 'Texto arriba'.length, to: 'Texto arriba'.length, action: 'table' });
+    expect(result.content).toBe('Texto arriba\n\n| Columna 1 | Columna 2 |\n| --- | --- |\n| Valor 1 | Valor 2 |\n\nTexto abajo');
+  });
+
+  it('envuelve selección en tachado sin perder contenido', () => {
+    const result = applyMarkdownFormat({ content: 'Texto seleccionado', from: 0, to: 'Texto seleccionado'.length, action: 'strikethrough' });
+    expect(result.content).toBe('~~Texto seleccionado~~');
+  });
+
+  it('inserta tachado con placeholder sin selección', () => {
+    const result = applyMarkdownFormat({ content: '', from: 0, to: 0, action: 'strikethrough' });
+    expect(result.content).toBe('~~texto tachado~~');
+  });
+
 });

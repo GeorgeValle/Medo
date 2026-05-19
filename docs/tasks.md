@@ -20,6 +20,7 @@ Phase 05 - Release.
 - [ ] Validación manual final en Windows instalado
 
 ## Completadas
+- Follow-up fix post-validación visual: separación Markdown segura para `Separador` y bloques de tabla (`Tabla`/`Fila`/`Columna`) evitando setext/pegado con texto adyacente; botón de copiar en preview corregido con selectores CSS Modules `:global(...)`; acción `Tachado` (`~~texto~~`) agregada en toolbar con tests de regresión para spacing/formato y markup del botón de copia.
 - Ajuste de plantillas con selección en `separator`, `link` e `image` para terminar con salto de línea final y evitar concatenación con contenido posterior; se agregan tests de regresión con selección en medio del documento.
 - Ajuste de formato Markdown con selección: acciones directas (negrita/cursiva/código/cita/listas/encabezados) aplican sobre selección y acciones ambiguas (enlace/imagen/separador) conservan selección e insertan plantilla debajo, con cobertura de tests unitarios.
 - Validación manual en Windows instalada:

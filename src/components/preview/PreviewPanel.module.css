@@ -65,11 +65,11 @@
   word-break: break-word;
 }
 
-.preview .codeBlockWrap {
+.preview :global(.codeBlockWrap) {
   position: relative;
 }
 
-.preview .codeCopyButton {
+.preview :global(.codeCopyButton) {
   position: absolute;
   top: 0.55rem;
   right: 0.55rem;
@@ -88,23 +88,23 @@
   position: absolute;
 }
 
-.preview .codeCopyButton:hover {
+.preview :global(.codeCopyButton):hover {
   color: #f8fafc;
   border-color: #64748b;
 }
 
-.preview .codeCopyButton:focus-visible {
+.preview :global(.codeCopyButton):focus-visible {
   outline: 2px solid #facc15;
   outline-offset: 1px;
 }
 
-.preview .codeCopyButton .icon {
+.preview :global(.codeCopyButton) .icon {
   width: 0.95rem;
   height: 0.95rem;
   display: none;
 }
 
-.preview .codeCopyButton .icon svg {
+.preview :global(.codeCopyButton) .icon svg {
   width: 100%;
   height: 100%;
   stroke: currentColor;
@@ -114,13 +114,13 @@
   stroke-linejoin: round;
 }
 
-.preview .codeCopyButton[data-status='idle'] .iconCopy,
-.preview .codeCopyButton[data-status='copied'] .iconCheck,
-.preview .codeCopyButton[data-status='error'] .iconError {
+.preview :global(.codeCopyButton)[data-status='idle'] .iconCopy,
+.preview :global(.codeCopyButton)[data-status='copied'] .iconCheck,
+.preview :global(.codeCopyButton)[data-status='error'] .iconError {
   display: inline-block;
 }
 
-.preview .codeCopyTooltip {
+.preview :global(.codeCopyTooltip) {
   position: absolute;
   bottom: calc(100% + 0.45rem);
   left: 50%;
@@ -139,14 +139,14 @@
   transition: opacity 120ms ease, visibility 0ms linear 500ms;
 }
 
-.preview .codeCopyButton:hover .codeCopyTooltip,
-.preview .codeCopyButton:focus-visible .codeCopyTooltip {
+.preview :global(.codeCopyButton):hover .codeCopyTooltip,
+.preview :global(.codeCopyButton):focus-visible .codeCopyTooltip {
   opacity: 1;
   visibility: visible;
   transition-delay: 500ms;
 }
 
-.preview .codeBlockWrap pre {
+.preview :global(.codeBlockWrap) pre {
   margin-top: 0;
 }
 

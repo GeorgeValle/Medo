@@ -9,6 +9,7 @@ export type MarkdownFormatAction =
   | 'checkList'
   | 'bold'
   | 'italic'
+  | 'strikethrough'
   | 'link'
   | 'image'
   | 'quote'
@@ -119,6 +120,14 @@ function appendTableColumn(selected: string): string {
     .join('\n');
 }
 
+
+function ensureMarkdownBlockBoundaries(before: string, block: string, after: string): { beforePad: string; block: string; afterPad: string } {
+  const beforePad = before.length === 0 || before.endsWith('\n\n') ? '' : before.endsWith('\n') ? '\n' : '\n\n';
+  const afterPad = after.length === 0 || after.startsWith('\n\n') ? '' : after.startsWith('\n') ? '\n' : '\n\n';
+  const normalizedBlock = block.replace(/^\n+/, '').replace(/\n+$/, '');
+  return { beforePad, block: normalizedBlock, afterPad };
+}
+
 export function applyMarkdownFormat({ content, from, to, action }: ApplyMarkdownFormatInput): ApplyMarkdownFormatResult {
   const start = Math.min(from, to);
   const end = Math.max(from, to);
@@ -157,6 +166,9 @@ export function applyMarkdownFormat({ content, from, to, action }: ApplyMarkdown
     case 'italic':
       inserted = wrapInline(selected, '*', '*', 'texto en cursiva');
       break;
+    case 'strikethrough':
+      inserted = wrapInline(selected, '~~', '~~', 'texto tachado');
+      break;
     case 'link':
       inserted = hasSelection ? `${selected}
 
@@ -185,14 +197,23 @@ export function applyMarkdownFormat({ content, from, to, action }: ApplyMarkdown
       inserted = appendTableColumn(selected);
       break;
     case 'separator':
-      inserted = hasSelection ? `${selected}\n\n---\n` : `\n---\n`;
+      inserted = hasSelection ? `${selected}\n\n---\n` : '---';
       break;
   }
 
-  const next = `${before}${inserted}${after}`;
+  const needsBlockBoundaries =
+    (action === 'separator' && !hasSelection) ||
+    ((action === 'table' || action === 'tableRow' || action === 'tableColumn') && !hasSelection);
+
+  const { beforePad, block, afterPad } = needsBlockBoundaries
+    ? ensureMarkdownBlockBoundaries(before, inserted, after)
+    : { beforePad: '', block: inserted, afterPad: '' };
+
+  const nextInserted = `${beforePad}${block}${afterPad}`;
+  const next = `${before}${nextInserted}${after}`;
   return {
     content: next,
     selectionFrom: before.length,
-    selectionTo: before.length + inserted.length
+    selectionTo: before.length + nextInserted.length
   };
 }
