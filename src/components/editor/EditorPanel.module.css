@@ -13,6 +13,19 @@
   box-sizing: border-box;
 }
 
+.panelHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin-bottom: 0.6rem;
+}
+
+.panelHeader h2 {
+  margin: 0;
+  font-size: 1.05rem;
+  line-height: 1.2;
+}
+
 .formatToolbar { display: flex; gap: 0.35rem; margin-bottom: 0.6rem; flex-wrap: wrap; align-items: center; }
 
 .formatToolbar select,

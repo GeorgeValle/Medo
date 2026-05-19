@@ -20,6 +20,7 @@ Phase 05 - Release.
 - [ ] Validación manual final en Windows instalado
 
 ## Completadas
+- Follow-up UI/branding (esta iteración): menú `Medo` movido al header del panel de editor junto a `Editor Markdown`, uso de imagen de marca `medo-head.png` en botón, retiro del área superior vacía y conservación de línea divisoria superior.
 - Follow-up fix pre-merge: globalización completa de selectores CSS Modules para markup inyectado del botón de copiar en preview (`.icon`, `.iconCopy`, `.iconCheck`, `.iconError`, `.codeCopyTooltip`) para respetar estados `idle/copied/error` sin iconos apilados.
 - Follow-up fix post-validación visual: separación Markdown segura para `Separador` y bloques de tabla (`Tabla`/`Fila`/`Columna`) evitando setext/pegado con texto adyacente; botón de copiar en preview corregido con selectores CSS Modules `:global(...)`; acción `Tachado` (`~~texto~~`) agregada en toolbar con tests de regresión para spacing/formato y markup del botón de copia.
 - Ajuste de plantillas con selección en `separator`, `link` e `image` para terminar con salto de línea final y evitar concatenación con contenido posterior; se agregan tests de regresión con selección en medio del documento.

@@ -73,9 +73,7 @@ export function App() {
 
   return (
     <main className={styles.app}>
-      <header className={styles.header}>
-        <Toolbar onNew={onNew} onOpen={onOpen} onSave={onSave} onSaveAs={onSaveAs} onAbout={() => setIsAboutOpen(true)} />
-      </header>
+      <div className={styles.topDivider} aria-hidden="true" />
       {error && <p className={styles.error}>{error}</p>}
       {isAboutOpen && (
         <div className={styles.modalBackdrop} role="presentation" onClick={() => setIsAboutOpen(false)}>
@@ -96,6 +94,9 @@ export function App() {
           value={document.content}
           onChange={(content) => setDocument((prev) => updateDocumentContent(prev, content))}
           onEditorScroll={setEditorScrollProgress}
+          headerMenu={
+            <Toolbar onNew={onNew} onOpen={onOpen} onSave={onSave} onSaveAs={onSaveAs} onAbout={() => setIsAboutOpen(true)} />
+          }
         />
         <PreviewPanel html={html} syncedScrollProgress={editorScrollProgress} />
       </section>
