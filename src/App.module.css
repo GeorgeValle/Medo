@@ -1,6 +1,6 @@
 .app {
   --workspace-offset: 112px;
-  padding: 0.6rem 1rem 1rem;
+  padding: 0.6rem 1rem 0.45rem;
   color: var(--color-text);
   background: var(--color-bg);
   min-height: 100vh;
@@ -11,6 +11,12 @@
 
 .topDivider {
   margin: 0 0 0.65rem;
+  border-bottom: 1px solid var(--color-border);
+  padding: 0;
+}
+
+.bottomDivider {
+  margin: 0.65rem 0 0;
   border-bottom: 1px solid var(--color-border);
   padding: 0;
 }
