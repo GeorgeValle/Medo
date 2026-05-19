@@ -68,3 +68,5 @@ Phase 05 - Release.
 ## Decisiones pendientes
 - Estrategia de firma de instalador.
 - Política de versiones para releases.
+
+- Follow-up de estructura de proyecto (esta iteración): creadas carpetas `src-tauri/icons` y `src/assets/brand` para organizar íconos y recursos de marca del MVP.
