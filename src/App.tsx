@@ -211,7 +211,7 @@ export function App() {
                 <div className={styles.credits}>
                   <section>
                     <h3>Primer agradecimiento</h3>
-                    <p>A GPT-5.5 Thinking y a Codex Cloud con el cual se creó la app desde un celular como experimento exitóso.</p>
+                    <p>A GPT-5.5 Thinking y a Codex Cloud, con los cuales se creó esta app desde un celular como experimento exitoso.</p>
                   </section>
                   <section>
                     <h3>Segundo agradecimiento</h3>
