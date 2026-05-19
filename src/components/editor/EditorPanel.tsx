@@ -10,6 +10,7 @@ import {
   FileCode2,
   Image,
   Italic,
+  Strikethrough,
   Link,
   Minus,
   Quote,
@@ -70,6 +71,7 @@ function continueAlphaListOnEnter(view: EditorView): boolean {
 const iconButtons: Array<{ label: string; action: MarkdownFormatAction; icon: typeof Bold }> = [
   { label: 'Negrita', action: 'bold', icon: Bold },
   { label: 'Cursiva', action: 'italic', icon: Italic },
+  { label: 'Tachado', action: 'strikethrough', icon: Strikethrough },
   { label: 'Enlace', action: 'link', icon: Link },
   { label: 'Imagen', action: 'image', icon: Image },
   { label: 'Cita', action: 'quote', icon: Quote },
