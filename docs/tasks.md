@@ -20,6 +20,7 @@ Phase 05 - Release.
 - [ ] Validación manual final en Windows instalado
 
 ## Completadas
+- Follow-up release/icon config (esta iteración): CI de Windows deja de generar `src-tauri/icons/icon.ico` temporal; `bundle.icon` en Tauri se fija a archivos reales versionados (`32x32`, `128x128`, `icon.icns`, `icon.ico`); versión de app alineada a `0.1.1` en frontend/Tauri/Rust para pruebas de caché de iconos en Windows.
 - Follow-up UI/branding (esta iteración): menú `Medo` movido al header del panel de editor junto a `Editor Markdown`, uso de imagen de marca `medo-head.png` en botón, retiro del área superior vacía y conservación de línea divisoria superior.
 - Follow-up fix pre-merge: globalización completa de selectores CSS Modules para markup inyectado del botón de copiar en preview (`.icon`, `.iconCopy`, `.iconCheck`, `.iconError`, `.codeCopyTooltip`) para respetar estados `idle/copied/error` sin iconos apilados.
 - Follow-up fix post-validación visual: separación Markdown segura para `Separador` y bloques de tabla (`Tabla`/`Fila`/`Columna`) evitando setext/pegado con texto adyacente; botón de copiar en preview corregido con selectores CSS Modules `:global(...)`; acción `Tachado` (`~~texto~~`) agregada en toolbar con tests de regresión para spacing/formato y markup del botón de copia.
@@ -52,7 +53,7 @@ Phase 05 - Release.
 - Pulido de accesibilidad/robustez pre-merge: botones de iconos de la toolbar con `type="button"` preventivo y tooltip visible del botón de copiar sincronizado con los estados `Copiar`/`Copiado`/`Error al copiar`, manteniendo iconos y `data-status`.
 
 ## Pendientes
-- Ejecutar validación manual completa en Windows con instalador NSIS generado desde CI.
+- Ejecutar validación manual completa en Windows con instalador NSIS generado desde CI (confirmar icono final de Medo en instalador/accesos directos tras bump a 0.1.1).
 - Confirmar en Windows real que `Abrir/Guardar/Guardar como` funcionan con `.md` y `.txt` en múltiples rutas.
 - Confirmar usabilidad de barra de formato Markdown con selección y sin selección (incluye repetir H1/H2/H3 y numeración con líneas en blanco).
 - Validar manualmente UX de tabla (`Tabla`, `Fila`, `Columna`) en selección simple y multilinea.
@@ -61,7 +62,7 @@ Phase 05 - Release.
 - Mejorar continuidad automática alfabética en casos avanzados (p. ej. salir de lista con línea vacía) como seguimiento futuro.
 
 ## Bloqueadas
-- `pnpm tauri:build` en Linux puede fallar por dependencias GTK/GLib del entorno; usar runner Windows para validación final del instalador.
+- `pnpm tauri:build` en Linux puede fallar por dependencias GTK/GLib del entorno; usar runner Windows para validación final del instalador e icono en accesos directos.
 
 ## Bugs conocidos
 - Corregido: numeración de listas ordenadas con líneas en blanco y reinicio del selector de encabezado para aplicar H1/H2/H3 repetidamente.
