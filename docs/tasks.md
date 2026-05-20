@@ -21,6 +21,7 @@ Phase 05 - Release.
 - [ ] Validación manual final en Windows instalado
 
 ## Completadas
+- Follow-up pre-merge v0.4.0 (esta iteración): `updateDocumentDisplayName` ya no marca estado sucio si el nombre normalizado no cambia, `updateDocumentContent` preserva estado sucio por renombre pendiente, y se limpia borrador local automáticamente cuando `hasUnsavedChanges` vuelve a `false`.
 - Follow-up fix v0.4.0 safe-close (esta iteración): se intercepta el cierre real de ventana con `onCloseRequested`, se reutiliza el modal de cambios sin guardar con acción pendiente `close`, y `Guardar/Descartar/Cancelar` ahora cubren también el cierre de app sin pérdida de borrador.
 - Follow-up fix pre-merge v0.3.0 (esta iteración): se agregan permisos `opener:default` y `os:default` en `src-tauri/capabilities/default.json`, se corrige el primer agradecimiento en "Créditos" y se reformatea `src/App.module.css` sin cambios de comportamiento.
 - Follow-up copy créditos v0.3.0 (esta iteración): se ajusta el primer agradecimiento en la pestaña "Créditos" del modal "Acerca de" para incluir a Codex Cloud y el texto final solicitado.

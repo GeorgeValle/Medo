@@ -55,7 +55,10 @@ export function App() {
   }, []);
 
   useEffect(() => {
-    if (!document.hasUnsavedChanges) return;
+    if (!document.hasUnsavedChanges) {
+      clearDraft();
+      return;
+    }
     const id = window.setTimeout(() => localStorage.setItem(draftStorageKey, JSON.stringify({ content: document.content, displayName: document.displayName })), 1000);
     return () => window.clearTimeout(id);
   }, [document.content, document.displayName, document.hasUnsavedChanges]);

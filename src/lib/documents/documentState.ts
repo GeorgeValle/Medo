@@ -18,11 +18,15 @@ export function createNewDocument(content = '', displayName = UNTITLED_NAME): Do
 }
 
 export function updateDocumentContent(state: DocumentState, content: string): DocumentState {
-  return { ...state, content, hasUnsavedChanges: content !== state.lastSavedContent };
+  const hasContentChanges = content !== state.lastSavedContent;
+  const savedDisplayName = state.path ? getFileNameFromPath(state.path) : UNTITLED_NAME;
+  const hasDisplayNameChanges = state.displayName !== savedDisplayName;
+  return { ...state, content, hasUnsavedChanges: hasContentChanges || hasDisplayNameChanges };
 }
 
 export function updateDocumentDisplayName(state: DocumentState, displayName: string): DocumentState {
   const normalized = displayName.trim() || UNTITLED_NAME;
+  if (normalized === state.displayName) return state;
   return { ...state, displayName: normalized, hasUnsavedChanges: true };
 }
 
