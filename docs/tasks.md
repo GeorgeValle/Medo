@@ -1,7 +1,8 @@
+- [ ] v0.4.0: estado visible, confirmación anti-pérdida y borrador local en implementación.
 # Tasks
 
 ## Estado general
-En progreso.
+En progreso: v0.4.0 gestión segura de guardado/documento.
 
 ## Fase actual
 Phase 05 - Release.

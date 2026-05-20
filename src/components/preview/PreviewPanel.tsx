@@ -1,4 +1,5 @@
-import { useEffect, useRef } from 'react';
+import { Save, SaveOff } from 'lucide-react';
+import { useEffect, useRef, useState, type KeyboardEvent as ReactKeyboardEvent } from 'react';
 import styles from './PreviewPanel.module.css';
 
 type CopyStatus = 'idle' | 'copied' | 'error';
@@ -21,10 +22,20 @@ function setCopyButtonStatus(button: HTMLButtonElement, status: CopyStatus) {
   }
 }
 
-export function PreviewPanel({ html, syncedScrollProgress }: { html: string; syncedScrollProgress: number }) {
+export function PreviewPanel({
+  html,
+  syncedScrollProgress,
+  displayName,
+  hasUnsavedChanges,
+  onDisplayNameChange
+}: { html: string; syncedScrollProgress: number; displayName: string; hasUnsavedChanges: boolean; onDisplayNameChange: (name: string) => void }) {
   const previewRef = useRef<HTMLElement | null>(null);
   const isSyncingRef = useRef(false);
   const resetTimersRef = useRef(new WeakMap<HTMLButtonElement, number>());
+  const [isEditingName, setIsEditingName] = useState(false);
+  const [draftName, setDraftName] = useState(displayName);
+
+  useEffect(() => setDraftName(displayName), [displayName]);
 
   useEffect(() => {
     const preview = previewRef.current;
@@ -45,31 +56,18 @@ export function PreviewPanel({ html, syncedScrollProgress }: { html: string; syn
       const target = event.target as HTMLElement | null;
       const button = target?.closest('button.codeCopyButton') as HTMLButtonElement | null;
       if (!button) return;
-
       const rawCode = button.dataset.code;
       if (!rawCode) return;
-
       const currentTimer = resetTimersRef.current.get(button);
-      if (currentTimer) {
-        window.clearTimeout(currentTimer);
-      }
-
-      const decoded = rawCode
-        .replace(/&quot;/g, '"')
-        .replace(/&lt;/g, '<')
-        .replace(/&gt;/g, '>')
-        .replace(/&amp;/g, '&');
-
+      if (currentTimer) window.clearTimeout(currentTimer);
+      const decoded = rawCode.replace(/&quot;/g, '"').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&');
       try {
-        if (!navigator?.clipboard?.writeText) {
-          throw new Error('Clipboard API no disponible');
-        }
+        if (!navigator?.clipboard?.writeText) throw new Error('Clipboard API no disponible');
         await navigator.clipboard.writeText(decoded);
         setCopyButtonStatus(button, 'copied');
       } catch {
         setCopyButtonStatus(button, 'error');
       }
-
       const resetTimer = window.setTimeout(() => {
         setCopyButtonStatus(button, 'idle');
         resetTimersRef.current.delete(button);
@@ -81,20 +79,49 @@ export function PreviewPanel({ html, syncedScrollProgress }: { html: string; syn
     return () => preview.removeEventListener('click', onClick);
   }, [html]);
 
+  const commitName = () => {
+    onDisplayNameChange(draftName);
+    setIsEditingName(false);
+  };
+
+  const onNameKeyDown = (event: ReactKeyboardEvent<HTMLElement>) => {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      setIsEditingName(true);
+    }
+  };
+
   return (
     <section className={styles.panel}>
       <h2>Vista previa</h2>
-      <article
-        ref={previewRef}
-        className={styles.preview}
-        onScroll={() => {
-          if (!isSyncingRef.current) {
-            // Manual scrolling stays enabled; this guard only avoids local sync jitter.
-            isSyncingRef.current = false;
-          }
-        }}
-        dangerouslySetInnerHTML={{ __html: html }}
-      />
+      <div className={styles.documentStatus}>
+        {isEditingName ? (
+          <input
+            className={styles.fileNameInput}
+            value={draftName}
+            onChange={(event) => setDraftName(event.target.value)}
+            onBlur={commitName}
+            onKeyDown={(event) => {
+              if (event.key === 'Enter') commitName();
+              if (event.key === 'Escape') {
+                setDraftName(displayName);
+                setIsEditingName(false);
+              }
+            }}
+            autoFocus
+            aria-label='Editar nombre del documento'
+          />
+        ) : (
+          <button type='button' className={styles.fileNameLabel} title={displayName} onClick={() => setIsEditingName(true)} onKeyDown={onNameKeyDown}>
+            {displayName}
+          </button>
+        )}
+        <div className={styles.saveStatus} aria-label={hasUnsavedChanges ? 'Sin guardar' : 'Guardado'}>
+          {hasUnsavedChanges ? <SaveOff size={14} /> : <Save size={14} />}
+          <span>{hasUnsavedChanges ? 'Sin guardar' : 'Guardado'}</span>
+        </div>
+      </div>
+      <article ref={previewRef} className={styles.preview} dangerouslySetInnerHTML={{ __html: html }} />
     </section>
   );
 }

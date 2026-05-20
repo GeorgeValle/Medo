@@ -1,6 +1,7 @@
 import { open, save } from '@tauri-apps/plugin-dialog';
 import { readTextFile, writeTextFile } from '@tauri-apps/plugin-fs';
 import type { DocumentState } from './documentState';
+import { getFileNameFromPath } from './documentState';
 
 function buildError(prefix: string, error: unknown): Error {
   const detail = error instanceof Error ? error.message : String(error);
@@ -27,19 +28,31 @@ export async function saveDocument(state: DocumentState): Promise<DocumentState>
 
   try {
     await writeTextFile(state.path, state.content);
-    return { ...state, hasUnsavedChanges: false };
+    return {
+      ...state,
+      displayName: getFileNameFromPath(state.path),
+      hasUnsavedChanges: false,
+      lastSavedContent: state.content
+    };
   } catch (error) {
     throw buildError('Error al guardar archivo.', error);
   }
 }
 
 export async function saveDocumentAs(state: DocumentState): Promise<DocumentState | null> {
-  const selected = await save({ defaultPath: state.path ?? 'medo-note.md', filters: [{ name: 'Markdown', extensions: ['md'] }] });
+  const fallbackName = `${state.displayName || 'medo-note'}`.replace(/\.[^/.]+$/, '');
+  const selected = await save({ defaultPath: state.path ?? `${fallbackName}.md`, filters: [{ name: 'Markdown', extensions: ['md'] }] });
   if (!selected) return null;
 
   try {
     await writeTextFile(selected, state.content);
-    return { ...state, path: selected, hasUnsavedChanges: false };
+    return {
+      ...state,
+      path: selected,
+      displayName: getFileNameFromPath(selected),
+      hasUnsavedChanges: false,
+      lastSavedContent: state.content
+    };
   } catch (error) {
     throw buildError('Error al guardar como.', error);
   }

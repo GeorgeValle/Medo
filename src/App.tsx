@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { platform } from '@tauri-apps/plugin-os';
 import { openUrl } from '@tauri-apps/plugin-opener';
 import packageMetadata from '../package.json';
@@ -7,7 +7,7 @@ import { Toolbar } from './components/toolbar/Toolbar';
 import { EditorPanel } from './components/editor/EditorPanel';
 import { PreviewPanel } from './components/preview/PreviewPanel';
 import { renderMarkdown } from './lib/markdown/renderMarkdown';
-import { createNewDocument, updateDocumentContent } from './lib/documents/documentState';
+import { UNTITLED_NAME, createNewDocument, hydrateOpenedDocument, updateDocumentContent, updateDocumentDisplayName } from './lib/documents/documentState';
 import { openDocument, saveDocument, saveDocumentAs } from './lib/documents/fileSystem';
 import logo from './assets/brand/medo-logo.png';
 import { changelogEntries } from './data/changelog';
@@ -18,6 +18,8 @@ const initialContent = `# Medo\n\nBienvenido a **Medo**.\n\n- Editor Markdown\n-
 const appVersion = packageMetadata.version;
 const githubRepoUrl = 'https://github.com/GeorgeValle/Medo';
 const aboutEmail = 'georgevalle@outlook.com.ar';
+const draftStorageKey = 'medo.localDraft.v1';
+type PendingAction = null | 'new' | 'open' | 'close';
 
 export function App() {
   const [document, setDocument] = useState(() => createNewDocument(initialContent));
@@ -30,53 +32,82 @@ export function App() {
   const [issueSteps, setIssueSteps] = useState('');
   const [issueExpected, setIssueExpected] = useState('');
   const [issueObtained, setIssueObtained] = useState('');
+  const [pendingAction, setPendingAction] = useState<PendingAction>(null);
 
   const html = useMemo(() => renderMarkdown(document.content), [document.content]);
 
-  const onNew = () => {
-    setDocument(createNewDocument(''));
-    setError(null);
+  const clearDraft = () => localStorage.removeItem(draftStorageKey);
+
+  useEffect(() => {
+    const rawDraft = localStorage.getItem(draftStorageKey);
+    if (!rawDraft) return;
+    try {
+      const draft = JSON.parse(rawDraft) as { content?: string; displayName?: string };
+      if (!draft.content) return;
+      if (window.confirm('Se encontró un borrador local sin guardar. ¿Querés recuperarlo?')) {
+        setDocument({ content: draft.content, path: undefined, displayName: draft.displayName || UNTITLED_NAME, hasUnsavedChanges: true, lastSavedContent: '' });
+      } else {
+        clearDraft();
+      }
+    } catch { clearDraft(); }
+  }, []);
+
+  useEffect(() => {
+    if (!document.hasUnsavedChanges) return;
+    const id = window.setTimeout(() => localStorage.setItem(draftStorageKey, JSON.stringify({ content: document.content, displayName: document.displayName })), 1000);
+    return () => window.clearTimeout(id);
+  }, [document.content, document.displayName, document.hasUnsavedChanges]);
+
+  const proceedAction = async (action: Exclude<PendingAction, null>) => {
+    if (action === 'new') { setDocument(createNewDocument('', UNTITLED_NAME)); clearDraft(); }
+    if (action === 'open') { const file = await openDocument(); if (!file) return; setDocument(hydrateOpenedDocument(file.path, file.content)); clearDraft(); }
   };
 
+  const requestAction = async (action: Exclude<PendingAction, null>) => {
+    if (document.hasUnsavedChanges) { setPendingAction(action); return; }
+    await proceedAction(action);
+  };
+
+  const onNew = () => { void requestAction('new'); setError(null); };
+
   const onOpen = async () => {
-    try {
-      const file = await openDocument();
-      if (!file) return;
-      setDocument({ content: file.content, path: file.path, hasUnsavedChanges: false });
-      setError(null);
-    } catch (err) {
+    try { await requestAction('open'); setError(null); } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Error al abrir archivo.';
-      console.error('Fallo en Abrir:', err);
       setError(errorMessage);
     }
   };
 
   const onSave = async () => {
-    try {
-      const saved = await saveDocument(document);
-      setDocument(saved);
-      setError(null);
-    } catch (err) {
+    try { const saved = await saveDocument(document); setDocument(saved); clearDraft(); setError(null); } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Error al guardar archivo.';
-      console.error('Fallo en Guardar:', err);
       setError(errorMessage);
     }
   };
 
   const onSaveAs = async () => {
-    try {
-      const saved = await saveDocumentAs(document);
-      if (saved) {
-        setDocument(saved);
-      }
-      setError(null);
-    } catch (err) {
+    try { const saved = await saveDocumentAs(document); if (saved) { setDocument(saved); clearDraft(); } setError(null); } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Error al guardar como.';
-      console.error('Fallo en Guardar como:', err);
       setError(errorMessage);
     }
   };
 
+  const resolvePendingAction = async (decision: 'save' | 'discard' | 'cancel') => {
+    const action = pendingAction;
+    setPendingAction(null);
+    if (!action || decision === 'cancel') return;
+    if (decision === 'save') {
+      try {
+        const saved = await saveDocument(document);
+        setDocument(saved);
+        clearDraft();
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Error al guardar archivo.');
+        return;
+      }
+    }
+    if (decision === 'discard') clearDraft();
+    await proceedAction(action);
+  };
   const closeAbout = () => {
     setIsAboutOpen(false);
     setActiveAboutTab('acerca');
@@ -142,6 +173,18 @@ export function App() {
     <main className={styles.app}>
       <div className={styles.topDivider} aria-hidden="true" />
       {error && <p className={styles.error}>{error}</p>}
+      {pendingAction && (
+        <div className={styles.modalBackdrop} role='presentation'>
+          <section className={styles.modal} role='dialog' aria-modal='true' aria-label='Cambios sin guardar'>
+            <h2>Tenés cambios sin guardar. ¿Querés guardarlos antes de continuar?</h2>
+            <div className={styles.reportActions}>
+              <button type='button' onClick={() => void resolvePendingAction('save')}>Guardar</button>
+              <button type='button' onClick={() => void resolvePendingAction('discard')}>Descartar</button>
+              <button type='button' onClick={() => void resolvePendingAction('cancel')}>Cancelar</button>
+            </div>
+          </section>
+        </div>
+      )}
       {isAboutOpen && (
         <div className={styles.modalBackdrop} role="presentation" onClick={closeAbout}>
           <section className={styles.modal} role="dialog" aria-modal="true" aria-label="Acerca de Medo" onClick={(event) => event.stopPropagation()}>
@@ -236,7 +279,7 @@ export function App() {
           onEditorScroll={setEditorScrollProgress}
           headerMenu={<Toolbar onNew={onNew} onOpen={onOpen} onSave={onSave} onSaveAs={onSaveAs} onAbout={() => setIsAboutOpen(true)} />}
         />
-        <PreviewPanel html={html} syncedScrollProgress={editorScrollProgress} />
+        <PreviewPanel html={html} syncedScrollProgress={editorScrollProgress} displayName={document.displayName} hasUnsavedChanges={document.hasUnsavedChanges} onDisplayNameChange={(name) => setDocument((prev) => updateDocumentDisplayName(prev, name))} />
       </section>
       <div className={styles.bottomDivider} aria-hidden="true" />
     </main>
