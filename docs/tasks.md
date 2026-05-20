@@ -30,6 +30,7 @@ Phase 05 - Release.
 - [ ] Validación manual final en Windows instalado
 
 ## Completadas
+- Follow-up pre-merge lockfile v0.6.0 (esta iteración): se corrigió `src-tauri/Cargo.lock` restaurando versiones de dependencias al estado base válido y dejando únicamente el paquete `medo` en `0.6.0`, eliminando versiones no SemVer que bloqueaban `cargo`/`tauri build`.
 - Follow-up v0.6.0 export HTML (esta iteración): menú Medo incorpora `Exportar HTML`, helper dedicado para HTML standalone (título escapado, estilos embebidos, nombre sugerido `.html` por `displayName`), manejo de cancelación sin error y `try/catch` integral para `save(...)` + `writeTextFile(...)` con mensaje `Error al exportar HTML. Detalle: ...`, junto con tests unitarios de generación HTML.
 - Follow-up fix tree helpers pre-merge v0.4.1 (esta iteración): `insertTreeSymbol` ahora inserta siempre en una nueva línea debajo cuando la línea actual tiene contenido (incluyendo cuando existe `\n` siguiente), preserva sufijo sin mutar la línea actual y agrega regresiones para `treeBranch`/`treeSubdirectory`/`treeLast` con escenario `src/\nnext`.
 - Follow-up pre-merge v0.4.1 (esta iteración): versión de app alineada a `0.4.1` en `package.json`, `src-tauri/tauri.conf.json`, `src-tauri/Cargo.toml` y `src-tauri/Cargo.lock` para coincidir con la nueva entrada de changelog.
