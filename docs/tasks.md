@@ -1,4 +1,4 @@
-- [ ] v0.4.0: estado visible, confirmación anti-pérdida y borrador local en implementación.
+- [x] v0.4.0: estado visible, confirmación anti-pérdida y borrador local implementado (incluye cierre seguro de ventana).
 # Tasks
 
 ## Estado general
@@ -21,6 +21,7 @@ Phase 05 - Release.
 - [ ] Validación manual final en Windows instalado
 
 ## Completadas
+- Follow-up fix v0.4.0 safe-close (esta iteración): se intercepta el cierre real de ventana con `onCloseRequested`, se reutiliza el modal de cambios sin guardar con acción pendiente `close`, y `Guardar/Descartar/Cancelar` ahora cubren también el cierre de app sin pérdida de borrador.
 - Follow-up fix pre-merge v0.3.0 (esta iteración): se agregan permisos `opener:default` y `os:default` en `src-tauri/capabilities/default.json`, se corrige el primer agradecimiento en "Créditos" y se reformatea `src/App.module.css` sin cambios de comportamiento.
 - Follow-up copy créditos v0.3.0 (esta iteración): se ajusta el primer agradecimiento en la pestaña "Créditos" del modal "Acerca de" para incluir a Codex Cloud y el texto final solicitado.
 - Follow-up UX/release v0.3.0 (esta iteración): el modal existente de "Acerca de" evoluciona a modal con pestañas ("Acerca de", "Novedades", "Reportar problema", "Créditos"), changelog renderizado desde `src/data/changelog.ts`, formulario para abrir GitHub Issues prellenado y copiar diagnóstico básico; versión alineada a `0.3.0` en frontend/Tauri/Rust.

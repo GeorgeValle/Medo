@@ -1,6 +1,7 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { platform } from '@tauri-apps/plugin-os';
 import { openUrl } from '@tauri-apps/plugin-opener';
+import { getCurrentWindow } from '@tauri-apps/api/window';
 import packageMetadata from '../package.json';
 import styles from './App.module.css';
 import { Toolbar } from './components/toolbar/Toolbar';
@@ -33,6 +34,7 @@ export function App() {
   const [issueExpected, setIssueExpected] = useState('');
   const [issueObtained, setIssueObtained] = useState('');
   const [pendingAction, setPendingAction] = useState<PendingAction>(null);
+  const allowWindowCloseRef = useRef(false);
 
   const html = useMemo(() => renderMarkdown(document.content), [document.content]);
 
@@ -58,9 +60,35 @@ export function App() {
     return () => window.clearTimeout(id);
   }, [document.content, document.displayName, document.hasUnsavedChanges]);
 
+
+  useEffect(() => {
+    let unlisten: (() => void) | undefined;
+    const setupCloseGuard = async () => {
+      unlisten = await getCurrentWindow().onCloseRequested((event) => {
+        if (allowWindowCloseRef.current || !document.hasUnsavedChanges) return;
+        event.preventDefault();
+        setPendingAction('close');
+      });
+    };
+    void setupCloseGuard();
+    return () => {
+      if (unlisten) unlisten();
+    };
+  }, [document.hasUnsavedChanges]);
+
   const proceedAction = async (action: Exclude<PendingAction, null>) => {
-    if (action === 'new') { setDocument(createNewDocument('', UNTITLED_NAME)); clearDraft(); }
-    if (action === 'open') { const file = await openDocument(); if (!file) return; setDocument(hydrateOpenedDocument(file.path, file.content)); clearDraft(); }
+    if (action === 'new') { setDocument(createNewDocument('', UNTITLED_NAME)); clearDraft(); return; }
+    if (action === 'open') {
+      const file = await openDocument();
+      if (!file) return;
+      setDocument(hydrateOpenedDocument(file.path, file.content));
+      clearDraft();
+      return;
+    }
+    if (action === 'close') {
+      allowWindowCloseRef.current = true;
+      await getCurrentWindow().close();
+    }
   };
 
   const requestAction = async (action: Exclude<PendingAction, null>) => {
@@ -105,7 +133,7 @@ export function App() {
         return;
       }
     }
-    if (decision === 'discard') clearDraft();
+    if (decision === 'discard' && action !== 'open') clearDraft();
     await proceedAction(action);
   };
   const closeAbout = () => {
