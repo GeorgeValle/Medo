@@ -187,6 +187,34 @@ describe('applyMarkdownFormat', () => {
     expect(result.selectionTo).toBe('src/\n└── '.length);
   });
 
+
+  it('treeBranch en línea con contenido seguida por otra línea inserta debajo sin mutar la línea actual', () => {
+    const content = 'src/\nnext';
+    const cursor = content.indexOf('src/') + 'src/'.length;
+    const result = applyMarkdownFormat({ content, from: cursor, to: cursor, action: 'treeBranch' });
+    expect(result.content).toBe('src/\n├── \nnext');
+    expect(result.selectionFrom).toBe('src/\n├── '.length);
+    expect(result.selectionTo).toBe('src/\n├── '.length);
+  });
+
+  it('treeSubdirectory en línea con contenido seguida por otra línea inserta debajo sin mutar la línea actual', () => {
+    const content = 'src/\nnext';
+    const cursor = content.indexOf('src/') + 'src/'.length;
+    const result = applyMarkdownFormat({ content, from: cursor, to: cursor, action: 'treeSubdirectory' });
+    expect(result.content).toBe('src/\n│   └── \nnext');
+    expect(result.selectionFrom).toBe('src/\n│   └── '.length);
+    expect(result.selectionTo).toBe('src/\n│   └── '.length);
+  });
+
+  it('treeLast en línea con contenido seguida por otra línea inserta debajo sin mutar la línea actual', () => {
+    const content = 'src/\nnext';
+    const cursor = content.indexOf('src/') + 'src/'.length;
+    const result = applyMarkdownFormat({ content, from: cursor, to: cursor, action: 'treeLast' });
+    expect(result.content).toBe('src/\n└── \nnext');
+    expect(result.selectionFrom).toBe('src/\n└── '.length);
+    expect(result.selectionTo).toBe('src/\n└── '.length);
+  });
+
   it('acciones tree insertan símbolo en línea vacía en posición de cursor', () => {
     const content = '\n\n';
     const branch = applyMarkdownFormat({ content, from: 1, to: 1, action: 'treeBranch' });

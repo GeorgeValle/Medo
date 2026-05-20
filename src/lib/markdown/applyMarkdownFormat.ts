@@ -149,13 +149,13 @@ function insertTreeSymbol(content: string, from: number, to: number, symbol: str
     return { content: next, selectionFrom: caret, selectionTo: caret };
   }
 
-  const insertionPoint = lineEnd;
+  const isLastLine = lineEnd === content.length;
+  const insertionPoint = isLastLine ? lineEnd : lineEnd + 1;
   const prefix = content.slice(0, insertionPoint);
   const suffix = content.slice(insertionPoint);
-  const needsNewline = insertionPoint === content.length || content[insertionPoint] !== '\n';
-  const inserted = `${needsNewline ? '\n' : ''}${symbol}`;
+  const inserted = isLastLine ? `\n${symbol}` : `${symbol}\n`;
   const next = `${prefix}${inserted}${suffix}`;
-  const caret = prefix.length + inserted.length;
+  const caret = prefix.length + inserted.length - (isLastLine ? 0 : 1);
   return { content: next, selectionFrom: caret, selectionTo: caret };
 }
 

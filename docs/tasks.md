@@ -21,6 +21,7 @@ Phase 05 - Release.
 - [ ] Validación manual final en Windows instalado
 
 ## Completadas
+- Follow-up fix tree helpers pre-merge v0.4.1 (esta iteración): `insertTreeSymbol` ahora inserta siempre en una nueva línea debajo cuando la línea actual tiene contenido (incluyendo cuando existe `\n` siguiente), preserva sufijo sin mutar la línea actual y agrega regresiones para `treeBranch`/`treeSubdirectory`/`treeLast` con escenario `src/\nnext`.
 - Follow-up pre-merge v0.4.1 (esta iteración): versión de app alineada a `0.4.1` en `package.json`, `src-tauri/tauri.conf.json`, `src-tauri/Cargo.toml` y `src-tauri/Cargo.lock` para coincidir con la nueva entrada de changelog.
 - Follow-up toolbar/changelog (esta iteración): se agregan botones compactos `Rama de carpeta`, `Subdirectorio` y `Último directorio` para insertar símbolos Unicode de árbol en Markdown, y la bitácora de `Novedades` ahora incluye fecha de implementación (`YYYY-MM-DD`) por entrada.
 - Follow-up pre-merge v0.4.0 (esta iteración): `updateDocumentDisplayName` ya no marca estado sucio si el nombre normalizado no cambia, `updateDocumentContent` preserva estado sucio por renombre pendiente, y se limpia borrador local automáticamente cuando `hasUnsavedChanges` vuelve a `false`.
