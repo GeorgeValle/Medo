@@ -7,6 +7,16 @@ export type ChangelogEntry = {
 
 export const changelogEntries: ChangelogEntry[] = [
   {
+    version: '0.6.0',
+    date: '2026-05-20',
+    title: 'Exportación HTML inicial',
+    changes: [
+      'Se agregó Exportar HTML al menú Medo para generar documento standalone.',
+      'La exportación usa render Markdown actual, escapa título HTML y aplica estilos legibles embebidos.',
+      'Se agregaron pruebas unitarias para documento HTML, escape de título, estilos y nombre sugerido .html.'
+    ]
+  },
+  {
     version: '0.4.1',
     date: '2026-05-20',
     title: 'Botones de árbol de carpetas y fecha por entrada',

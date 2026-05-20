@@ -10,6 +10,7 @@ import { PreviewPanel } from './components/preview/PreviewPanel';
 import { renderMarkdown } from './lib/markdown/renderMarkdown';
 import { UNTITLED_NAME, createNewDocument, hydrateOpenedDocument, updateDocumentContent, updateDocumentDisplayName } from './lib/documents/documentState';
 import { openDocument, saveDocument, saveDocumentAs } from './lib/documents/fileSystem';
+import { exportDocumentAsHtml } from './lib/documents/htmlExport';
 import logo from './assets/brand/medo-logo.png';
 import { changelogEntries } from './data/changelog';
 
@@ -119,6 +120,21 @@ export function App() {
     try { const saved = await saveDocumentAs(document); if (saved) { setDocument(saved); clearDraft(); } setError(null); } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Error al guardar como.';
       setError(errorMessage);
+    }
+  };
+
+
+  const onExportHtml = async () => {
+    try {
+      const exported = await exportDocumentAsHtml(document);
+      if (!exported) {
+        setError(null);
+        return;
+      }
+      setError(null);
+    } catch (err) {
+      const detail = err instanceof Error ? err.message : String(err);
+      setError(`Error al exportar HTML. Detalle: ${detail}`);
     }
   };
 
@@ -308,7 +324,7 @@ export function App() {
           value={document.content}
           onChange={(content) => setDocument((prev) => updateDocumentContent(prev, content))}
           onEditorScroll={setEditorScrollProgress}
-          headerMenu={<Toolbar onNew={onNew} onOpen={onOpen} onSave={onSave} onSaveAs={onSaveAs} onAbout={() => setIsAboutOpen(true)} />}
+          headerMenu={<Toolbar onNew={onNew} onOpen={onOpen} onSave={onSave} onSaveAs={onSaveAs} onExportHtml={() => { void onExportHtml(); }} onAbout={() => setIsAboutOpen(true)} />}
         />
         <PreviewPanel html={html} syncedScrollProgress={editorScrollProgress} displayName={document.displayName} hasUnsavedChanges={document.hasUnsavedChanges} onDisplayNameChange={(name) => setDocument((prev) => updateDocumentDisplayName(prev, name))} />
       </section>

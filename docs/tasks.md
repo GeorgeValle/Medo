@@ -7,6 +7,15 @@ En progreso: v0.4.0 gestión segura de guardado/documento.
 ## Fase actual
 Phase 05 - Release.
 
+
+## Roadmap hacia 1.0
+- 0.6.0 — Exportación HTML inicial
+- 0.6.1 — Validación manual post-exportación y fixes chicos
+- 0.7.0 — Exportación PDF o editor Markdown avanzado
+- 0.8.0 — Preferencias locales y UX persistente
+- 0.9.0 — Release candidate
+- 1.0.0 — Stable Windows
+
 ## Checklist por fase
 - [x] Base Tauri + React + TS + Vite + pnpm
 - [x] Estructura de carpetas inicial
@@ -21,6 +30,7 @@ Phase 05 - Release.
 - [ ] Validación manual final en Windows instalado
 
 ## Completadas
+- Follow-up v0.6.0 export HTML (esta iteración): menú Medo incorpora `Exportar HTML`, helper dedicado para HTML standalone (título escapado, estilos embebidos, nombre sugerido `.html` por `displayName`), manejo de cancelación sin error y `try/catch` integral para `save(...)` + `writeTextFile(...)` con mensaje `Error al exportar HTML. Detalle: ...`, junto con tests unitarios de generación HTML.
 - Follow-up fix tree helpers pre-merge v0.4.1 (esta iteración): `insertTreeSymbol` ahora inserta siempre en una nueva línea debajo cuando la línea actual tiene contenido (incluyendo cuando existe `\n` siguiente), preserva sufijo sin mutar la línea actual y agrega regresiones para `treeBranch`/`treeSubdirectory`/`treeLast` con escenario `src/\nnext`.
 - Follow-up pre-merge v0.4.1 (esta iteración): versión de app alineada a `0.4.1` en `package.json`, `src-tauri/tauri.conf.json`, `src-tauri/Cargo.toml` y `src-tauri/Cargo.lock` para coincidir con la nueva entrada de changelog.
 - Follow-up toolbar/changelog (esta iteración): se agregan botones compactos `Rama de carpeta`, `Subdirectorio` y `Último directorio` para insertar símbolos Unicode de árbol en Markdown, y la bitácora de `Novedades` ahora incluye fecha de implementación (`YYYY-MM-DD`) por entrada.
