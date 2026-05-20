@@ -10,8 +10,11 @@ import { PreviewPanel } from './components/preview/PreviewPanel';
 import { renderMarkdown } from './lib/markdown/renderMarkdown';
 import { UNTITLED_NAME, createNewDocument, hydrateOpenedDocument, updateDocumentContent, updateDocumentDisplayName } from './lib/documents/documentState';
 import { openDocument, saveDocument, saveDocumentAs } from './lib/documents/fileSystem';
+import { buildExportHtmlDocument, getSuggestedHtmlFileName } from './lib/export/exportHtml';
 import logo from './assets/brand/medo-logo.png';
 import { changelogEntries } from './data/changelog';
+import { save } from '@tauri-apps/plugin-dialog';
+import { writeTextFile } from '@tauri-apps/plugin-fs';
 
 type AboutTab = 'acerca' | 'novedades' | 'reportar' | 'creditos';
 
@@ -121,6 +124,25 @@ export function App() {
       setError(errorMessage);
     }
   };
+
+  const onExportHtml = async () => {
+    const suggestedName = getSuggestedHtmlFileName(document.displayName);
+    const selected = await save({ defaultPath: suggestedName, filters: [{ name: 'HTML', extensions: ['html'] }] });
+    if (!selected) {
+      setError(null);
+      return;
+    }
+
+    try {
+      const htmlDocument = buildExportHtmlDocument(document.content, document.displayName);
+      await writeTextFile(selected, htmlDocument);
+      setError(null);
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : 'Error al exportar HTML.';
+      setError(`Error al exportar HTML. Detalle: ${errorMessage}`);
+    }
+  };
+
 
   const resolvePendingAction = async (decision: 'save' | 'discard' | 'cancel') => {
     const action = pendingAction;
@@ -308,7 +330,7 @@ export function App() {
           value={document.content}
           onChange={(content) => setDocument((prev) => updateDocumentContent(prev, content))}
           onEditorScroll={setEditorScrollProgress}
-          headerMenu={<Toolbar onNew={onNew} onOpen={onOpen} onSave={onSave} onSaveAs={onSaveAs} onAbout={() => setIsAboutOpen(true)} />}
+          headerMenu={<Toolbar onNew={onNew} onOpen={onOpen} onSave={onSave} onSaveAs={onSaveAs} onExportHtml={() => void onExportHtml()} onAbout={() => setIsAboutOpen(true)} />}
         />
         <PreviewPanel html={html} syncedScrollProgress={editorScrollProgress} displayName={document.displayName} hasUnsavedChanges={document.hasUnsavedChanges} onDisplayNameChange={(name) => setDocument((prev) => updateDocumentDisplayName(prev, name))} />
       </section>
