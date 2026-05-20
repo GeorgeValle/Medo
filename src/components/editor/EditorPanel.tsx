@@ -7,8 +7,11 @@ import { markdown } from '@codemirror/lang-markdown';
 import {
   Bold,
   Columns3,
+  CornerDownRight,
   Code,
   FileCode2,
+  GitBranch,
+  GitFork,
   Image,
   Italic,
   Strikethrough,
@@ -82,6 +85,9 @@ const iconButtons: Array<{ label: string; action: MarkdownFormatAction; icon: ty
   { label: 'Tabla', action: 'table', icon: Table },
   { label: 'Fila', action: 'tableRow', icon: Rows3 },
   { label: 'Columna', action: 'tableColumn', icon: Columns3 },
+  { label: 'Rama de carpeta', action: 'treeBranch', icon: GitBranch },
+  { label: 'Subdirectorio', action: 'treeSubdirectory', icon: GitFork },
+  { label: 'Último directorio', action: 'treeLast', icon: CornerDownRight },
   { label: 'Separador', action: 'separator', icon: Minus }
 ];
 

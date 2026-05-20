@@ -163,4 +163,66 @@ describe('applyMarkdownFormat', () => {
     expect(result.content).toBe('~~texto tachado~~');
   });
 
+  it('treeBranch al final de línea con texto inserta en la línea siguiente', () => {
+    const content = 'src/';
+    const result = applyMarkdownFormat({ content, from: content.length, to: content.length, action: 'treeBranch' });
+    expect(result.content).toBe('src/\n├── ');
+    expect(result.selectionFrom).toBe('src/\n├── '.length);
+    expect(result.selectionTo).toBe('src/\n├── '.length);
+  });
+
+  it('treeSubdirectory al final de línea con texto inserta en la línea siguiente', () => {
+    const content = 'src/';
+    const result = applyMarkdownFormat({ content, from: content.length, to: content.length, action: 'treeSubdirectory' });
+    expect(result.content).toBe('src/\n│   └── ');
+    expect(result.selectionFrom).toBe('src/\n│   └── '.length);
+    expect(result.selectionTo).toBe('src/\n│   └── '.length);
+  });
+
+  it('treeLast al final de línea con texto inserta en la línea siguiente', () => {
+    const content = 'src/';
+    const result = applyMarkdownFormat({ content, from: content.length, to: content.length, action: 'treeLast' });
+    expect(result.content).toBe('src/\n└── ');
+    expect(result.selectionFrom).toBe('src/\n└── '.length);
+    expect(result.selectionTo).toBe('src/\n└── '.length);
+  });
+
+  it('acciones tree insertan símbolo en línea vacía en posición de cursor', () => {
+    const content = '\n\n';
+    const branch = applyMarkdownFormat({ content, from: 1, to: 1, action: 'treeBranch' });
+    expect(branch.content).toBe('\n├── \n');
+    expect(branch.selectionFrom).toBe('\n├── '.length);
+    expect(branch.selectionTo).toBe('\n├── '.length);
+
+    const subdirectory = applyMarkdownFormat({ content, from: 1, to: 1, action: 'treeSubdirectory' });
+    expect(subdirectory.content).toBe('\n│   └── \n');
+    expect(subdirectory.selectionFrom).toBe('\n│   └── '.length);
+    expect(subdirectory.selectionTo).toBe('\n│   └── '.length);
+
+    const last = applyMarkdownFormat({ content, from: 1, to: 1, action: 'treeLast' });
+    expect(last.content).toBe('\n└── \n');
+    expect(last.selectionFrom).toBe('\n└── '.length);
+    expect(last.selectionTo).toBe('\n└── '.length);
+  });
+
+  it('acciones tree en medio de una línea con texto insertan debajo sin partir texto', () => {
+    const content = 'carpeta-principal/';
+    const midpoint = content.indexOf('-');
+
+    const branch = applyMarkdownFormat({ content, from: midpoint, to: midpoint, action: 'treeBranch' });
+    expect(branch.content).toBe('carpeta-principal/\n├── ');
+    expect(branch.selectionFrom).toBe('carpeta-principal/\n├── '.length);
+    expect(branch.selectionTo).toBe('carpeta-principal/\n├── '.length);
+
+    const subdirectory = applyMarkdownFormat({ content, from: midpoint, to: midpoint, action: 'treeSubdirectory' });
+    expect(subdirectory.content).toBe('carpeta-principal/\n│   └── ');
+    expect(subdirectory.selectionFrom).toBe('carpeta-principal/\n│   └── '.length);
+    expect(subdirectory.selectionTo).toBe('carpeta-principal/\n│   └── '.length);
+
+    const last = applyMarkdownFormat({ content, from: midpoint, to: midpoint, action: 'treeLast' });
+    expect(last.content).toBe('carpeta-principal/\n└── ');
+    expect(last.selectionFrom).toBe('carpeta-principal/\n└── '.length);
+    expect(last.selectionTo).toBe('carpeta-principal/\n└── '.length);
+  });
+
 });

@@ -18,7 +18,10 @@ export type MarkdownFormatAction =
   | 'table'
   | 'tableRow'
   | 'tableColumn'
-  | 'separator';
+  | 'separator'
+  | 'treeBranch'
+  | 'treeSubdirectory'
+  | 'treeLast';
 
 export type ApplyMarkdownFormatInput = {
   content: string;
@@ -128,7 +131,45 @@ function ensureMarkdownBlockBoundaries(before: string, block: string, after: str
   return { beforePad, block: normalizedBlock, afterPad };
 }
 
+function insertTreeSymbol(content: string, from: number, to: number, symbol: string): ApplyMarkdownFormatResult {
+  const start = Math.min(from, to);
+  const end = Math.max(from, to);
+  const before = content.slice(0, start);
+  const after = content.slice(end);
+
+  const lineStart = content.lastIndexOf('\n', start - 1) + 1;
+  const nextNewlineIndex = content.indexOf('\n', end);
+  const lineEnd = nextNewlineIndex === -1 ? content.length : nextNewlineIndex;
+  const currentLine = content.slice(lineStart, lineEnd);
+  const currentLineHasContent = currentLine.trim().length > 0;
+
+  if (!currentLineHasContent) {
+    const next = `${before}${symbol}${after}`;
+    const caret = before.length + symbol.length;
+    return { content: next, selectionFrom: caret, selectionTo: caret };
+  }
+
+  const insertionPoint = lineEnd;
+  const prefix = content.slice(0, insertionPoint);
+  const suffix = content.slice(insertionPoint);
+  const needsNewline = insertionPoint === content.length || content[insertionPoint] !== '\n';
+  const inserted = `${needsNewline ? '\n' : ''}${symbol}`;
+  const next = `${prefix}${inserted}${suffix}`;
+  const caret = prefix.length + inserted.length;
+  return { content: next, selectionFrom: caret, selectionTo: caret };
+}
+
 export function applyMarkdownFormat({ content, from, to, action }: ApplyMarkdownFormatInput): ApplyMarkdownFormatResult {
+  if (action === 'treeBranch') {
+    return insertTreeSymbol(content, from, to, '├── ');
+  }
+  if (action === 'treeSubdirectory') {
+    return insertTreeSymbol(content, from, to, '│   └── ');
+  }
+  if (action === 'treeLast') {
+    return insertTreeSymbol(content, from, to, '└── ');
+  }
+
   const start = Math.min(from, to);
   const end = Math.max(from, to);
   const before = content.slice(0, start);
