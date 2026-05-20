@@ -6,6 +6,17 @@ export type ChangelogEntry = {
 
 export const changelogEntries: ChangelogEntry[] = [
   {
+    version: '0.4.0',
+    title: 'Gestión segura de guardado',
+    changes: [
+      'Se agregó estado visible del documento en el área de Vista previa.',
+      'Se incorporó nombre de archivo editable desde la interfaz.',
+      'Se agregó indicador Guardado / Sin guardar sincronizado con cambios pendientes.',
+      'Se agregó confirmación antes de perder cambios al crear, abrir o cerrar.',
+      'Se agregó recuperación básica de borrador local para documentos sin guardar.'
+    ]
+  },
+  {
     version: '0.3.0',
     title: 'Acerca de, novedades, reporte de problemas y créditos',
     changes: [
