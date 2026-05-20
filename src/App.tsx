@@ -258,7 +258,7 @@ export function App() {
                 <div className={styles.changelogList}>
                   {changelogEntries.map((entry) => (
                     <article key={entry.version} className={styles.changelogItem}>
-                      <h3>{entry.version} - {entry.title}</h3>
+                      <h3>{entry.version} · {entry.date} - {entry.title}</h3>
                       <ul>
                         {entry.changes.map((change) => (
                           <li key={change}>{change}</li>

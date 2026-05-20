@@ -1,12 +1,24 @@
 export type ChangelogEntry = {
   version: string;
+  date: string;
   title: string;
   changes: string[];
 };
 
 export const changelogEntries: ChangelogEntry[] = [
   {
+    version: '0.4.1',
+    date: '2026-05-20',
+    title: 'Botones de árbol de carpetas y fecha por entrada',
+    changes: [
+      'Se agregaron botones de ayuda para insertar ramas de árbol de carpetas en el editor Markdown.',
+      'Se incorporaron las acciones Rama de carpeta, Subdirectorio y Último directorio en la toolbar compacta.',
+      'La bitácora de novedades ahora muestra fecha de implementación en cada entrada.'
+    ]
+  },
+  {
     version: '0.4.0',
+    date: '2026-05-19',
     title: 'Gestión segura de guardado',
     changes: [
       'Se agregó estado visible del documento en el área de Vista previa.',
@@ -18,6 +30,7 @@ export const changelogEntries: ChangelogEntry[] = [
   },
   {
     version: '0.3.0',
+    date: '2026-05-18',
     title: 'Acerca de, novedades, reporte de problemas y créditos',
     changes: [
       'Se transformó el modal Acerca de Medo en una ventana con pestañas.',
@@ -29,6 +42,7 @@ export const changelogEntries: ChangelogEntry[] = [
   },
   {
     version: '0.2.0',
+    date: '2026-05-17',
     title: 'Pulido visual del workspace',
     changes: [
       'Se agregó divisor inferior bajo los paneles de editor y preview.',
@@ -38,6 +52,7 @@ export const changelogEntries: ChangelogEntry[] = [
   },
   {
     version: '0.1.1',
+    date: '2026-05-16',
     title: 'Corrección de iconos y release Windows',
     changes: [
       'Se corrigió la configuración de iconos versionados.',
@@ -47,6 +62,7 @@ export const changelogEntries: ChangelogEntry[] = [
   },
   {
     version: '0.1.0',
+    date: '2026-05-15',
     title: 'Base inicial de Medo',
     changes: [
       'Primera base funcional de la app de escritorio.',
