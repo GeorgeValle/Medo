@@ -46,7 +46,7 @@ export function escapeHtml(input: string): string {
 
 export function buildStandaloneHtmlDocument(title: string, markdownContent: string): string {
   const escapedTitle = escapeHtml(title);
-  const renderedContent = renderMarkdown(markdownContent);
+  const renderedContent = renderMarkdown(markdownContent, { codeCopyButtons: false });
   return `<!doctype html>\n<html lang="es">\n<head>\n  <meta charset="utf-8" />\n  <meta name="viewport" content="width=device-width, initial-scale=1" />\n  <title>${escapedTitle}</title>\n  <style>${embeddedStyles}</style>\n</head>\n<body>\n  <main>\n${renderedContent}\n  </main>\n</body>\n</html>`;
 }
 

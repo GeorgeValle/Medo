@@ -21,6 +21,19 @@ describe('htmlExport', () => {
     expect(html).toContain('<h2>Subtítulo</h2>');
   });
 
+  it('exporta bloques de código sin UI interna de copiado', () => {
+    const html = buildStandaloneHtmlDocument('Nota', '```txt\n├── src\n│   └── index.ts\n└── README.md\n```');
+    expect(html).not.toContain('codeCopyButton');
+    expect(html).not.toContain('codeCopyTooltip');
+    expect(html).not.toContain('iconCopy');
+    expect(html).not.toContain('iconCheck');
+    expect(html).not.toContain('iconError');
+    expect(html).toContain('<pre><code class="language-txt">');
+    expect(html).toContain('├── src');
+    expect(html).toContain('│   └── index.ts');
+    expect(html).toContain('└── README.md');
+  });
+
   it('incluye estilos embebidos legibles', () => {
     const html = buildStandaloneHtmlDocument('Nota', 'Texto');
     expect(html).toContain('<style>');

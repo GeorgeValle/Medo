@@ -91,7 +91,12 @@ export function App() {
     }
     if (action === 'close') {
       allowWindowCloseRef.current = true;
-      await getCurrentWindow().close();
+      try {
+        await getCurrentWindow().close();
+      } catch (error) {
+        allowWindowCloseRef.current = false;
+        throw error;
+      }
     }
   };
 

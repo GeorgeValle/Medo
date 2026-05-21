@@ -2,7 +2,7 @@
 # Tasks
 
 ## Estado general
-En progreso: v0.4.0 gestión segura de guardado/documento.
+En progreso: v0.6.1 fixes funcionales post-validación manual de exportación HTML y estado de documento.
 
 ## Fase actual
 Phase 05 - Release.
@@ -30,6 +30,8 @@ Phase 05 - Release.
 - [ ] Validación manual final en Windows instalado
 
 ## Completadas
+- Follow-up pre-merge v0.6.1 (esta iteración): `saveDocumentAs` ahora preserva la carpeta padre original al sugerir `defaultPath` para documentos renombrados (soporta separadores Unix/Windows), y `renderMarkdown` evita regex frágil al desactivar UI de copiado desde el renderer de fenced code; se agregan pruebas unitarias para helper de ruta sugerida y para export/render limpio de bloques `<pre><code>` con clase de lenguaje y símbolos de árbol.
+- Follow-up v0.6.1 fixes post-validación manual (esta iteración): exportación HTML limpia sin UI interna de copiado en bloques de código; `Guardar` ahora deriva a `Guardar como` cuando cambia el nombre visible de un documento con `path`; ajuste defensivo del cierre de ventana para evitar estado pendiente colgado tras recuperación de borrador/cierre forzado; se recomienda colocar árboles de carpetas dentro de bloques de código para preservar alineación en preview/exportación.
 - Follow-up pre-merge lockfile v0.6.0 (esta iteración): se corrigió `src-tauri/Cargo.lock` restaurando versiones de dependencias al estado base válido y dejando únicamente el paquete `medo` en `0.6.0`, eliminando versiones no SemVer que bloqueaban `cargo`/`tauri build`.
 - Follow-up v0.6.0 export HTML (esta iteración): menú Medo incorpora `Exportar HTML`, helper dedicado para HTML standalone (título escapado, estilos embebidos, nombre sugerido `.html` por `displayName`), manejo de cancelación sin error y `try/catch` integral para `save(...)` + `writeTextFile(...)` con mensaje `Error al exportar HTML. Detalle: ...`, junto con tests unitarios de generación HTML.
 - Follow-up fix tree helpers pre-merge v0.4.1 (esta iteración): `insertTreeSymbol` ahora inserta siempre en una nueva línea debajo cuando la línea actual tiene contenido (incluyendo cuando existe `\n` siguiente), preserva sufijo sin mutar la línea actual y agrega regresiones para `treeBranch`/`treeSubdirectory`/`treeLast` con escenario `src/\nnext`.

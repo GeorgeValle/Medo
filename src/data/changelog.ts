@@ -7,6 +7,16 @@ export type ChangelogEntry = {
 
 export const changelogEntries: ChangelogEntry[] = [
   {
+    version: '0.6.1',
+    date: '2026-05-21',
+    title: 'Fixes post-validación manual',
+    changes: [
+      'La exportación HTML ahora excluye UI interna de Medo (botones/íconos/tooltips de copiado) y mantiene bloques <pre><code>.',
+      'Guardar detecta cambio de nombre visible en documentos con ruta y abre flujo Guardar como con el nombre sugerido nuevo.',
+      'Se reforzó el flujo de cierre para evitar estados pendientes colgados tras recuperación de borrador luego de cierre forzado.'
+    ]
+  },
+  {
     version: '0.6.0',
     date: '2026-05-20',
     title: 'Exportación HTML inicial',
