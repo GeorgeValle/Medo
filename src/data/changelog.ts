@@ -7,6 +7,16 @@ export type ChangelogEntry = {
 
 export const changelogEntries: ChangelogEntry[] = [
   {
+    version: '0.6.2',
+    date: '2026-05-21',
+    title: 'Pulido visual post-validación manual',
+    changes: [
+      'Se pulió visualmente el modal Acerca de Medo con pestañas más claras (activa/hover/focus), manteniendo navegación y semántica accesible de tabs.',
+      'Se redujo el espacio inferior del layout principal para una ventana más compacta sin perder divisores ni scroll interno de editor/preview.',
+      'Se aplicaron mejoras menores de alineación visual en estado de documento y ajuste fino del botón/menú Medo dentro del tema oscuro.'
+    ]
+  },
+  {
     version: '0.6.1',
     date: '2026-05-21',
     title: 'Fixes post-validación manual',
