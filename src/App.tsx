@@ -13,6 +13,7 @@ import { openDocument, saveDocument, saveDocumentAs } from './lib/documents/file
 import { exportDocumentAsHtml } from './lib/documents/htmlExport';
 import logo from './assets/brand/medo-logo.png';
 import { changelogEntries } from './data/changelog';
+import { HelpModal } from './components/help/HelpModal';
 
 type AboutTab = 'acerca' | 'novedades' | 'reportar' | 'creditos';
 
@@ -28,6 +29,7 @@ export function App() {
   const [error, setError] = useState<string | null>(null);
   const [editorScrollProgress, setEditorScrollProgress] = useState(0);
   const [isAboutOpen, setIsAboutOpen] = useState(false);
+  const [isHelpOpen, setIsHelpOpen] = useState(false);
   const [activeAboutTab, setActiveAboutTab] = useState<AboutTab>('acerca');
   const [issueTitle, setIssueTitle] = useState('');
   const [issueDescription, setIssueDescription] = useState('');
@@ -259,6 +261,7 @@ export function App() {
           </section>
         </div>
       )}
+      <HelpModal isOpen={isHelpOpen} onClose={() => setIsHelpOpen(false)} />
       {isAboutOpen && (
         <div className={styles.modalBackdrop} role="presentation" onClick={closeAbout}>
           <section className={styles.modal} role="dialog" aria-modal="true" aria-label="Acerca de Medo" onClick={(event) => event.stopPropagation()}>
@@ -348,7 +351,7 @@ export function App() {
           value={document.content}
           onChange={(content) => setDocument((prev) => updateDocumentContent(prev, content))}
           onEditorScroll={setEditorScrollProgress}
-          headerMenu={<Toolbar onNew={onNew} onOpen={onOpen} onSave={onSave} onSaveAs={onSaveAs} onExportHtml={() => { void onExportHtml(); }} onAbout={() => setIsAboutOpen(true)} />}
+          headerMenu={<Toolbar onNew={onNew} onOpen={onOpen} onSave={onSave} onSaveAs={onSaveAs} onExportHtml={() => { void onExportHtml(); }} onHelp={() => setIsHelpOpen(true)} onAbout={() => setIsAboutOpen(true)} />}
         />
         <PreviewPanel html={html} syncedScrollProgress={editorScrollProgress} displayName={document.displayName} hasUnsavedChanges={document.hasUnsavedChanges} onDisplayNameChange={(name) => setDocument((prev) => updateDocumentDisplayName(prev, name))} />
       </section>

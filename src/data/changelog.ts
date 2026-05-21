@@ -7,6 +7,16 @@ export type ChangelogEntry = {
 
 export const changelogEntries: ChangelogEntry[] = [
   {
+    version: '0.6.3',
+    date: '2026-05-21',
+    title: 'Manual de uso integrado y guía básica de Markdown',
+    changes: [
+      'Se agregó un Manual de uso integrado accesible desde el menú Medo con modal dedicado.',
+      'Se incorporó una guía básica de Markdown dentro de la app con ejemplos listos para copiar como texto.',
+      'El manual incluye referencias de toolbar, exportación HTML y árboles de carpetas para uso práctico.'
+    ]
+  },
+  {
     version: '0.6.2',
     date: '2026-05-21',
     title: 'Pulido visual post-validación manual',
