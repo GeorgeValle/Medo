@@ -1,0 +1,75 @@
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(2, 6, 23, 0.7);
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+  z-index: 30;
+}
+
+.modal {
+  width: min(860px, 100%);
+  max-height: min(88vh, 780px);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  background: #0f172a;
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.8rem;
+  border-bottom: 1px solid var(--color-border);
+  padding: 0.9rem 1rem;
+}
+
+.content {
+  overflow: auto;
+  padding: 0.9rem 1rem 1.1rem;
+}
+
+.section {
+  border-bottom: 1px solid var(--color-border);
+  margin-bottom: 0.9rem;
+  padding-bottom: 0.9rem;
+}
+
+.section:last-child {
+  border-bottom: 0;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.section h3 { margin: 0 0 0.55rem; }
+.section ul { margin: 0; padding-left: 1.2rem; display: grid; gap: 0.35rem; }
+.description { margin: 0 0 0.55rem; color: #cbd5e1; }
+.examples { display: grid; gap: 0.8rem; margin-top: 0.65rem; }
+.exampleItem h4 { margin: 0 0 0.35rem; color: #e2e8f0; }
+
+.exampleItem pre {
+  margin: 0;
+  background: #0b1220;
+  border: 1px solid #334155;
+  border-radius: 8px;
+  padding: 0.65rem 0.75rem;
+  overflow-x: auto;
+}
+
+.exampleItem code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+  color: #d1fae5;
+  white-space: pre;
+}
+
+.closeButton {
+  background: var(--color-panel);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  padding: 0.45rem 0.8rem;
+}

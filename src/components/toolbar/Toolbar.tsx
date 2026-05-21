@@ -2,11 +2,11 @@ import { useEffect, useRef, useState, type KeyboardEvent as ReactKeyboardEvent }
 import styles from './Toolbar.module.css';
 import medoHead from '../../assets/brand/medo-head.png';
 
-type Props = { onNew: () => void; onOpen: () => void; onSave: () => void; onSaveAs: () => void; onExportHtml: () => void; onAbout: () => void };
+type Props = { onNew: () => void; onOpen: () => void; onSave: () => void; onSaveAs: () => void; onExportHtml: () => void; onHelp: () => void; onAbout: () => void };
 
 type MenuAction = { label: string; onSelect: () => void };
 
-export function Toolbar({ onNew, onOpen, onSave, onSaveAs, onExportHtml, onAbout }: Props) {
+export function Toolbar({ onNew, onOpen, onSave, onSaveAs, onExportHtml, onHelp, onAbout }: Props) {
   const [isOpen, setIsOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement | null>(null);
   const buttonRef = useRef<HTMLButtonElement | null>(null);
@@ -18,6 +18,7 @@ export function Toolbar({ onNew, onOpen, onSave, onSaveAs, onExportHtml, onAbout
     { label: 'Guardar', onSelect: onSave },
     { label: 'Guardar como', onSelect: onSaveAs },
     { label: 'Exportar HTML', onSelect: onExportHtml },
+    { label: 'Manual de uso', onSelect: onHelp },
     { label: 'Acerca', onSelect: onAbout }
   ];
 
