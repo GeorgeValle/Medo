@@ -12,4 +12,18 @@ describe('renderMarkdown', () => {
     expect(html).toContain('class="icon iconError"');
     expect(html).toContain('class="codeCopyTooltip"');
   });
+
+  it('omite UI de copiado cuando codeCopyButtons es false', () => {
+    const html = renderMarkdown('```txt\n├── src\n│   └── index.ts\n└── README.md\n```', { codeCopyButtons: false });
+    expect(html).not.toContain('codeBlockWrap');
+    expect(html).not.toContain('codeCopyButton');
+    expect(html).not.toContain('codeCopyTooltip');
+    expect(html).not.toContain('iconCopy');
+    expect(html).not.toContain('iconCheck');
+    expect(html).not.toContain('iconError');
+    expect(html).toContain('<pre><code class="language-txt">');
+    expect(html).toContain('├── src');
+    expect(html).toContain('│   └── index.ts');
+    expect(html).toContain('└── README.md');
+  });
 });

@@ -8,6 +8,16 @@ function buildError(prefix: string, error: unknown): Error {
   return new Error(`${prefix} Detalle: ${detail}`);
 }
 
+export function buildSaveAsDefaultPath(state: DocumentState): string {
+  const fallbackName = `${state.displayName || 'medo-note'}`.replace(/\.[^/.]+$/, '');
+  const suggestedFilename = `${fallbackName}.md`;
+  if (!state.path) return suggestedFilename;
+
+  const separatorIndex = Math.max(state.path.lastIndexOf('/'), state.path.lastIndexOf('\\'));
+  if (separatorIndex < 0) return suggestedFilename;
+  return `${state.path.slice(0, separatorIndex + 1)}${suggestedFilename}`;
+}
+
 export async function openDocument(): Promise<{ path: string; content: string } | null> {
   try {
     const selected = await open({ multiple: false, filters: [{ name: 'Texto', extensions: ['md', 'txt'] }] });
@@ -40,8 +50,7 @@ export async function saveDocument(state: DocumentState): Promise<DocumentState>
 }
 
 export async function saveDocumentAs(state: DocumentState): Promise<DocumentState | null> {
-  const fallbackName = `${state.displayName || 'medo-note'}`.replace(/\.[^/.]+$/, '');
-  const selected = await save({ defaultPath: `${fallbackName}.md`, filters: [{ name: 'Markdown', extensions: ['md'] }] });
+  const selected = await save({ defaultPath: buildSaveAsDefaultPath(state), filters: [{ name: 'Markdown', extensions: ['md'] }] });
   if (!selected) return null;
 
   try {
