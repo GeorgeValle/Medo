@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState, type KeyboardEvent as ReactKeyboardEvent } from 'react';
 import { platform } from '@tauri-apps/plugin-os';
 import { openUrl } from '@tauri-apps/plugin-opener';
 import { getCurrentWindow } from '@tauri-apps/api/window';
@@ -200,6 +200,28 @@ export function App() {
     }
   };
 
+
+  const aboutTabs: Array<{ id: AboutTab; label: string }> = [
+    { id: 'acerca', label: 'Acerca de' },
+    { id: 'novedades', label: 'Novedades' },
+    { id: 'reportar', label: 'Reportar problema' },
+    { id: 'creditos', label: 'Créditos' }
+  ];
+
+  const onAboutTabKeyDown = (event: ReactKeyboardEvent<HTMLButtonElement>, tabId: AboutTab) => {
+    if (event.key !== 'ArrowRight' && event.key !== 'ArrowLeft') return;
+    event.preventDefault();
+    const currentIndex = aboutTabs.findIndex((tab) => tab.id === tabId);
+    if (currentIndex === -1) return;
+    const nextIndex = event.key === 'ArrowRight'
+      ? (currentIndex + 1) % aboutTabs.length
+      : (currentIndex - 1 + aboutTabs.length) % aboutTabs.length;
+    const nextTab = aboutTabs[nextIndex];
+    setActiveAboutTab(nextTab.id);
+    const nextButton = globalThis.document.getElementById(`tab-${nextTab.id}`) as HTMLButtonElement | null;
+    nextButton?.focus();
+  };
+
   const onCopyDiagnostics = async () => {
     try {
       const currentPlatform = await platform();
@@ -242,12 +264,7 @@ export function App() {
           <section className={styles.modal} role="dialog" aria-modal="true" aria-label="Acerca de Medo" onClick={(event) => event.stopPropagation()}>
             <h2>Acerca de Medo</h2>
             <div className={styles.tabs} role="tablist" aria-label="Secciones del modal Acerca de Medo">
-              {[
-                { id: 'acerca', label: 'Acerca de' },
-                { id: 'novedades', label: 'Novedades' },
-                { id: 'reportar', label: 'Reportar problema' },
-                { id: 'creditos', label: 'Créditos' }
-              ].map((tab) => (
+              {aboutTabs.map((tab) => (
                 <button
                   key={tab.id}
                   type="button"
@@ -256,13 +273,15 @@ export function App() {
                   aria-controls={`panel-${tab.id}`}
                   id={`tab-${tab.id}`}
                   className={`${styles.tabButton} ${activeAboutTab === tab.id ? styles.tabButtonActive : ''}`}
-                  onClick={() => setActiveAboutTab(tab.id as AboutTab)}
+                  tabIndex={activeAboutTab === tab.id ? 0 : -1}
+                  onClick={() => setActiveAboutTab(tab.id)}
+                  onKeyDown={(event) => onAboutTabKeyDown(event, tab.id)}
                 >
                   {tab.label}
                 </button>
               ))}
             </div>
-            <div className={styles.tabPanel} role="tabpanel" id={`panel-${activeAboutTab}`} aria-labelledby={`tab-${activeAboutTab}`}>
+            <div className={styles.tabPanel} role="tabpanel" id={`panel-${activeAboutTab}`} aria-labelledby={`tab-${activeAboutTab}`} tabIndex={0}>
               {activeAboutTab === 'acerca' && (
                 <div className={styles.aboutGrid}>
                   <img src={logo} className={styles.aboutLogo} alt="Logo de Medo" />
@@ -320,7 +339,7 @@ export function App() {
                 </div>
               )}
             </div>
-            <button type="button" onClick={closeAbout}>Cerrar</button>
+            <button type="button" className={styles.closeButton} onClick={closeAbout}>Cerrar</button>
           </section>
         </div>
       )}

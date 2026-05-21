@@ -1,6 +1,6 @@
 .app {
   --workspace-offset: 112px;
-  padding: 0.6rem 1rem 0.45rem;
+  padding: 0.6rem 1rem 0.2rem;
   color: var(--color-text);
   background: var(--color-bg);
   min-height: 100vh;
@@ -15,7 +15,7 @@
 }
 
 .bottomDivider {
-  margin: 0.65rem 0 0;
+  margin: 0.45rem 0 0;
   border-bottom: 1px solid var(--color-border);
 }
 
@@ -46,11 +46,11 @@
 
 .modal {
   width: min(720px, 100%);
-  max-height: min(88vh, 720px);
+  max-height: min(84vh, 700px);
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  gap: 0.65rem;
+  gap: 0.55rem;
   background: #0f172a;
   border: 1px solid var(--color-border);
   border-radius: 10px;
@@ -60,29 +60,49 @@
 .tabs {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.45rem;
+  gap: 0.3rem;
   border-bottom: 1px solid var(--color-border);
-  padding-bottom: 0.5rem;
+  padding-bottom: 0;
 }
 
 .tabButton {
-  background: transparent;
+  background: #0b1220;
   color: var(--color-text);
   border: 1px solid var(--color-border);
-  border-radius: 6px;
-  padding: 0.4rem 0.7rem;
+  border-radius: 8px 8px 0 0;
+  border-bottom-color: #334155;
+  padding: 0.35rem 0.7rem;
   cursor: pointer;
+  margin-bottom: -1px;
+}
+
+.tabButton:hover {
+  border-color: #5f6f83;
+  background: #121d31;
+}
+
+.tabButton:focus-visible {
+  outline: 2px solid #8ea3c2;
+  outline-offset: 1px;
 }
 
 .tabButtonActive {
   background: var(--color-panel);
-  border-color: #64748b;
+  border-color: #7a8ea8;
+  border-bottom-color: var(--color-panel);
+  color: #f8fafc;
 }
 
 .tabPanel {
   overflow: auto;
   min-height: 0;
-  padding-right: 0.35rem;
+  flex: 1;
+  padding: 0.25rem 0.4rem 0 0;
+}
+
+.tabPanel:focus-visible {
+  outline: 2px solid #8ea3c2;
+  outline-offset: 2px;
 }
 
 .aboutLogo {
@@ -104,6 +124,8 @@
 
 .changelogItem h3 {
   margin: 0 0 0.45rem;
+  font-size: 0.98rem;
+  color: #e2e8f0;
 }
 
 .changelogItem ul {
@@ -148,6 +170,12 @@
   padding-bottom: 0.7rem;
 }
 
+.credits section:last-child {
+  border-bottom: 0;
+  margin-bottom: 0;
+  padding-bottom: 0.2rem;
+}
+
 .credits blockquote {
   margin: 0.5rem 0;
   border-left: 3px solid #64748b;
@@ -161,6 +189,11 @@
   border: 1px solid var(--color-border);
   border-radius: 6px;
   padding: 0.45rem 0.8rem;
+}
+
+.closeButton {
+  align-self: flex-end;
+  margin-top: 0.35rem;
 }
 
 @media (max-width: 960px) {
