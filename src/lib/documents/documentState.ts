@@ -17,10 +17,14 @@ export function createNewDocument(content = '', displayName = UNTITLED_NAME): Do
   return { content, path: undefined, displayName, hasUnsavedChanges: false, lastSavedContent: content };
 }
 
+export function hasDisplayNameChangesAgainstPath(state: DocumentState): boolean {
+  if (!state.path) return state.displayName !== UNTITLED_NAME;
+  return state.displayName !== getFileNameFromPath(state.path);
+}
+
 export function updateDocumentContent(state: DocumentState, content: string): DocumentState {
   const hasContentChanges = content !== state.lastSavedContent;
-  const savedDisplayName = state.path ? getFileNameFromPath(state.path) : UNTITLED_NAME;
-  const hasDisplayNameChanges = state.displayName !== savedDisplayName;
+  const hasDisplayNameChanges = hasDisplayNameChangesAgainstPath(state);
   return { ...state, content, hasUnsavedChanges: hasContentChanges || hasDisplayNameChanges };
 }
 

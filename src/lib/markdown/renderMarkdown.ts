@@ -19,6 +19,17 @@ md.renderer.rules.fence = (tokens, idx, options, env, self) => {
   return `<div class="codeBlockWrap"><button type="button" class="codeCopyButton" data-code="${codeContent.replace(/"/g, '&quot;')}" data-status="idle" aria-label="Copiar" title="Copiar"><span class="icon iconCopy">${copyIcon}</span><span class="icon iconCheck">${checkIcon}</span><span class="icon iconError">${errorIcon}</span><span class="codeCopyTooltip" role="tooltip">Copiar</span></button>${fallback}</div>`;
 };
 
-export function renderMarkdown(input: string): string {
-  return md.render(input);
+export type RenderMarkdownOptions = {
+  codeCopyButtons?: boolean;
+};
+
+export function renderMarkdown(input: string, options: RenderMarkdownOptions = {}): string {
+  const rendered = md.render(input);
+  if (options.codeCopyButtons === false) {
+    return rendered.replace(
+      /<div class="codeBlockWrap"><button type="button" class="codeCopyButton"[\s\S]*?<\/button>([\s\S]*?)<\/div>/g,
+      '$1'
+    );
+  }
+  return rendered;
 }

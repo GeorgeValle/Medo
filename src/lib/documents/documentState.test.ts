@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { hydrateOpenedDocument, updateDocumentContent, updateDocumentDisplayName } from './documentState';
+import { hasDisplayNameChangesAgainstPath, hydrateOpenedDocument, updateDocumentContent, updateDocumentDisplayName } from './documentState';
 
 describe('documentState', () => {
   it('does not mark unsaved when display name normalization yields the same value', () => {
@@ -17,6 +17,13 @@ describe('documentState', () => {
     const reverted = updateDocumentContent(edited, 'hola');
 
     expect(reverted.hasUnsavedChanges).toBe(true);
+  });
+
+  it('detects display name changes against path to trigger save as flow', () => {
+    const opened = hydrateOpenedDocument('/tmp/nota.md', 'hola');
+    const renamed = updateDocumentDisplayName(opened, 'renombrado.md');
+    expect(hasDisplayNameChangesAgainstPath(opened)).toBe(false);
+    expect(hasDisplayNameChangesAgainstPath(renamed)).toBe(true);
   });
 
 });

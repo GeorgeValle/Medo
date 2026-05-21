@@ -1,7 +1,7 @@
 import { open, save } from '@tauri-apps/plugin-dialog';
 import { readTextFile, writeTextFile } from '@tauri-apps/plugin-fs';
 import type { DocumentState } from './documentState';
-import { getFileNameFromPath } from './documentState';
+import { getFileNameFromPath, hasDisplayNameChangesAgainstPath } from './documentState';
 
 function buildError(prefix: string, error: unknown): Error {
   const detail = error instanceof Error ? error.message : String(error);
@@ -20,7 +20,7 @@ export async function openDocument(): Promise<{ path: string; content: string } 
 }
 
 export async function saveDocument(state: DocumentState): Promise<DocumentState> {
-  if (!state.path) {
+  if (!state.path || hasDisplayNameChangesAgainstPath(state)) {
     const saved = await saveDocumentAs(state);
     if (!saved) throw new Error('Guardado cancelado.');
     return saved;
@@ -41,7 +41,7 @@ export async function saveDocument(state: DocumentState): Promise<DocumentState>
 
 export async function saveDocumentAs(state: DocumentState): Promise<DocumentState | null> {
   const fallbackName = `${state.displayName || 'medo-note'}`.replace(/\.[^/.]+$/, '');
-  const selected = await save({ defaultPath: state.path ?? `${fallbackName}.md`, filters: [{ name: 'Markdown', extensions: ['md'] }] });
+  const selected = await save({ defaultPath: `${fallbackName}.md`, filters: [{ name: 'Markdown', extensions: ['md'] }] });
   if (!selected) return null;
 
   try {
