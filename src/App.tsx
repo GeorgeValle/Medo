@@ -69,7 +69,11 @@ export function App() {
 
 
   const handleCloseRequested = useCallback((event: { preventDefault: () => void }) => {
-    if (allowWindowCloseRef.current || closeInProgressRef.current) return;
+    if (allowWindowCloseRef.current) return;
+    if (closeInProgressRef.current) {
+      event.preventDefault();
+      return;
+    }
     if (!document.hasUnsavedChanges) return;
     event.preventDefault();
     setPendingAction((current) => current ?? 'close');
@@ -98,14 +102,15 @@ export function App() {
       return;
     }
     if (action === 'close') {
+      const currentWindow = getCurrentWindow();
       allowWindowCloseRef.current = true;
       closeInProgressRef.current = true;
       try {
-        await getCurrentWindow().close();
+        await currentWindow.close();
       } catch (error) {
         allowWindowCloseRef.current = false;
         closeInProgressRef.current = false;
-        throw error;
+        throw new Error(`No se pudo cerrar la app. Detalle: ${error instanceof Error ? error.message : String(error)}`);
       }
     }
   };
@@ -171,7 +176,12 @@ export function App() {
     try {
       await proceedAction(action);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'No se pudo completar la acción solicitada.');
+      if (action === 'close') {
+        closeInProgressRef.current = false;
+        allowWindowCloseRef.current = false;
+      }
+      const detail = err instanceof Error ? err.message : String(err);
+      setError(action === 'close' ? detail : `No se pudo completar la acción solicitada. Detalle: ${detail}`);
     }
   };
   const closeAbout = () => {
