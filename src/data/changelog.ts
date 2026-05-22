@@ -7,6 +7,15 @@ export type ChangelogEntry = {
 
 export const changelogEntries: ChangelogEntry[] = [
   {
+    version: '0.6.6',
+    date: '2026-05-22',
+    title: 'Hotfix de permiso Tauri para cierre de ventana',
+    changes: [
+      'Se agregó el permiso core:window:allow-close en capabilities de Tauri 2 para habilitar el cierre programático de la ventana.',
+      'Se reparó el cierre confirmado desde el modal de cambios pendientes (Guardar/Descartar) sin errores de permission/capability en runtime.'
+    ]
+  },
+  {
     version: '0.6.5',
     date: '2026-05-22',
     title: 'Fix post-validación de cierre y pulido visual final',
