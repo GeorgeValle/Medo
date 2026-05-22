@@ -7,6 +7,17 @@ export type ChangelogEntry = {
 
 export const changelogEntries: ChangelogEntry[] = [
   {
+    version: '0.6.4',
+    date: '2026-05-22',
+    title: 'Estabilidad de cierre y pulido visual post-validación manual',
+    changes: [
+      'Se corrigió el flujo de cierre de app para evitar estados atrapados con cambios pendientes y mantener la confirmación de guardado/descartar/cancelar.',
+      'Se aclaró en el Manual de uso el flujo recomendado al abrir y editar archivos .txt, enfatizando el uso de “Guardar como”.',
+      'Se compactó el layout principal para reducir el espacio vacío inferior manteniendo divisor y scroll interno de editor/preview.',
+      'Se pulieron las pestañas del modal Acerca de Medo para que la activa se distinga mejor y se perciban como tabs conectadas al panel.'
+    ]
+  },
+  {
     version: '0.6.3',
     date: '2026-05-21',
     title: 'Manual de uso integrado y guía básica de Markdown',

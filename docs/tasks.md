@@ -2,7 +2,7 @@
 # Tasks
 
 ## Estado general
-En progreso: v0.6.3 manual de uso integrado y guía básica de Markdown dentro de la app.
+En progreso: v0.6.4 fixes post-validación manual (cierre, manual .txt y pulido visual).
 
 ## Fase actual
 Phase 05 - Release.
@@ -30,6 +30,7 @@ Phase 05 - Release.
 - [ ] Validación manual final en Windows instalado
 
 ## Completadas
+- Follow-up v0.6.4 post-validación manual (esta iteración): estabilizado el flujo de cierre con guardia de `onCloseRequested` para evitar estado atrapado al cerrar con cambios pendientes; aclaración breve en Manual de uso sobre apertura/edición de `.txt` y uso de `Guardar como`; compactación adicional del espacio inferior del layout principal; pulido de tabs en `Acerca de Medo` (activa más clara, apariencia de pestaña conectada y hover/focus mantenidos).
 - Follow-up v0.6.3 manual de uso (esta iteración): menú `Medo` ahora incluye `Manual de uso` entre `Exportar HTML` y `Acerca`; se agrega modal dedicado de ayuda con scroll interno, cierre por botón/backdrop y atributos accesibles (`role="dialog"`, `aria-modal`, `aria-label`); contenido estructurado en `src/data/userGuide.ts` con guía básica de Markdown, ejemplos de toolbar/exportación HTML/árboles de carpetas; bump de versión a `0.6.3` y entrada de changelog correspondiente.
 - Follow-up v0.6.2 visual polish (esta iteración): reducción de espacio inferior del layout principal conservando divisor inferior y scroll interno de editor/preview; pestañas del modal "Acerca de Medo" con apariencia real de tabs (estado activo, hover/focus, borde inferior) y semántica accesible reforzada (`tablist/tab/tabpanel`, `aria-selected`, `aria-controls`) más navegación opcional con flechas; ajuste menor de alineación visual de estado bajo "Vista previa" y balance del botón/menú `Medo` dentro del tema oscuro.
 - Follow-up pre-merge v0.6.1 (esta iteración): `saveDocumentAs` ahora preserva la carpeta padre original al sugerir `defaultPath` para documentos renombrados (soporta separadores Unix/Windows), y `renderMarkdown` evita regex frágil al desactivar UI de copiado desde el renderer de fenced code; se agregan pruebas unitarias para helper de ruta sugerida y para export/render limpio de bloques `<pre><code>` con clase de lenguaje y símbolos de árbol.
