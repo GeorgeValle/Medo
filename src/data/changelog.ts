@@ -7,6 +7,17 @@ export type ChangelogEntry = {
 
 export const changelogEntries: ChangelogEntry[] = [
   {
+    version: '0.6.5',
+    date: '2026-05-22',
+    title: 'Fix post-validación de cierre y pulido visual final',
+    changes: [
+      'Se reparó el flujo real de cierre de app con cambios pendientes para que Guardar/Descartar completen el cierre sin dejar la ventana abierta.',
+      'Los errores de cierre ahora muestran detalle explícito para diagnóstico en vez del mensaje genérico.',
+      'Se redujo de forma efectiva el espacio inferior del workspace manteniendo divisor inferior y scroll interno en editor/preview.',
+      'Se mejoró visualmente el estilo de tabs en Acerca de Medo para que la activa se perciba claramente como pestaña conectada al panel.'
+    ]
+  },
+  {
     version: '0.6.4',
     date: '2026-05-22',
     title: 'Estabilidad de cierre y pulido visual post-validación manual',
