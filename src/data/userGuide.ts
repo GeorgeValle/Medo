@@ -38,6 +38,8 @@ export const userGuideSections: UserGuideSection[] = [
     title: 'Abrir, guardar y guardar como',
     items: [
       '“Abrir” permite cargar archivos .md o .txt.',
+      'Para trabajo normal, .md es el formato recomendado.',
+      'Si abrís un .txt, editás y querés persistir cambios, usá “Guardar como” para guardarlo como Markdown o en una nueva ruta.',
       '“Guardar” guarda sobre el archivo actual.',
       'Si el documento no tiene archivo todavía, “Guardar” abre el flujo de “Guardar como”.',
       'Si cambiás el nombre visible del documento, “Guardar” abre “Guardar como” para evitar renombrar silenciosamente.',

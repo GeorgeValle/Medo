@@ -1,6 +1,6 @@
 [package]
 name = "medo"
-version = "0.6.3"
+version = "0.6.4"
 description = "Medo desktop app"
 authors = ["Medo Team"]
 edition = "2021"

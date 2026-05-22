@@ -30,7 +30,7 @@
 
 .content {
   overflow: auto;
-  padding: 0.9rem 1rem 1.1rem;
+  padding: 0.9rem 1rem 1.35rem;
 }
 
 .section {
@@ -57,6 +57,7 @@
   border: 1px solid #334155;
   border-radius: 8px;
   padding: 0.65rem 0.75rem;
+  max-width: 100%;
   overflow-x: auto;
 }
 
@@ -64,6 +65,7 @@
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
   color: #d1fae5;
   white-space: pre;
+  line-height: 1.45;
 }
 
 .closeButton {
@@ -72,4 +74,9 @@
   border: 1px solid var(--color-border);
   border-radius: 6px;
   padding: 0.45rem 0.8rem;
+}
+
+.closeButton:focus-visible {
+  outline: 2px solid #8ea3c2;
+  outline-offset: 2px;
 }

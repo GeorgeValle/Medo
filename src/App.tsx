@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState, type KeyboardEvent as ReactKeyboardEvent } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState, type KeyboardEvent as ReactKeyboardEvent } from 'react';
 import { platform } from '@tauri-apps/plugin-os';
 import { openUrl } from '@tauri-apps/plugin-opener';
 import { getCurrentWindow } from '@tauri-apps/api/window';
@@ -38,6 +38,7 @@ export function App() {
   const [issueObtained, setIssueObtained] = useState('');
   const [pendingAction, setPendingAction] = useState<PendingAction>(null);
   const allowWindowCloseRef = useRef(false);
+  const closeInProgressRef = useRef(false);
 
   const html = useMemo(() => renderMarkdown(document.content), [document.content]);
 
@@ -67,20 +68,25 @@ export function App() {
   }, [document.content, document.displayName, document.hasUnsavedChanges]);
 
 
+  const handleCloseRequested = useCallback((event: { preventDefault: () => void }) => {
+    if (allowWindowCloseRef.current || closeInProgressRef.current) return;
+    if (!document.hasUnsavedChanges) return;
+    event.preventDefault();
+    setPendingAction((current) => current ?? 'close');
+  }, [document.hasUnsavedChanges]);
+
   useEffect(() => {
     let unlisten: (() => void) | undefined;
     const setupCloseGuard = async () => {
       unlisten = await getCurrentWindow().onCloseRequested((event) => {
-        if (allowWindowCloseRef.current || !document.hasUnsavedChanges) return;
-        event.preventDefault();
-        setPendingAction('close');
+        handleCloseRequested(event);
       });
     };
     void setupCloseGuard();
     return () => {
       if (unlisten) unlisten();
     };
-  }, [document.hasUnsavedChanges]);
+  }, [handleCloseRequested]);
 
   const proceedAction = async (action: Exclude<PendingAction, null>) => {
     if (action === 'new') { setDocument(createNewDocument('', UNTITLED_NAME)); clearDraft(); return; }
@@ -93,10 +99,12 @@ export function App() {
     }
     if (action === 'close') {
       allowWindowCloseRef.current = true;
+      closeInProgressRef.current = true;
       try {
         await getCurrentWindow().close();
       } catch (error) {
         allowWindowCloseRef.current = false;
+        closeInProgressRef.current = false;
         throw error;
       }
     }
@@ -160,7 +168,11 @@ export function App() {
       }
     }
     if (decision === 'discard' && action !== 'open') clearDraft();
-    await proceedAction(action);
+    try {
+      await proceedAction(action);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'No se pudo completar la acción solicitada.');
+    }
   };
   const closeAbout = () => {
     setIsAboutOpen(false);
