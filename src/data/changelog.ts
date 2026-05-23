@@ -7,6 +7,16 @@ export type ChangelogEntry = {
 
 export const changelogEntries: ChangelogEntry[] = [
   {
+    version: '0.6.9',
+    date: '2026-05-23',
+    title: 'Hotfix de persistencia local con debounce',
+    changes: [
+      'Se reemplazó la persistencia de borrador por tecla con debounce (~400ms) para evitar bloqueos al escribir en documentos largos.',
+      'Se agregó flush coordinado en eventos de ciclo de vida (pagehide, beforeunload y visibilitychange en hidden).',
+      'Se reforzó la limpieza coordinada de draft en memoria + localStorage para evitar snapshots stale después de guardar, guardar como, descartar o abrir nuevo archivo.'
+    ]
+  },
+  {
     version: '0.6.8',
     date: '2026-05-23',
     title: 'Rollback del cierre de ventana al flujo nativo',

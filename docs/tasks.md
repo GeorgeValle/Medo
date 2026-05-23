@@ -2,7 +2,7 @@
 # Tasks
 
 ## Estado general
-En progreso: v0.6.8 rollback de cierre interceptado y restauración de cierre nativo de ventana.
+En progreso: v0.6.9 hotfix de persistencia de borrador local con debounce + flush anti-stale.
 
 ## Fase actual
 Phase 05 - Release.
@@ -30,6 +30,7 @@ Phase 05 - Release.
 - [ ] Validación manual final en Windows instalado
 
 ## Completadas
+- Follow-up v0.6.9 hotfix persistencia local (esta iteración): la persistencia de borrador local ahora usa debounce (~400ms) en lugar de escritura por tecla, se agregó flush final en `pagehide`/`beforeunload`/`visibilitychange` (`hidden`) y se coordinó limpieza de snapshot en memoria + cancelación de timer + `localStorage.removeItem` para evitar restaurar borradores stale tras guardar/guardar como/descartar/abrir.
 - Follow-up v0.6.8 rollback cierre nativo (esta iteración): se retiró el sistema de cierre interceptado (`onCloseRequested`, `pendingAction=close`, `getCurrentWindow().close()`) porque seguía rompiendo el cierre real; se restauró el cierre nativo de Tauri/Windows, se mantuvo la protección de cambios pendientes para `Nuevo` y `Abrir`, y la protección ante cierre ahora se basa en borrador local con persistencia inmediata + recuperación al iniciar.
 - Follow-up v0.6.7 cierre con regresión (esta iteración): se extrajo lógica mínima testeable del flujo de cierre, se agregaron pruebas unitarias para casos sin cambios/cancelar/descartar/guardar/error y prueba de configuración Tauri para asegurar `core:window:allow-close` + label de ventana `main` consistente entre `default.json` y `tauri.conf.json`; además se dejó mensaje de error técnico explícito de cierre para facilitar diagnóstico y reintento.
 
