@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState, type KeyboardEvent as ReactKeyboardEvent } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState, type KeyboardEvent as ReactKeyboardEvent } from 'react';
 import { platform } from '@tauri-apps/plugin-os';
 import { openUrl } from '@tauri-apps/plugin-opener';
 import packageMetadata from '../package.json';
@@ -13,6 +13,7 @@ import { exportDocumentAsHtml } from './lib/documents/htmlExport';
 import logo from './assets/brand/medo-logo.png';
 import { changelogEntries } from './data/changelog';
 import { HelpModal } from './components/help/HelpModal';
+import { draftWriteDelayMs, flushDraftToStorage, type LocalDraftSnapshot } from './lib/app/draftPersistence';
 
 type AboutTab = 'acerca' | 'novedades' | 'reportar' | 'creditos';
 
@@ -39,7 +40,25 @@ export function App() {
 
   const html = useMemo(() => renderMarkdown(document.content), [document.content]);
 
-  const clearDraft = () => localStorage.removeItem(draftStorageKey);
+  const latestDraftRef = useRef<LocalDraftSnapshot | null>(null);
+  const draftTimerRef = useRef<number | null>(null);
+
+  const cancelDraftTimer = useCallback(() => {
+    if (draftTimerRef.current === null) return;
+    window.clearTimeout(draftTimerRef.current);
+    draftTimerRef.current = null;
+  }, []);
+
+  const flushDraft = useCallback(() => {
+    cancelDraftTimer();
+    flushDraftToStorage(localStorage, draftStorageKey, latestDraftRef.current);
+  }, [cancelDraftTimer]);
+
+  const clearDraft = useCallback(() => {
+    latestDraftRef.current = null;
+    cancelDraftTimer();
+    localStorage.removeItem(draftStorageKey);
+  }, [cancelDraftTimer]);
 
   useEffect(() => {
     const rawDraft = localStorage.getItem(draftStorageKey);
@@ -60,10 +79,33 @@ export function App() {
       clearDraft();
       return;
     }
-    localStorage.setItem(draftStorageKey, JSON.stringify({ content: document.content, displayName: document.displayName }));
-  }, [document.content, document.displayName, document.hasUnsavedChanges]);
 
+    latestDraftRef.current = { content: document.content, displayName: document.displayName };
+    cancelDraftTimer();
+    draftTimerRef.current = window.setTimeout(() => {
+      flushDraft();
+    }, draftWriteDelayMs);
+  }, [cancelDraftTimer, clearDraft, document.content, document.displayName, document.hasUnsavedChanges, flushDraft]);
 
+  useEffect(() => {
+    const flushOnHide = () => flushDraft();
+    const onVisibilityChange = () => {
+      if (globalThis.document.visibilityState === 'hidden') {
+        flushDraft();
+      }
+    };
+
+    window.addEventListener('pagehide', flushOnHide);
+    window.addEventListener('beforeunload', flushOnHide);
+    globalThis.document.addEventListener('visibilitychange', onVisibilityChange);
+
+    return () => {
+      window.removeEventListener('pagehide', flushOnHide);
+      window.removeEventListener('beforeunload', flushOnHide);
+      globalThis.document.removeEventListener('visibilitychange', onVisibilityChange);
+      cancelDraftTimer();
+    };
+  }, [cancelDraftTimer, flushDraft]);
 
 
   const proceedAction = async (action: Exclude<PendingAction, null>) => {
