@@ -2,7 +2,7 @@
 # Tasks
 
 ## Estado general
-En progreso: v0.6.6 hotfix de capability Tauri para cierre programático en runtime.
+En progreso: v0.6.7 fix de cierre real + cobertura de regresión y validación de capabilities.
 
 ## Fase actual
 Phase 05 - Release.
@@ -30,6 +30,8 @@ Phase 05 - Release.
 - [ ] Validación manual final en Windows instalado
 
 ## Completadas
+- Follow-up v0.6.7 cierre con regresión (esta iteración): se extrajo lógica mínima testeable del flujo de cierre, se agregaron pruebas unitarias para casos sin cambios/cancelar/descartar/guardar/error y prueba de configuración Tauri para asegurar `core:window:allow-close` + label de ventana `main` consistente entre `default.json` y `tauri.conf.json`; además se dejó mensaje de error técnico explícito de cierre para facilitar diagnóstico y reintento.
+
 - Follow-up v0.6.6 hotfix cierre runtime (esta iteración): se agregó la capability mínima `core:window:allow-close` en `src-tauri/capabilities/default.json` para permitir `getCurrentWindow().close()` en Tauri 2 sin error de permisos; versión alineada a 0.6.6 en frontend/Tauri/Rust + entrada de changelog para el cierre confirmado desde modal.
 - Follow-up v0.6.5 post-validación real (esta iteración): reparación del cierre definitivo de app tras Guardar/Descartar con manejo de error detallado en cierre; reducción efectiva de espacio inferior real del workspace; tabs de Acerca con apariencia de pestañas conectadas y activa más perceptible; versión alineada a 0.6.5 + changelog actualizado.
 - Follow-up v0.6.4 post-validación manual (esta iteración): estabilizado el flujo de cierre con guardia de `onCloseRequested` para evitar estado atrapado al cerrar con cambios pendientes; aclaración breve en Manual de uso sobre apertura/edición de `.txt` y uso de `Guardar como`; compactación adicional del espacio inferior del layout principal; pulido de tabs en `Acerca de Medo` (activa más clara, apariencia de pestaña conectada y hover/focus mantenidos).
@@ -81,6 +83,7 @@ Phase 05 - Release.
 - Pulido de accesibilidad/robustez pre-merge: botones de iconos de la toolbar con `type="button"` preventivo y tooltip visible del botón de copiar sincronizado con los estados `Copiar`/`Copiado`/`Error al copiar`, manteniendo iconos y `data-status`.
 
 ## Pendientes
+- Ejecutar smoke E2E real de cierre de ventana (Tauri driver/WebDriver) como deuda técnica controlada, manteniendo cobertura unitaria actual del flujo de cierre.
 - Ejecutar validación manual completa en Windows con instalador NSIS generado desde CI (confirmar icono final de Medo en instalador/accesos directos tras bump a 0.2.0).
 - Confirmar en Windows real que `Abrir/Guardar/Guardar como` funcionan con `.md` y `.txt` en múltiples rutas.
 - Confirmar usabilidad de barra de formato Markdown con selección y sin selección (incluye repetir H1/H2/H3 y numeración con líneas en blanco).

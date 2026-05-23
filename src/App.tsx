@@ -14,6 +14,7 @@ import { exportDocumentAsHtml } from './lib/documents/htmlExport';
 import logo from './assets/brand/medo-logo.png';
 import { changelogEntries } from './data/changelog';
 import { HelpModal } from './components/help/HelpModal';
+import { formatCloseError, needsPendingAction, nextPendingActionOnNativeClose, shouldClearDraftOnDiscard, shouldPreventNativeClose } from './lib/app/closeFlow';
 
 type AboutTab = 'acerca' | 'novedades' | 'reportar' | 'creditos';
 
@@ -69,14 +70,16 @@ export function App() {
 
 
   const handleCloseRequested = useCallback((event: { preventDefault: () => void }) => {
-    if (allowWindowCloseRef.current) return;
-    if (closeInProgressRef.current) {
-      event.preventDefault();
-      return;
-    }
-    if (!document.hasUnsavedChanges) return;
+    const shouldPrevent = shouldPreventNativeClose({
+      hasUnsavedChanges: document.hasUnsavedChanges,
+      refs: {
+        allowWindowClose: allowWindowCloseRef.current,
+        closeInProgress: closeInProgressRef.current
+      }
+    });
+    if (!shouldPrevent) return;
     event.preventDefault();
-    setPendingAction((current) => current ?? 'close');
+    setPendingAction((current) => nextPendingActionOnNativeClose(current, document.hasUnsavedChanges));
   }, [document.hasUnsavedChanges]);
 
   useEffect(() => {
@@ -110,13 +113,13 @@ export function App() {
       } catch (error) {
         allowWindowCloseRef.current = false;
         closeInProgressRef.current = false;
-        throw new Error(`No se pudo cerrar la app. Detalle: ${error instanceof Error ? error.message : String(error)}`);
+        throw new Error(formatCloseError(error));
       }
     }
   };
 
   const requestAction = async (action: Exclude<PendingAction, null>) => {
-    if (document.hasUnsavedChanges) { setPendingAction(action); return; }
+    if (needsPendingAction(document)) { setPendingAction(action); return; }
     await proceedAction(action);
   };
 
@@ -172,7 +175,7 @@ export function App() {
         return;
       }
     }
-    if (decision === 'discard' && action !== 'open') clearDraft();
+    if (decision === 'discard' && shouldClearDraftOnDiscard(action)) clearDraft();
     try {
       await proceedAction(action);
     } catch (err) {
