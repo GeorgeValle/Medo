@@ -7,6 +7,16 @@ export type ChangelogEntry = {
 
 export const changelogEntries: ChangelogEntry[] = [
   {
+    version: '0.6.8',
+    date: '2026-05-23',
+    title: 'Rollback del cierre de ventana al flujo nativo',
+    changes: [
+      'Se restauró el cierre nativo de ventana y se retiró la interceptación con onCloseRequested.',
+      'Se eliminó el cierre programático con getCurrentWindow().close() y el pendingAction de tipo close.',
+      'Se mantuvo la protección para Nuevo/Abrir con modal de cambios pendientes y se reforzó la persistencia de borrador local para recuperación tras cierre.'
+    ]
+  },
+  {
     version: '0.6.7',
     date: '2026-05-23',
     title: 'Cobertura de regresión para cierre real de la app',

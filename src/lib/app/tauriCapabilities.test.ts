@@ -6,13 +6,18 @@ function readJson(path: string) {
   return JSON.parse(readFileSync(resolve(process.cwd(), path), 'utf-8')) as Record<string, unknown>;
 }
 
-describe('tauri close capabilities', () => {
-  it('incluye permiso core:window:allow-close y aplica a label main', () => {
+describe('tauri capabilities', () => {
+  it('incluye permisos base de dialog/fs/opener/os y aplica a label main', () => {
     const capability = readJson('src-tauri/capabilities/default.json');
     const permissions = capability.permissions as string[];
     const windows = capability.windows as string[];
 
-    expect(permissions).toContain('core:window:allow-close');
+    expect(permissions).toContain('dialog:allow-open');
+    expect(permissions).toContain('dialog:allow-save');
+    expect(permissions).toContain('fs:allow-read-text-file');
+    expect(permissions).toContain('fs:allow-write-text-file');
+    expect(permissions).toContain('opener:default');
+    expect(permissions).toContain('os:default');
     expect(windows).toContain('main');
   });
 

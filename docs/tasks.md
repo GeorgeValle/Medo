@@ -2,7 +2,7 @@
 # Tasks
 
 ## Estado general
-En progreso: v0.6.7 fix de cierre real + cobertura de regresión y validación de capabilities.
+En progreso: v0.6.8 rollback de cierre interceptado y restauración de cierre nativo de ventana.
 
 ## Fase actual
 Phase 05 - Release.
@@ -30,6 +30,7 @@ Phase 05 - Release.
 - [ ] Validación manual final en Windows instalado
 
 ## Completadas
+- Follow-up v0.6.8 rollback cierre nativo (esta iteración): se retiró el sistema de cierre interceptado (`onCloseRequested`, `pendingAction=close`, `getCurrentWindow().close()`) porque seguía rompiendo el cierre real; se restauró el cierre nativo de Tauri/Windows, se mantuvo la protección de cambios pendientes para `Nuevo` y `Abrir`, y la protección ante cierre ahora se basa en borrador local con persistencia inmediata + recuperación al iniciar.
 - Follow-up v0.6.7 cierre con regresión (esta iteración): se extrajo lógica mínima testeable del flujo de cierre, se agregaron pruebas unitarias para casos sin cambios/cancelar/descartar/guardar/error y prueba de configuración Tauri para asegurar `core:window:allow-close` + label de ventana `main` consistente entre `default.json` y `tauri.conf.json`; además se dejó mensaje de error técnico explícito de cierre para facilitar diagnóstico y reintento.
 
 - Follow-up v0.6.6 hotfix cierre runtime (esta iteración): se agregó la capability mínima `core:window:allow-close` en `src-tauri/capabilities/default.json` para permitir `getCurrentWindow().close()` en Tauri 2 sin error de permisos; versión alineada a 0.6.6 en frontend/Tauri/Rust + entrada de changelog para el cierre confirmado desde modal.

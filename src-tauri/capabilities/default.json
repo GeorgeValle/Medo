@@ -7,7 +7,6 @@
   ],
   "permissions": [
     "core:default",
-    "core:window:allow-close",
     "dialog:allow-open",
     "dialog:allow-save",
     "fs:allow-read-text-file",
