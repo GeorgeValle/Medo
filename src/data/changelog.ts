@@ -7,6 +7,16 @@ export type ChangelogEntry = {
 
 export const changelogEntries: ChangelogEntry[] = [
   {
+    version: '0.6.7',
+    date: '2026-05-23',
+    title: 'Cobertura de regresión para cierre real de la app',
+    changes: [
+      'Se agregó cobertura de regresión del flujo de cierre (sin cambios, cancelar, descartar, guardar y error con reintento).',
+      'Se agregó validación automatizada de capability `core:window:allow-close` y coherencia de label `main` entre capabilities y tauri.conf.json.',
+      'Se corrigió el flujo de cierre para conservar detalle técnico en errores y evitar estados colgados al reintentar cerrar.'
+    ]
+  },
+  {
     version: '0.6.6',
     date: '2026-05-22',
     title: 'Hotfix de permiso Tauri para cierre de ventana',
