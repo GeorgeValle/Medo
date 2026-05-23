@@ -1,7 +1,6 @@
-import { useCallback, useEffect, useMemo, useRef, useState, type KeyboardEvent as ReactKeyboardEvent } from 'react';
+import { useEffect, useMemo, useState, type KeyboardEvent as ReactKeyboardEvent } from 'react';
 import { platform } from '@tauri-apps/plugin-os';
 import { openUrl } from '@tauri-apps/plugin-opener';
-import { getCurrentWindow } from '@tauri-apps/api/window';
 import packageMetadata from '../package.json';
 import styles from './App.module.css';
 import { Toolbar } from './components/toolbar/Toolbar';
@@ -14,7 +13,6 @@ import { exportDocumentAsHtml } from './lib/documents/htmlExport';
 import logo from './assets/brand/medo-logo.png';
 import { changelogEntries } from './data/changelog';
 import { HelpModal } from './components/help/HelpModal';
-import { formatCloseError, needsPendingAction, nextPendingActionOnNativeClose, shouldClearDraftOnDiscard, shouldPreventNativeClose } from './lib/app/closeFlow';
 
 type AboutTab = 'acerca' | 'novedades' | 'reportar' | 'creditos';
 
@@ -23,7 +21,7 @@ const appVersion = packageMetadata.version;
 const githubRepoUrl = 'https://github.com/GeorgeValle/Medo';
 const aboutEmail = 'georgevalle@outlook.com.ar';
 const draftStorageKey = 'medo.localDraft.v1';
-type PendingAction = null | 'new' | 'open' | 'close';
+type PendingAction = null | 'new' | 'open';
 
 export function App() {
   const [document, setDocument] = useState(() => createNewDocument(initialContent));
@@ -38,8 +36,6 @@ export function App() {
   const [issueExpected, setIssueExpected] = useState('');
   const [issueObtained, setIssueObtained] = useState('');
   const [pendingAction, setPendingAction] = useState<PendingAction>(null);
-  const allowWindowCloseRef = useRef(false);
-  const closeInProgressRef = useRef(false);
 
   const html = useMemo(() => renderMarkdown(document.content), [document.content]);
 
@@ -64,36 +60,11 @@ export function App() {
       clearDraft();
       return;
     }
-    const id = window.setTimeout(() => localStorage.setItem(draftStorageKey, JSON.stringify({ content: document.content, displayName: document.displayName })), 1000);
-    return () => window.clearTimeout(id);
+    localStorage.setItem(draftStorageKey, JSON.stringify({ content: document.content, displayName: document.displayName }));
   }, [document.content, document.displayName, document.hasUnsavedChanges]);
 
 
-  const handleCloseRequested = useCallback((event: { preventDefault: () => void }) => {
-    const shouldPrevent = shouldPreventNativeClose({
-      hasUnsavedChanges: document.hasUnsavedChanges,
-      refs: {
-        allowWindowClose: allowWindowCloseRef.current,
-        closeInProgress: closeInProgressRef.current
-      }
-    });
-    if (!shouldPrevent) return;
-    event.preventDefault();
-    setPendingAction((current) => nextPendingActionOnNativeClose(current, document.hasUnsavedChanges));
-  }, [document.hasUnsavedChanges]);
 
-  useEffect(() => {
-    let unlisten: (() => void) | undefined;
-    const setupCloseGuard = async () => {
-      unlisten = await getCurrentWindow().onCloseRequested((event) => {
-        handleCloseRequested(event);
-      });
-    };
-    void setupCloseGuard();
-    return () => {
-      if (unlisten) unlisten();
-    };
-  }, [handleCloseRequested]);
 
   const proceedAction = async (action: Exclude<PendingAction, null>) => {
     if (action === 'new') { setDocument(createNewDocument('', UNTITLED_NAME)); clearDraft(); return; }
@@ -102,24 +73,11 @@ export function App() {
       if (!file) return;
       setDocument(hydrateOpenedDocument(file.path, file.content));
       clearDraft();
-      return;
-    }
-    if (action === 'close') {
-      const currentWindow = getCurrentWindow();
-      allowWindowCloseRef.current = true;
-      closeInProgressRef.current = true;
-      try {
-        await currentWindow.close();
-      } catch (error) {
-        allowWindowCloseRef.current = false;
-        closeInProgressRef.current = false;
-        throw new Error(formatCloseError(error));
-      }
     }
   };
 
   const requestAction = async (action: Exclude<PendingAction, null>) => {
-    if (needsPendingAction(document)) { setPendingAction(action); return; }
+    if (document.hasUnsavedChanges) { setPendingAction(action); return; }
     await proceedAction(action);
   };
 
@@ -175,16 +133,12 @@ export function App() {
         return;
       }
     }
-    if (decision === 'discard' && shouldClearDraftOnDiscard(action)) clearDraft();
+    if (decision === 'discard' && action === 'new') clearDraft();
     try {
       await proceedAction(action);
     } catch (err) {
-      if (action === 'close') {
-        closeInProgressRef.current = false;
-        allowWindowCloseRef.current = false;
-      }
       const detail = err instanceof Error ? err.message : String(err);
-      setError(action === 'close' ? detail : `No se pudo completar la acción solicitada. Detalle: ${detail}`);
+      setError(`No se pudo completar la acción solicitada. Detalle: ${detail}`);
     }
   };
   const closeAbout = () => {

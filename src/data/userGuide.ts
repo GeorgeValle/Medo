@@ -28,8 +28,8 @@ export const userGuideSections: UserGuideSection[] = [
     items: [
       '“Guardado” significa que el contenido coincide con el último guardado.',
       '“Sin guardar” significa que hay cambios pendientes.',
-      'Si intentás crear, abrir o cerrar con cambios pendientes, Medo pide confirmación.',
-      'Si la app se cierra inesperadamente, Medo puede ofrecer recuperar un borrador local.',
+      'Si intentás crear o abrir con cambios pendientes, Medo pide confirmación.',
+      'Si cerrás la ventana con cambios sin guardar, al volver a abrir Medo puede ofrecer recuperar un borrador local.',
       'El borrador local queda en la PC del usuario.'
     ]
   },
@@ -107,7 +107,7 @@ export const userGuideSections: UserGuideSection[] = [
     id: 'consejos',
     title: 'Consejos',
     items: [
-      'Guardá seguido para evitar pérdida de trabajo.',
+      'Guardá antes de cerrar la ventana para minimizar riesgo de pérdida de trabajo.',
       'Usá “Guardar como” para crear variantes del mismo documento.',
       'Exportá HTML para compartir una versión legible sin depender de Markdown.',
       'Si algo falla, usá “Reportar problema” en “Acerca de Medo”.'
