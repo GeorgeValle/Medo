@@ -1,11 +1,11 @@
-## Estado actual (v0.7.0 - 2026-05-24)
-- Objetivo de esta iteración: preparación de exportación PDF inicial apoyada en HTML limpio existente.
-- Decisión técnica adoptada: se agrega `src/lib/documents/pdfExport.ts` para centralizar la lógica PDF y reutilizar `buildStandaloneHtmlDocument`; la exportación PDF queda **experimental/no funcional real** hasta integrar una vía nativa y confiable de impresión a PDF en Tauri 2.
-- Menú Medo actualizado con `Exportar PDF (experimental)` debajo de `Exportar HTML`, con mensaje explícito en UI cuando se invoca.
-- Se mantiene estable `Exportar HTML` y no se tocó lógica de cierre nativo ni borrador local.
+## Estado actual (v0.7.1 - 2026-05-24)
+- Objetivo de esta iteración: implementación inicial de Exportar PDF en Windows reutilizando HTML limpio exportable.
+- Decisión técnica adoptada: se mantiene `src/lib/documents/pdfExport.ts` como orquestador y se activa flujo de impresión del sistema en Windows desde HTML limpio (`buildPdfSourceHtml`) para “Imprimir / Guardar como PDF”.
+- Alcance exacto: Windows habilitado con diálogo de impresión del sistema; macOS/Linux muestran mensaje claro de alcance inicial y recomiendan Exportar HTML o Imprimir / Guardar como PDF.
+- Exportar HTML permanece intacto; no se tocó cierre nativo, ni borrador local, ni flujo de Nuevo/Abrir/Guardar/Guardar como.
 - Advertencia permanente: no reintroducir `onCloseRequested`, `getCurrentWindow().close()` ni `pendingAction = "close"`.
 
-## Validaciones v0.7.0
+## Validaciones v0.7.1
 - Pendiente ejecutar: `pnpm lint`, `pnpm test`, `pnpm build`, `pnpm tauri:build`.
 - Resultado de build Tauri: documentar limitación de entorno si aplica (GTK/GLib/Linux runner) con causa, impacto y siguiente acción.
 
@@ -13,7 +13,7 @@
 # Tasks
 
 ## Estado general
-En progreso: v0.6.9 hotfix de persistencia de borrador local con debounce + flush anti-stale.
+En progreso: v0.7.1 exportación PDF inicial en Windows vía impresión del sistema.
 
 ## Fase actual
 Phase 05 - Release.

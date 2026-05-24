@@ -170,7 +170,7 @@ export function App() {
       setError(null);
     } catch (err) {
       const detail = err instanceof Error ? err.message : String(err);
-      setError(`Exportar PDF (experimental): ${detail}`);
+      setError(`Exportar PDF: ${detail}`);
     }
   };
   const resolvePendingAction = async (decision: 'save' | 'discard' | 'cancel') => {

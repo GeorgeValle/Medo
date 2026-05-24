@@ -7,6 +7,17 @@ export type ChangelogEntry = {
 
 export const changelogEntries: ChangelogEntry[] = [
   {
+    version: '0.7.1',
+    date: '2026-05-24',
+    title: 'Exportar PDF vía impresión del sistema en Windows',
+    changes: [
+      'La opción del menú pasa de experimental a “Imprimir / Guardar como PDF” para Windows usando el HTML limpio exportable ya existente.',
+      'La fuente del documento PDF reutiliza `buildPdfSourceHtml` sin UI interna ni botones de copiar, igual que Exportar HTML.',
+      'Exportar HTML sigue intacto y no se modificó el flujo de cierre nativo ni la recuperación de borrador local.',
+      'En macOS/Linux se informa de forma clara que el PDF real queda inicialmente orientado a Windows y se sugiere Exportar HTML o Imprimir / Guardar como PDF.'
+    ]
+  },
+  {
     version: '0.7.0',
     date: '2026-05-24',
     title: 'Preparación de exportación PDF inicial',
