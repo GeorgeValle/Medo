@@ -18,7 +18,7 @@ export function Toolbar({ onNew, onOpen, onSave, onSaveAs, onExportHtml, onExpor
     { label: 'Guardar', onSelect: onSave },
     { label: 'Guardar como', onSelect: onSaveAs },
     { label: 'Exportar HTML', onSelect: onExportHtml },
-    { label: 'Exportar PDF (experimental)', onSelect: onExportPdf },
+    { label: 'Imprimir / Guardar como PDF', onSelect: onExportPdf },
     { label: 'Manual de uso', onSelect: onHelp },
     { label: 'Acerca', onSelect: onAbout }
   ];
