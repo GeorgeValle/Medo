@@ -7,6 +7,17 @@ export type ChangelogEntry = {
 
 export const changelogEntries: ChangelogEntry[] = [
   {
+    version: '0.7.2',
+    date: '2026-05-24',
+    title: 'Hotfix de impresión para Guardar como PDF en Tauri/Windows',
+    changes: [
+      'Se corrigió el flujo “Imprimir / Guardar como PDF” en Tauri/Windows reemplazando `window.open()` por un iframe interno más confiable para abrir el diálogo de impresión del sistema.',
+      'El flujo PDF ya no solicita ruta `.pdf` previa porque no realiza exportación silenciosa; el guardado final lo define el usuario desde el diálogo del sistema.',
+      'Se corrigió el error de `pnpm lint` en `pdfExport.test.ts` eliminando dependencias de mocks de `window.open` y ajustando cobertura al nuevo flujo de impresión.',
+      'Exportar HTML se mantiene intacto con el mismo HTML limpio (sin UI interna ni botones de copiar), y no se tocó cierre nativo ni borrador local.'
+    ]
+  },
+  {
     version: '0.7.1',
     date: '2026-05-24',
     title: 'Exportar PDF vía impresión del sistema en Windows',
