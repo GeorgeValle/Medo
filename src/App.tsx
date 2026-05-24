@@ -10,6 +10,7 @@ import { renderMarkdown } from './lib/markdown/renderMarkdown';
 import { UNTITLED_NAME, createNewDocument, hydrateOpenedDocument, updateDocumentContent, updateDocumentDisplayName } from './lib/documents/documentState';
 import { openDocument, saveDocument, saveDocumentAs } from './lib/documents/fileSystem';
 import { exportDocumentAsHtml } from './lib/documents/htmlExport';
+import { exportDocumentAsPdf } from './lib/documents/pdfExport';
 import logo from './assets/brand/medo-logo.png';
 import { changelogEntries } from './data/changelog';
 import { HelpModal } from './components/help/HelpModal';
@@ -161,6 +162,17 @@ export function App() {
     }
   };
 
+
+
+  const onExportPdf = async () => {
+    try {
+      await exportDocumentAsPdf(document);
+      setError(null);
+    } catch (err) {
+      const detail = err instanceof Error ? err.message : String(err);
+      setError(`Exportar PDF (experimental): ${detail}`);
+    }
+  };
   const resolvePendingAction = async (decision: 'save' | 'discard' | 'cancel') => {
     const action = pendingAction;
     setPendingAction(null);
@@ -372,7 +384,7 @@ export function App() {
           value={document.content}
           onChange={(content) => setDocument((prev) => updateDocumentContent(prev, content))}
           onEditorScroll={setEditorScrollProgress}
-          headerMenu={<Toolbar onNew={onNew} onOpen={onOpen} onSave={onSave} onSaveAs={onSaveAs} onExportHtml={() => { void onExportHtml(); }} onHelp={() => setIsHelpOpen(true)} onAbout={() => setIsAboutOpen(true)} />}
+          headerMenu={<Toolbar onNew={onNew} onOpen={onOpen} onSave={onSave} onSaveAs={onSaveAs} onExportHtml={() => { void onExportHtml(); }} onExportPdf={() => { void onExportPdf(); }} onHelp={() => setIsHelpOpen(true)} onAbout={() => setIsAboutOpen(true)} />}
         />
         <PreviewPanel html={html} syncedScrollProgress={editorScrollProgress} displayName={document.displayName} hasUnsavedChanges={document.hasUnsavedChanges} onDisplayNameChange={(name) => setDocument((prev) => updateDocumentDisplayName(prev, name))} />
       </section>

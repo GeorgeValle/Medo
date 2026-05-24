@@ -1,3 +1,14 @@
+## Estado actual (v0.7.0 - 2026-05-24)
+- Objetivo de esta iteración: preparación de exportación PDF inicial apoyada en HTML limpio existente.
+- Decisión técnica adoptada: se agrega `src/lib/documents/pdfExport.ts` para centralizar la lógica PDF y reutilizar `buildStandaloneHtmlDocument`; la exportación PDF queda **experimental/no funcional real** hasta integrar una vía nativa y confiable de impresión a PDF en Tauri 2.
+- Menú Medo actualizado con `Exportar PDF (experimental)` debajo de `Exportar HTML`, con mensaje explícito en UI cuando se invoca.
+- Se mantiene estable `Exportar HTML` y no se tocó lógica de cierre nativo ni borrador local.
+- Advertencia permanente: no reintroducir `onCloseRequested`, `getCurrentWindow().close()` ni `pendingAction = "close"`.
+
+## Validaciones v0.7.0
+- Pendiente ejecutar: `pnpm lint`, `pnpm test`, `pnpm build`, `pnpm tauri:build`.
+- Resultado de build Tauri: documentar limitación de entorno si aplica (GTK/GLib/Linux runner) con causa, impacto y siguiente acción.
+
 - [x] v0.4.0: estado visible, confirmación anti-pérdida y borrador local implementado (incluye cierre seguro de ventana).
 # Tasks
 
