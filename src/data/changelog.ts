@@ -7,6 +7,17 @@ export type ChangelogEntry = {
 
 export const changelogEntries: ChangelogEntry[] = [
   {
+    version: '0.7.0',
+    date: '2026-05-24',
+    title: 'Preparación de exportación PDF inicial',
+    changes: [
+      'Se agregó la opción Exportar PDF (experimental) en el menú Medo sin alterar Exportar HTML.',
+      'Se incorporó helper separado de PDF que reutiliza el mismo HTML limpio exportable usado por Exportar HTML.',
+      'La UI comunica de forma explícita que la exportación PDF real queda como siguiente paso técnico en Tauri 2.',
+      'No se modificó el flujo de cierre nativo ni la lógica de borrador local.'
+    ]
+  },
+  {
     version: '0.6.9',
     date: '2026-05-23',
     title: 'Hotfix de persistencia local con debounce',
