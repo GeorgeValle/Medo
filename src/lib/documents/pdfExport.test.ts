@@ -103,4 +103,31 @@ describe('pdfExport', () => {
     await expect(exportDocumentAsPdf(createNewDocument('# Hola', 'nota.md'))).rejects.toThrow('No se pudo abrir el diálogo de impresión del sistema.');
     expect(iframe.remove).toHaveBeenCalledOnce();
   });
+
+  it('si print() falla igual programa cleanup del iframe y relanza el error original', async () => {
+    vi.useFakeTimers();
+    vi.mocked(platform).mockResolvedValue('windows');
+
+    const focus = vi.fn();
+    const printError = new Error('printer unavailable');
+    const print = vi.fn(() => {
+      throw printError;
+    });
+    const iframe: FakeIframe = {
+      style: {},
+      setAttribute: vi.fn(),
+      remove: vi.fn(),
+      contentDocument: { open: vi.fn(), write: vi.fn(), close: vi.fn() },
+      contentWindow: { print, focus }
+    };
+    setupFakeDocument(iframe);
+
+    await expect(exportDocumentAsPdf(createNewDocument('# Hola', 'nota.md'))).rejects.toThrow(printError);
+    expect(focus).toHaveBeenCalledOnce();
+    expect(print).toHaveBeenCalledOnce();
+    expect(iframe.remove).not.toHaveBeenCalled();
+    vi.advanceTimersByTime(350);
+    expect(iframe.remove).toHaveBeenCalledOnce();
+    vi.useRealTimers();
+  });
 });

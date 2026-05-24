@@ -55,8 +55,11 @@ export async function exportDocumentAsPdf(state: DocumentState): Promise<boolean
     throw new Error(PRINT_DIALOG_ERROR_MESSAGE);
   }
 
-  printWindow.focus();
-  printWindow.print();
-  cleanupFrame(iframe);
-  return true;
+  try {
+    printWindow.focus();
+    printWindow.print();
+    return true;
+  } finally {
+    cleanupFrame(iframe);
+  }
 }
