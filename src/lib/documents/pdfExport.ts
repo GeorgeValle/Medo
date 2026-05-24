@@ -26,7 +26,7 @@ export async function exportDocumentAsPdf(state: DocumentState): Promise<boolean
   }
 
   const html = buildPdfSourceHtml(state);
-  const printable = globalThis.open?.('', '_blank', 'noopener,noreferrer');
+  const printable = globalThis.open?.('', '_blank');
   if (!printable) {
     throw new Error('No se pudo abrir la vista de impresión del sistema para guardar PDF.');
   }

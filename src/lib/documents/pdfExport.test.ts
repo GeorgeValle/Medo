@@ -33,7 +33,7 @@ describe('pdfExport', () => {
     await expect(exportDocumentAsPdf(state)).rejects.toThrow(PDF_EXPORT_WINDOWS_PENDING_MESSAGE);
   });
 
-  it('en Windows abre impresión del sistema', async () => {
+  it('en Windows abre impresión del sistema sin noopener/noreferrer', async () => {
     vi.mocked(save).mockResolvedValue('C:/nota.pdf');
     vi.mocked(platform).mockResolvedValue('windows');
 
@@ -41,10 +41,15 @@ describe('pdfExport', () => {
     const focus = vi.fn();
     const doc = { open: vi.fn(), write: vi.fn(), close: vi.fn() };
     const originalOpen = (globalThis as { open?: typeof globalThis.open }).open;
-    (globalThis as { open?: (url?: string, target?: string, features?: string) => Window | null }).open = vi.fn(() => ({ document: doc, print, focus } as unknown as Window));
+
+    const openSpy = vi.fn(() => ({ document: doc, print, focus } as unknown as Window));
+    (globalThis as { open?: (url?: string, target?: string, features?: string) => Window | null }).open = openSpy;
 
     const state = createNewDocument('# Hola', 'nota.md');
     await expect(exportDocumentAsPdf(state)).resolves.toBe(true);
+    expect(openSpy).toHaveBeenCalledWith('', '_blank');
+    const featuresArg = openSpy.mock.calls[0]?.[2];
+    expect(featuresArg).toBeUndefined();
     expect(doc.write).toHaveBeenCalledWith(buildPdfSourceHtml(state));
     expect(print).toHaveBeenCalledOnce();
     (globalThis as { open?: typeof globalThis.open }).open = originalOpen;
