@@ -1,11 +1,11 @@
-## Estado actual (v0.7.1 - 2026-05-24)
+## Estado actual (v0.7.2 - 2026-05-24)
 - Objetivo de esta iteración: implementación inicial de Exportar PDF en Windows reutilizando HTML limpio exportable.
 - Decisión técnica adoptada: se mantiene `src/lib/documents/pdfExport.ts` como orquestador y se activa flujo de impresión del sistema en Windows desde HTML limpio (`buildPdfSourceHtml`) para “Imprimir / Guardar como PDF”.
 - Alcance exacto: Windows habilitado con diálogo de impresión del sistema; macOS/Linux muestran mensaje claro de alcance inicial y recomiendan Exportar HTML o Imprimir / Guardar como PDF.
 - Exportar HTML permanece intacto; no se tocó cierre nativo, ni borrador local, ni flujo de Nuevo/Abrir/Guardar/Guardar como.
 - Advertencia permanente: no reintroducir `onCloseRequested`, `getCurrentWindow().close()` ni `pendingAction = "close"`.
 
-## Validaciones v0.7.1
+## Validaciones v0.7.2
 - Pendiente ejecutar: `pnpm lint`, `pnpm test`, `pnpm build`, `pnpm tauri:build`.
 - Resultado de build Tauri: documentar limitación de entorno si aplica (GTK/GLib/Linux runner) con causa, impacto y siguiente acción.
 
@@ -13,7 +13,7 @@
 # Tasks
 
 ## Estado general
-En progreso: v0.7.1 exportación PDF inicial en Windows vía impresión del sistema.
+En progreso: v0.7.2 hotfix del flujo Imprimir / Guardar como PDF en Tauri/Windows.
 
 ## Fase actual
 Phase 05 - Release.
@@ -41,6 +41,8 @@ Phase 05 - Release.
 - [ ] Validación manual final en Windows instalado
 
 ## Completadas
+- Follow-up v0.7.2 fix P2 review (esta iteración): `exportDocumentAsPdf` ahora envuelve `focus()/print()` en `try/finally` para programar siempre `cleanupFrame(iframe)` incluso si el entorno WebView/printer lanza excepción; se preserva el error original y se mantiene el camino inmediato `iframe.remove()` cuando `contentWindow/print` no está disponible. Se agregó test unitario para validar que si `print()` falla, el iframe igual se limpia por timer.
+- Hotfix v0.7.2 PDF/impresión (esta iteración): se retiró la dependencia de `window.open()` por baja confiabilidad en Tauri/WebView Windows y se implementó impresión del sistema con `iframe` temporal oculto que escribe el mismo HTML limpio de Exportar HTML; el flujo ya no solicita ruta `.pdf` previa porque no existe exportación silenciosa directa a archivo, y se corrigió además el error TypeScript TS2493 en `pdfExport.test.ts` ajustando mocks/tests al nuevo mecanismo. Mantener advertencia permanente: no reintroducir `onCloseRequested`, `getCurrentWindow().close()` ni `pendingAction = "close"`.
 - Follow-up v0.7.1 fix review (esta iteración): el popup de impresión PDF en Windows ahora se abre sin `noopener/noreferrer` para conservar un handle válido (`window.open`) y evitar `null` en WebView moderno; se agregó cobertura unitaria para verificar explícitamente que el flujo abre `open("", "_blank")`, escribe HTML limpio y ejecuta `print()`, manteniendo cancelación (`false`) y fallback no-Windows con mensaje claro.
 - Follow-up v0.6.9 hotfix persistencia local (esta iteración): la persistencia de borrador local ahora usa debounce (~400ms) en lugar de escritura por tecla, se agregó flush final en `pagehide`/`beforeunload`/`visibilitychange` (`hidden`) y se coordinó limpieza de snapshot en memoria + cancelación de timer + `localStorage.removeItem` para evitar restaurar borradores stale tras guardar/guardar como/descartar/abrir.
 - Follow-up v0.6.8 rollback cierre nativo (esta iteración): se retiró el sistema de cierre interceptado (`onCloseRequested`, `pendingAction=close`, `getCurrentWindow().close()`) porque seguía rompiendo el cierre real; se restauró el cierre nativo de Tauri/Windows, se mantuvo la protección de cambios pendientes para `Nuevo` y `Abrir`, y la protección ante cierre ahora se basa en borrador local con persistencia inmediata + recuperación al iniciar.
