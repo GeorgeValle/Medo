@@ -14,7 +14,9 @@ import { exportDocumentAsPdf } from './lib/documents/pdfExport';
 import logo from './assets/brand/medo-logo.png';
 import { changelogEntries } from './data/changelog';
 import { HelpModal } from './components/help/HelpModal';
+import { PreferencesModal } from './components/preferences/PreferencesModal';
 import { draftWriteDelayMs, flushDraftToStorage, type LocalDraftSnapshot } from './lib/app/draftPersistence';
+import { loadUserPreferences, saveUserPreferences, type EditorFontSizePreference, type ThemePreference } from './lib/app/preferences';
 
 type AboutTab = 'acerca' | 'novedades' | 'reportar' | 'creditos';
 
@@ -31,6 +33,7 @@ export function App() {
   const [editorScrollProgress, setEditorScrollProgress] = useState(0);
   const [isAboutOpen, setIsAboutOpen] = useState(false);
   const [isHelpOpen, setIsHelpOpen] = useState(false);
+  const [isPreferencesOpen, setIsPreferencesOpen] = useState(false);
   const [activeAboutTab, setActiveAboutTab] = useState<AboutTab>('acerca');
   const [issueTitle, setIssueTitle] = useState('');
   const [issueDescription, setIssueDescription] = useState('');
@@ -38,6 +41,8 @@ export function App() {
   const [issueExpected, setIssueExpected] = useState('');
   const [issueObtained, setIssueObtained] = useState('');
   const [pendingAction, setPendingAction] = useState<PendingAction>(null);
+  const [theme, setTheme] = useState<ThemePreference>('system');
+  const [editorFontSize, setEditorFontSize] = useState<EditorFontSizePreference>('normal');
 
   const html = useMemo(() => renderMarkdown(document.content), [document.content]);
 
@@ -60,6 +65,21 @@ export function App() {
     cancelDraftTimer();
     localStorage.removeItem(draftStorageKey);
   }, [cancelDraftTimer]);
+
+  useEffect(() => {
+    const preferences = loadUserPreferences(localStorage);
+    setTheme(preferences.theme);
+    setEditorFontSize(preferences.editorFontSize);
+  }, []);
+
+  useEffect(() => {
+    const root = globalThis.document.documentElement;
+    root.setAttribute('data-theme', theme);
+  }, [theme]);
+
+  useEffect(() => {
+    saveUserPreferences(localStorage, { theme, editorFontSize });
+  }, [theme, editorFontSize]);
 
   useEffect(() => {
     const rawDraft = localStorage.getItem(draftStorageKey);
@@ -295,6 +315,14 @@ export function App() {
         </div>
       )}
       <HelpModal isOpen={isHelpOpen} onClose={() => setIsHelpOpen(false)} />
+      <PreferencesModal
+        open={isPreferencesOpen}
+        theme={theme}
+        editorFontSize={editorFontSize}
+        onThemeChange={setTheme}
+        onEditorFontSizeChange={setEditorFontSize}
+        onClose={() => setIsPreferencesOpen(false)}
+      />
       {isAboutOpen && (
         <div className={styles.modalBackdrop} role="presentation" onClick={closeAbout}>
           <section className={styles.modal} role="dialog" aria-modal="true" aria-label="Acerca de Medo" onClick={(event) => event.stopPropagation()}>
@@ -384,7 +412,8 @@ export function App() {
           value={document.content}
           onChange={(content) => setDocument((prev) => updateDocumentContent(prev, content))}
           onEditorScroll={setEditorScrollProgress}
-          headerMenu={<Toolbar onNew={onNew} onOpen={onOpen} onSave={onSave} onSaveAs={onSaveAs} onExportHtml={() => { void onExportHtml(); }} onExportPdf={() => { void onExportPdf(); }} onHelp={() => setIsHelpOpen(true)} onAbout={() => setIsAboutOpen(true)} />}
+          editorFontSize={editorFontSize}
+          headerMenu={<Toolbar onNew={onNew} onOpen={onOpen} onSave={onSave} onSaveAs={onSaveAs} onExportHtml={() => { void onExportHtml(); }} onExportPdf={() => { void onExportPdf(); }} onHelp={() => setIsHelpOpen(true)} onPreferences={() => setIsPreferencesOpen(true)} onAbout={() => setIsAboutOpen(true)} />}
         />
         <PreviewPanel html={html} syncedScrollProgress={editorScrollProgress} displayName={document.displayName} hasUnsavedChanges={document.hasUnsavedChanges} onDisplayNameChange={(name) => setDocument((prev) => updateDocumentDisplayName(prev, name))} />
       </section>

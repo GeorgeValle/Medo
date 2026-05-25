@@ -91,3 +91,15 @@
   min-width: 0;
   max-width: 100%;
 }
+
+.fontSizeSmall .editor :global(.cm-content) {
+  font-size: 0.9rem;
+}
+
+.fontSizeNormal .editor :global(.cm-content) {
+  font-size: 1rem;
+}
+
+.fontSizeLarge .editor :global(.cm-content) {
+  font-size: 1.1rem;
+}

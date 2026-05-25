@@ -3,8 +3,31 @@
   --color-panel: #1f2937;
   --color-text: #e5e7eb;
   --color-border: #374151;
+  color-scheme: dark;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
+
+:root[data-theme='light'] {
+  --color-bg: #f3f4f6;
+  --color-panel: #ffffff;
+  --color-text: #0f172a;
+  --color-border: #cbd5e1;
+  color-scheme: light;
+}
+
+:root[data-theme='system'] {
+  color-scheme: light dark;
+}
+
+@media (prefers-color-scheme: light) {
+  :root[data-theme='system'] {
+    --color-bg: #f3f4f6;
+    --color-panel: #ffffff;
+    --color-text: #0f172a;
+    --color-border: #cbd5e1;
+  }
+}
+
 * { box-sizing: border-box; }
 body { margin: 0; }
-button, textarea { font: inherit; }
+button, textarea, select { font: inherit; }

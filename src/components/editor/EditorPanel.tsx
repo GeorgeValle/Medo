@@ -23,12 +23,14 @@ import {
 } from 'lucide-react';
 import styles from './EditorPanel.module.css';
 import { applyMarkdownFormat, type MarkdownFormatAction } from '../../lib/markdown/applyMarkdownFormat';
+import type { EditorFontSizePreference } from '../../lib/app/preferences';
 
 type Props = {
   value: string;
   onChange: (value: string) => void;
   onEditorScroll?: (progress: number) => void;
   headerMenu?: ReactNode;
+  editorFontSize?: EditorFontSizePreference;
 };
 
 const editorTheme = EditorView.theme({
@@ -91,7 +93,7 @@ const iconButtons: Array<{ label: string; action: MarkdownFormatAction; icon: ty
   { label: 'Separador', action: 'separator', icon: Minus }
 ];
 
-export function EditorPanel({ value, onChange, onEditorScroll, headerMenu }: Props) {
+export function EditorPanel({ value, onChange, onEditorScroll, headerMenu, editorFontSize = 'normal' }: Props) {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const viewRef = useRef<EditorView | null>(null);
   const onChangeRef = useRef(onChange);
@@ -176,7 +178,7 @@ export function EditorPanel({ value, onChange, onEditorScroll, headerMenu }: Pro
   }, [value]);
 
   return (
-    <section className={styles.panel}>
+    <section className={`${styles.panel} ${styles[`fontSize${editorFontSize[0].toUpperCase()}${editorFontSize.slice(1)}`]}`}>
       <div className={styles.panelHeader}>
         {headerMenu}
         <h2>Editor Markdown</h2>
