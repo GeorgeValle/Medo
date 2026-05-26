@@ -2,11 +2,11 @@ import { useEffect, useRef, useState, type KeyboardEvent as ReactKeyboardEvent }
 import styles from './Toolbar.module.css';
 import medoHead from '../../assets/brand/medo-head.png';
 
-type Props = { onNew: () => void; onOpen: () => void; onSave: () => void; onSaveAs: () => void; onExportHtml: () => void; onExportPdf: () => void; onHelp: () => void; onAbout: () => void };
+type Props = { onNew: () => void; onOpen: () => void; onSave: () => void; onSaveAs: () => void; onExportHtml: () => void; onExportPdf: () => void; onHelp: () => void; onPreferences: () => void; onAbout: () => void };
 
 type MenuAction = { label: string; onSelect: () => void };
 
-export function Toolbar({ onNew, onOpen, onSave, onSaveAs, onExportHtml, onExportPdf, onHelp, onAbout }: Props) {
+export function Toolbar({ onNew, onOpen, onSave, onSaveAs, onExportHtml, onExportPdf, onHelp, onPreferences, onAbout }: Props) {
   const [isOpen, setIsOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement | null>(null);
   const buttonRef = useRef<HTMLButtonElement | null>(null);
@@ -20,6 +20,7 @@ export function Toolbar({ onNew, onOpen, onSave, onSaveAs, onExportHtml, onExpor
     { label: 'Exportar HTML', onSelect: onExportHtml },
     { label: 'Imprimir / Guardar como PDF', onSelect: onExportPdf },
     { label: 'Manual de uso', onSelect: onHelp },
+    { label: 'Preferencias', onSelect: onPreferences },
     { label: 'Acerca', onSelect: onAbout }
   ];
 

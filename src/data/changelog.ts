@@ -7,6 +7,17 @@ export type ChangelogEntry = {
 
 export const changelogEntries: ChangelogEntry[] = [
   {
+    version: '0.8.0',
+    date: '2026-05-25',
+    title: 'Preferencias locales y UX persistente',
+    changes: [
+      'Se agregaron preferencias locales persistentes y versionadas (`medo.preferences.v1`) separadas del borrador local (`medo.localDraft.v1`).',
+      'Se incorporó preferencia de tema (Sistema/Oscuro/Claro) con persistencia entre reinicios y aplicación por `data-theme` sin romper el tema oscuro existente.',
+      'Se agregó preferencia persistente de tamaño de fuente del editor (Pequeño/Normal/Grande) con modal simple de Preferencias desde el menú Medo.',
+      'No se modificó el cierre nativo de ventana ni la lógica de borrador local, y Exportar HTML + Imprimir/Guardar como PDF se mantienen intactos.'
+    ]
+  },
+  {
     version: '0.7.2',
     date: '2026-05-24',
     title: 'Hotfix de impresión para Guardar como PDF en Tauri/Windows',

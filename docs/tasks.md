@@ -13,7 +13,7 @@
 # Tasks
 
 ## Estado general
-En progreso: v0.7.2 hotfix del flujo Imprimir / Guardar como PDF en Tauri/Windows.
+Completado: v0.8.0 Preferencias locales y UX persistente.
 
 ## Fase actual
 Phase 05 - Release.
@@ -41,6 +41,9 @@ Phase 05 - Release.
 - [ ] Validación manual final en Windows instalado
 
 ## Completadas
+- Follow-up v0.8.0 fix de contraste para código inline en preview (esta iteración): se agregaron variables semánticas `--color-inline-code-bg`, `--color-inline-code-text` y `--color-inline-code-border` en `global.css` con valores seguros para oscuro/claro/sistema, y el selector `.preview :not(pre) > code` ahora consume estas variables para mantener legibilidad en tema claro sin alterar el estilo de bloques de código fenced.
+- Follow-up v0.8.0 fix de contraste tema claro/sistema (esta iteración): se introdujeron variables semánticas de tema en `global.css` para editor/controles/modales/foco, CodeMirror y toolbar del editor ahora consumen esas variables (sin colores oscuros hardcodeados), y se migraron controles del modal de Preferencias y del modal principal de la app para mantener contraste legible en tema oscuro, claro y sistema.
+- v0.8.0 (esta iteración): preferencias locales versionadas `medo.preferences.v1` separadas del borrador local `medo.localDraft.v1`; modal de Preferencias en menú Medo con tema persistente (`system/dark/light`) y tamaño de fuente del editor persistente (`small/normal/large`); sin cambios en cierre nativo, sin cambios en lógica de borrador local, y sin cambios funcionales en Exportar HTML ni en Imprimir / Guardar como PDF. Advertencia permanente: no reintroducir `onCloseRequested`, `getCurrentWindow().close()` ni `pendingAction = "close"`.
 - Follow-up v0.7.2 fix P2 review (esta iteración): `exportDocumentAsPdf` ahora envuelve `focus()/print()` en `try/finally` para programar siempre `cleanupFrame(iframe)` incluso si el entorno WebView/printer lanza excepción; se preserva el error original y se mantiene el camino inmediato `iframe.remove()` cuando `contentWindow/print` no está disponible. Se agregó test unitario para validar que si `print()` falla, el iframe igual se limpia por timer.
 - Hotfix v0.7.2 PDF/impresión (esta iteración): se retiró la dependencia de `window.open()` por baja confiabilidad en Tauri/WebView Windows y se implementó impresión del sistema con `iframe` temporal oculto que escribe el mismo HTML limpio de Exportar HTML; el flujo ya no solicita ruta `.pdf` previa porque no existe exportación silenciosa directa a archivo, y se corrigió además el error TypeScript TS2493 en `pdfExport.test.ts` ajustando mocks/tests al nuevo mecanismo. Mantener advertencia permanente: no reintroducir `onCloseRequested`, `getCurrentWindow().close()` ni `pendingAction = "close"`.
 - Follow-up v0.7.1 fix review (esta iteración): el popup de impresión PDF en Windows ahora se abre sin `noopener/noreferrer` para conservar un handle válido (`window.open`) y evitar `null` en WebView moderno; se agregó cobertura unitaria para verificar explícitamente que el flujo abre `open("", "_blank")`, escribe HTML limpio y ejecuta `print()`, manteniendo cancelación (`false`) y fallback no-Windows con mensaje claro.

@@ -3,8 +3,71 @@
   --color-panel: #1f2937;
   --color-text: #e5e7eb;
   --color-border: #374151;
+  --color-editor-bg: #0f172a;
+  --color-editor-text: #e5e7eb;
+  --color-control-bg: #101a2b;
+  --color-control-text: #e5e7eb;
+  --color-modal-bg: #0f172a;
+  --color-muted-text: #d1d5db;
+  --color-focus: #facc15;
+  --color-inline-code-bg: rgba(148, 163, 184, 0.2);
+  --color-inline-code-text: #f8fafc;
+  --color-inline-code-border: rgba(148, 163, 184, 0.35);
+  color-scheme: dark;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
+
+:root[data-theme='light'] {
+  --color-bg: #f3f4f6;
+  --color-panel: #ffffff;
+  --color-text: #0f172a;
+  --color-border: #cbd5e1;
+  --color-editor-bg: #ffffff;
+  --color-editor-text: #0f172a;
+  --color-control-bg: #ffffff;
+  --color-control-text: #0f172a;
+  --color-modal-bg: #ffffff;
+  --color-muted-text: #334155;
+  --color-focus: #2563eb;
+  --color-inline-code-bg: #e2e8f0;
+  --color-inline-code-text: #0f172a;
+  --color-inline-code-border: #cbd5e1;
+  color-scheme: light;
+}
+
+:root[data-theme='system'] {
+  color-scheme: light dark;
+  --color-editor-bg: #0f172a;
+  --color-editor-text: #e5e7eb;
+  --color-control-bg: #101a2b;
+  --color-control-text: #e5e7eb;
+  --color-modal-bg: #0f172a;
+  --color-muted-text: #d1d5db;
+  --color-focus: #facc15;
+  --color-inline-code-bg: rgba(148, 163, 184, 0.2);
+  --color-inline-code-text: #f8fafc;
+  --color-inline-code-border: rgba(148, 163, 184, 0.35);
+}
+
+@media (prefers-color-scheme: light) {
+  :root[data-theme='system'] {
+    --color-bg: #f3f4f6;
+    --color-panel: #ffffff;
+    --color-text: #0f172a;
+    --color-border: #cbd5e1;
+    --color-editor-bg: #ffffff;
+    --color-editor-text: #0f172a;
+    --color-control-bg: #ffffff;
+    --color-control-text: #0f172a;
+    --color-modal-bg: #ffffff;
+    --color-muted-text: #334155;
+    --color-focus: #2563eb;
+    --color-inline-code-bg: #e2e8f0;
+    --color-inline-code-text: #0f172a;
+    --color-inline-code-border: #cbd5e1;
+  }
+}
+
 * { box-sizing: border-box; }
 body { margin: 0; }
-button, textarea { font: inherit; }
+button, textarea, select { font: inherit; }

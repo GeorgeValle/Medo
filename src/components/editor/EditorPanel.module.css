@@ -30,8 +30,8 @@
 
 .formatToolbar select,
 .iconButton {
-  background: #0f172a;
-  color: var(--color-text);
+  background: var(--color-control-bg);
+  color: var(--color-control-text);
   border: 1px solid var(--color-border);
   border-radius: 6px;
 }
@@ -50,9 +50,9 @@
   transition: border-color 120ms ease, background-color 120ms ease, color 120ms ease;
 }
 
-.iconButton:hover { border-color: #64748b; color: #f8fafc; }
-.iconButton:active { background: #1e293b; }
-.iconButton:focus-visible { outline: 2px solid #facc15; outline-offset: 1px; }
+.iconButton:hover { border-color: #64748b; color: var(--color-text); }
+.iconButton:active { background: color-mix(in srgb, var(--color-control-bg) 65%, var(--color-text) 35%); }
+.iconButton:focus-visible { outline: 2px solid var(--color-focus); outline-offset: 1px; }
 
 .tooltip {
   position: absolute;
@@ -61,9 +61,9 @@
   transform: translateX(-50%) translateY(2px);
   pointer-events: none;
   white-space: nowrap;
-  background: #020617;
-  border: 1px solid #334155;
-  color: #f8fafc;
+  background: var(--color-modal-bg);
+  border: 1px solid var(--color-border);
+  color: var(--color-text);
   border-radius: 6px;
   padding: 0.2rem 0.4rem;
   font-size: 0.72rem;
@@ -85,9 +85,21 @@
   min-height: 340px;
   height: 100%;
   overflow: auto;
-  background: #0f172a;
+  background: var(--color-editor-bg);
   border: 1px solid var(--color-border);
   border-radius: 6px;
   min-width: 0;
   max-width: 100%;
+}
+
+.fontSizeSmall .editor :global(.cm-content) {
+  font-size: 0.9rem;
+}
+
+.fontSizeNormal .editor :global(.cm-content) {
+  font-size: 1rem;
+}
+
+.fontSizeLarge .editor :global(.cm-content) {
+  font-size: 1.1rem;
 }

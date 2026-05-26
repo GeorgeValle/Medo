@@ -23,22 +23,24 @@ import {
 } from 'lucide-react';
 import styles from './EditorPanel.module.css';
 import { applyMarkdownFormat, type MarkdownFormatAction } from '../../lib/markdown/applyMarkdownFormat';
+import type { EditorFontSizePreference } from '../../lib/app/preferences';
 
 type Props = {
   value: string;
   onChange: (value: string) => void;
   onEditorScroll?: (progress: number) => void;
   headerMenu?: ReactNode;
+  editorFontSize?: EditorFontSizePreference;
 };
 
 const editorTheme = EditorView.theme({
   '&': { height: '100%' },
-  '.cm-content, .cm-gutters': { backgroundColor: '#0f172a', color: 'var(--color-text)' },
-  '.cm-content': { caretColor: '#facc15' },
-  '.cm-cursor': { borderLeftColor: '#facc15', borderLeftWidth: '2px' },
+  '.cm-content, .cm-gutters': { backgroundColor: 'var(--color-editor-bg)', color: 'var(--color-editor-text)' },
+  '.cm-content': { caretColor: 'var(--color-focus)' },
+  '.cm-cursor': { borderLeftColor: 'var(--color-focus)', borderLeftWidth: '2px' },
   '.cm-dropCursor': { borderLeftColor: '#ffffff', borderLeftWidth: '2px' },
-  '&.cm-focused .cm-cursor': { borderLeftColor: '#facc15' },
-  '&.cm-focused': { outline: '1px solid #facc15' },
+  '&.cm-focused .cm-cursor': { borderLeftColor: 'var(--color-focus)' },
+  '&.cm-focused': { outline: '1px solid var(--color-focus)' },
   '.cm-selectionBackground, &.cm-focused .cm-selectionBackground, ::selection': { backgroundColor: 'rgba(250, 204, 21, 0.3)' },
   '.cm-scroller': { overflow: 'auto', maxWidth: '100%' }
 });
@@ -91,7 +93,7 @@ const iconButtons: Array<{ label: string; action: MarkdownFormatAction; icon: ty
   { label: 'Separador', action: 'separator', icon: Minus }
 ];
 
-export function EditorPanel({ value, onChange, onEditorScroll, headerMenu }: Props) {
+export function EditorPanel({ value, onChange, onEditorScroll, headerMenu, editorFontSize = 'normal' }: Props) {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const viewRef = useRef<EditorView | null>(null);
   const onChangeRef = useRef(onChange);
@@ -176,7 +178,7 @@ export function EditorPanel({ value, onChange, onEditorScroll, headerMenu }: Pro
   }, [value]);
 
   return (
-    <section className={styles.panel}>
+    <section className={`${styles.panel} ${styles[`fontSize${editorFontSize[0].toUpperCase()}${editorFontSize.slice(1)}`]}`}>
       <div className={styles.panelHeader}>
         {headerMenu}
         <h2>Editor Markdown</h2>
