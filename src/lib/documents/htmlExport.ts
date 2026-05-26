@@ -33,6 +33,50 @@ blockquote {
   border-left: 4px solid #3f5f94;
   padding: 0 0 0 12px;
   color: #bccbe6;
+}
+
+@media print {
+  :root {
+    color-scheme: light;
+  }
+
+  body {
+    background: #ffffff !important;
+    color: #111827 !important;
+  }
+
+  main {
+    color: #111827 !important;
+  }
+
+  h1, h2, h3, h4, h5, h6,
+  p, li, td, th, blockquote {
+    color: #111827 !important;
+  }
+
+  a {
+    color: #1d4ed8 !important;
+  }
+
+  code {
+    color: #111827 !important;
+    background: #f1f5f9 !important;
+    border: 1px solid #cbd5e1 !important;
+    border-radius: 4px;
+    padding: 0.1em 0.3em;
+  }
+
+  pre {
+    background: #f8fafc !important;
+    border-color: #cbd5e1 !important;
+  }
+
+  pre code {
+    color: #111827 !important;
+    background: transparent !important;
+    border: 0 !important;
+    padding: 0;
+  }
 }`;
 
 export function escapeHtml(input: string): string {
