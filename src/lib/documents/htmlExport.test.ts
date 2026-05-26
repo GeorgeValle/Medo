@@ -41,6 +41,17 @@ describe('htmlExport', () => {
     expect(html).toContain('max-width: 960px');
   });
 
+  it('incluye reglas @media print para impresión/PDF legible', () => {
+    const html = buildStandaloneHtmlDocument('Nota', 'Texto con `code` y [link](https://example.com)');
+    expect(html).toContain('@media print');
+    expect(html).toContain('color-scheme: light;');
+    expect(html).toContain('background: #ffffff !important;');
+    expect(html).toContain('color: #111827 !important;');
+    expect(html).toContain('a {');
+    expect(html).toContain('code {');
+    expect(html).toContain('pre code {');
+  });
+
   it('mantiene HTML crudo escapado del markdown', () => {
     const html = buildStandaloneHtmlDocument('Nota', '<div>hola</div>');
     expect(html).toContain('&lt;div&gt;hola&lt;/div&gt;');

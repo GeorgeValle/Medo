@@ -7,6 +7,17 @@ export type ChangelogEntry = {
 
 export const changelogEntries: ChangelogEntry[] = [
   {
+    version: '0.8.1',
+    date: '2026-05-26',
+    title: 'Mejora de legibilidad en impresión y PDF',
+    changes: [
+      'Se agregaron reglas `@media print` al HTML standalone para forzar impresión en fondo blanco y texto oscuro de alto contraste.',
+      'Se reforzó la legibilidad de encabezados, párrafos, listas, enlaces y citas en salida impresa/PDF, evitando tonos grises pálidos.',
+      'Se mejoró el contraste de `code` inline y bloques `pre code` para impresión/PDF sin alterar el preview ni los temas de la app.',
+      'Exportar HTML e Imprimir / Guardar como PDF se mantienen funcionando, sin tocar cierre nativo ni borrador local.'
+    ]
+  },
+  {
     version: '0.8.0',
     date: '2026-05-25',
     title: 'Preferencias locales y UX persistente',

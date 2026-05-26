@@ -1,4 +1,4 @@
-## Estado actual (v0.7.2 - 2026-05-24)
+## Estado actual (v0.8.1 - 2026-05-26)
 - Objetivo de esta iteración: implementación inicial de Exportar PDF en Windows reutilizando HTML limpio exportable.
 - Decisión técnica adoptada: se mantiene `src/lib/documents/pdfExport.ts` como orquestador y se activa flujo de impresión del sistema en Windows desde HTML limpio (`buildPdfSourceHtml`) para “Imprimir / Guardar como PDF”.
 - Alcance exacto: Windows habilitado con diálogo de impresión del sistema; macOS/Linux muestran mensaje claro de alcance inicial y recomiendan Exportar HTML o Imprimir / Guardar como PDF.
@@ -13,7 +13,7 @@
 # Tasks
 
 ## Estado general
-Completado: v0.8.0 Preferencias locales y UX persistente.
+Completado: v0.8.1 legibilidad de impresión/PDF.
 
 ## Fase actual
 Phase 05 - Release.
@@ -41,6 +41,7 @@ Phase 05 - Release.
 - [ ] Validación manual final en Windows instalado
 
 ## Completadas
+- v0.8.1 (esta iteración): se agregaron estilos `@media print` al HTML limpio standalone para forzar fondo blanco y tipografía oscura legible en impresión/Guardar como PDF (headings, párrafos, listas, links, code inline y `pre code`), sin alterar preview interno ni temas claro/oscuro de la app; Exportar HTML e Imprimir/Guardar como PDF se mantienen, y no se tocó cierre nativo ni borrador local. Advertencia permanente: no reintroducir `onCloseRequested`, `getCurrentWindow().close()` ni `pendingAction = "close"`.
 - Follow-up v0.8.0 fix de contraste para código inline en preview (esta iteración): se agregaron variables semánticas `--color-inline-code-bg`, `--color-inline-code-text` y `--color-inline-code-border` en `global.css` con valores seguros para oscuro/claro/sistema, y el selector `.preview :not(pre) > code` ahora consume estas variables para mantener legibilidad en tema claro sin alterar el estilo de bloques de código fenced.
 - Follow-up v0.8.0 fix de contraste tema claro/sistema (esta iteración): se introdujeron variables semánticas de tema en `global.css` para editor/controles/modales/foco, CodeMirror y toolbar del editor ahora consumen esas variables (sin colores oscuros hardcodeados), y se migraron controles del modal de Preferencias y del modal principal de la app para mantener contraste legible en tema oscuro, claro y sistema.
 - v0.8.0 (esta iteración): preferencias locales versionadas `medo.preferences.v1` separadas del borrador local `medo.localDraft.v1`; modal de Preferencias en menú Medo con tema persistente (`system/dark/light`) y tamaño de fuente del editor persistente (`small/normal/large`); sin cambios en cierre nativo, sin cambios en lógica de borrador local, y sin cambios funcionales en Exportar HTML ni en Imprimir / Guardar como PDF. Advertencia permanente: no reintroducir `onCloseRequested`, `getCurrentWindow().close()` ni `pendingAction = "close"`.
