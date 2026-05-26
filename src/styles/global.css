@@ -3,6 +3,13 @@
   --color-panel: #1f2937;
   --color-text: #e5e7eb;
   --color-border: #374151;
+  --color-editor-bg: #0f172a;
+  --color-editor-text: #e5e7eb;
+  --color-control-bg: #101a2b;
+  --color-control-text: #e5e7eb;
+  --color-modal-bg: #0f172a;
+  --color-muted-text: #d1d5db;
+  --color-focus: #facc15;
   color-scheme: dark;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
@@ -12,11 +19,25 @@
   --color-panel: #ffffff;
   --color-text: #0f172a;
   --color-border: #cbd5e1;
+  --color-editor-bg: #ffffff;
+  --color-editor-text: #0f172a;
+  --color-control-bg: #ffffff;
+  --color-control-text: #0f172a;
+  --color-modal-bg: #ffffff;
+  --color-muted-text: #334155;
+  --color-focus: #2563eb;
   color-scheme: light;
 }
 
 :root[data-theme='system'] {
   color-scheme: light dark;
+  --color-editor-bg: #0f172a;
+  --color-editor-text: #e5e7eb;
+  --color-control-bg: #101a2b;
+  --color-control-text: #e5e7eb;
+  --color-modal-bg: #0f172a;
+  --color-muted-text: #d1d5db;
+  --color-focus: #facc15;
 }
 
 @media (prefers-color-scheme: light) {
@@ -25,6 +46,13 @@
     --color-panel: #ffffff;
     --color-text: #0f172a;
     --color-border: #cbd5e1;
+    --color-editor-bg: #ffffff;
+    --color-editor-text: #0f172a;
+    --color-control-bg: #ffffff;
+    --color-control-text: #0f172a;
+    --color-modal-bg: #ffffff;
+    --color-muted-text: #334155;
+    --color-focus: #2563eb;
   }
 }
 
