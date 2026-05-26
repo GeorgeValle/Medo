@@ -10,6 +10,9 @@
   --color-modal-bg: #0f172a;
   --color-muted-text: #d1d5db;
   --color-focus: #facc15;
+  --color-inline-code-bg: rgba(148, 163, 184, 0.2);
+  --color-inline-code-text: #f8fafc;
+  --color-inline-code-border: rgba(148, 163, 184, 0.35);
   color-scheme: dark;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
@@ -26,6 +29,9 @@
   --color-modal-bg: #ffffff;
   --color-muted-text: #334155;
   --color-focus: #2563eb;
+  --color-inline-code-bg: #e2e8f0;
+  --color-inline-code-text: #0f172a;
+  --color-inline-code-border: #cbd5e1;
   color-scheme: light;
 }
 
@@ -38,6 +44,9 @@
   --color-modal-bg: #0f172a;
   --color-muted-text: #d1d5db;
   --color-focus: #facc15;
+  --color-inline-code-bg: rgba(148, 163, 184, 0.2);
+  --color-inline-code-text: #f8fafc;
+  --color-inline-code-border: rgba(148, 163, 184, 0.35);
 }
 
 @media (prefers-color-scheme: light) {
@@ -53,6 +62,9 @@
     --color-modal-bg: #ffffff;
     --color-muted-text: #334155;
     --color-focus: #2563eb;
+    --color-inline-code-bg: #e2e8f0;
+    --color-inline-code-text: #0f172a;
+    --color-inline-code-border: #cbd5e1;
   }
 }
 
