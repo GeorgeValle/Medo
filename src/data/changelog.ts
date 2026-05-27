@@ -7,6 +7,17 @@ export type ChangelogEntry = {
 
 export const changelogEntries: ChangelogEntry[] = [
   {
+    version: '0.8.2',
+    date: '2026-05-27',
+    title: 'Polish visual del espacio inferior del workspace',
+    changes: [
+      'Se estabilizó el layout vertical principal para que el workspace use mejor la altura disponible y reduzca claramente la franja vacía inferior.',
+      'Se ajustó la posición de la línea separadora inferior para dejarla más cerca del borde inferior, con un margen final más prolijo.',
+      'Se mantuvo el scroll interno independiente en editor y preview sin introducir scroll vertical global de ventana.',
+      'No hubo cambios en cierre nativo, borrador local, Exportar HTML, Imprimir / Guardar como PDF ni preferencias locales.'
+    ]
+  },
+  {
     version: '0.8.1',
     date: '2026-05-26',
     title: 'Mejora de legibilidad en impresión y PDF',
