@@ -1,19 +1,22 @@
-## Estado actual (v0.9.1 - 2026-05-28)
-- Objetivo de esta iteración: hotfix release candidate 0.9.1 para corregir versionado/metadata, ruta UNC WSL en README y contraste del Manual de uso en tema claro.
-- Decisión técnica adoptada: mantener alcance sin features nuevas y aplicar solo fixes de documentación, metadatos de versión y estilos del modal de ayuda basados en variables semánticas de tema.
-- Alcance exacto: bump de versión a `0.9.1` (frontend + Tauri/Rust), corrección de ejemplo UNC WSL pegable en README y mejora de legibilidad del Manual de uso en tema claro/oscuro.
-- Exportar HTML e Imprimir / Guardar como PDF permanecen intactos; no se tocó cierre nativo, borrador local ni flujo de Nuevo/Abrir/Guardar/Guardar como.
+## Estado actual (v0.9.2 - 2026-05-28)
+- Objetivo de esta iteración: release candidate/documentación 0.9.2 para profesionalizar README, agregar licencia GPLv3 y alinear metadata antes de 1.0.0.
+- Decisión técnica adoptada: mantener el alcance limitado a documentación, licencia y versionado; no tocar lógica funcional ni configuración Tauri fuera de metadata de versión.
+- Alcance exacto: reescritura visual y semántica de `README.md`, agregado de `LICENSE` con GPLv3, `license` en `package.json`, `license` en `src-tauri/Cargo.toml`, bump de versión a `0.9.2` en frontend/Tauri/Rust y entrada de changelog.
+- Sin cambios en cierre nativo, borrador local, Nuevo/Abrir/Guardar/Guardar como, Exportar HTML, Imprimir / Guardar como PDF, preferencias locales ni integración WSL; no se ejecutó ni introdujo `wsl.exe`.
 - Advertencia permanente: no reintroducir `onCloseRequested`, `getCurrentWindow().close()` ni `pendingAction = "close"`.
 
-## Validaciones v0.7.2
-- Pendiente ejecutar: `pnpm lint`, `pnpm test`, `pnpm build`, `pnpm tauri:build`.
-- Resultado de build Tauri: documentar limitación de entorno si aplica (GTK/GLib/Linux runner) con causa, impacto y siguiente acción.
+## Validaciones v0.9.2
+- `pnpm install`: ejecutado correctamente; pnpm reportó lockfile actualizado y advirtió scripts de build ignorados para `esbuild` por política local de aprobación.
+- `pnpm lint`: ejecutado correctamente; TypeScript no reportó errores.
+- `pnpm test`: ejecutado correctamente; 10 archivos de test y 76 tests pasaron.
+- `pnpm build`: ejecutado correctamente; Vite generó `dist/` y mantuvo la advertencia existente de chunk mayor a 500 kB.
+- `pnpm tauri:build`: limitado por entorno Linux; falla al compilar `glib-sys` porque no está disponible `glib-2.0.pc`/GLib vía `pkg-config`. Impacto: no se puede validar el instalador Tauri/NSIS en este runner. Siguiente acción: ejecutar empaquetado final en Windows o en un runner Linux con dependencias GTK/GLib instaladas.
 
 - [x] v0.4.0: estado visible, confirmación anti-pérdida y borrador local implementado (incluye cierre seguro de ventana).
 # Tasks
 
 ## Estado general
-Completado: v0.9.1 hotfix de release candidate (versionado/metadata + README WSL + contraste del Manual en tema claro).
+Completado: v0.9.2 release candidate/documentación (README profesional + GPLv3 + metadata de versión/licencia).
 
 ## Fase actual
 Phase 05 - Release.
@@ -24,6 +27,7 @@ Phase 05 - Release.
 - 0.6.1 — Validación manual post-exportación y fixes chicos
 - 0.7.0 — Exportación PDF o editor Markdown avanzado
 - 0.8.0 — Preferencias locales y UX persistente
+- 0.9.2 — README profesional + GPLv3
 - 0.9.1 — Hotfix release candidate
 - 0.9.0 — Release candidate
 - 1.0.0 — Stable Windows
@@ -42,6 +46,7 @@ Phase 05 - Release.
 - [ ] Validación manual final en Windows instalado
 
 ## Completadas
+- v0.9.2 (release candidate/documentación, esta iteración): README reescrito con badges, secciones semánticas, funcionalidades, descarga futura sin enlaces inventados, desarrollo local, contacto, licencia y roadmap; agregado `LICENSE` GPLv3; metadata de licencia en `package.json` y `src-tauri/Cargo.toml`; versión alineada a `0.9.2` en `package.json`, `tauri.conf.json`, `Cargo.toml` y entrada `medo` de `Cargo.lock`; changelog actualizado. Sin cambios en cierre nativo, borrador local, filesystem, exportaciones, impresión/PDF ni preferencias locales.
 - v0.9.1 (hotfix RC, esta iteración): estado alineado a `v0.9.1`; corregido versionado/metadata en `package.json`, `tauri.conf.json`, `Cargo.toml` y entrada `medo` de `Cargo.lock`; corregida ruta UNC de WSL en README para formato pegable (`\\wsl$\Ubuntu\home\usuario\proyecto\README.md`); corregido contraste del Manual de uso en tema claro usando variables semánticas (sin hardcodes incompatibles). Sin cambios en cierre nativo, borrador local, filesystem ni exportaciones. Advertencia permanente: no reintroducir `onCloseRequested`, `getCurrentWindow().close()` ni `pendingAction = "close"`.
 - v0.9.0 (esta iteración): se documentó oficialmente que Medo puede abrir, editar y guardar archivos `.md` ubicados en WSL mediante rutas UNC de Windows (`\\\wsl$\\...`) pegadas en el diálogo Abrir; se validó manualmente el flujo abrir → editar → guardar y la verificación desde WSL con `cat`, sin integrar plugins WSL ni ejecutar `wsl.exe`, y sin cambios en cierre nativo, borrador local, Exportar HTML ni Imprimir / Guardar como PDF.
 - v0.8.2 (esta iteración): se aplicó polish visual del layout inferior reduciendo de forma notoria la franja vacía bajo el workspace y bajando la línea separadora inferior mediante estructura flex vertical más estable (`.app` en columna y `.workspace` flexible), manteniendo scroll interno en editor/preview sin scroll global de ventana; sin cambios en cierre nativo, borrador local, exportaciones ni preferencias. Advertencia permanente: no reintroducir `onCloseRequested`, `getCurrentWindow().close()` ni `pendingAction = "close"`.

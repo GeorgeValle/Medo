@@ -7,6 +7,17 @@ export type ChangelogEntry = {
 
 export const changelogEntries: ChangelogEntry[] = [
   {
+    version: '0.9.2',
+    date: '2026-05-28',
+    title: 'Pulido de README, licencia GPLv3 y metadata pre-1.0',
+    changes: [
+      'Se profesionalizó el README con título, badges, secciones semánticas, descripción del estado release candidate, funcionalidades, desarrollo local, roadmap, contacto y licencia.',
+      'Se agregó la licencia GNU General Public License v3.0 al repositorio y se declaró GPL-3.0-only en la metadata del paquete.',
+      'Se alineó la versión a 0.9.2 en frontend y Tauri/Rust como preparación documental previa a 1.0.0.',
+      'No hubo cambios en lógica funcional: cierre nativo, borrador local, Nuevo/Abrir/Guardar/Guardar como, Exportar HTML, Imprimir / Guardar como PDF y preferencias locales permanecen intactos.'
+    ]
+  },
+  {
     version: '0.9.1',
     date: '2026-05-28',
     title: 'Hotfix de release candidate: versionado, README WSL y legibilidad del Manual',

@@ -1,8 +1,9 @@
 [package]
 name = "medo"
-version = "0.9.1"
+version = "0.9.2"
 description = "Medo desktop app"
 authors = ["Medo Team"]
+license = "GPL-3.0-only"
 edition = "2021"
 
 [lib]
