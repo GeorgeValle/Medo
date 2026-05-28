@@ -104,6 +104,16 @@ export const userGuideSections: UserGuideSection[] = [
     ]
   },
   {
+    id: 'uso-con-wsl',
+    title: 'Uso con WSL (rutas UNC)',
+    items: [
+      'Plataforma oficial inicial: Windows.',
+      'Podés abrir archivos Markdown dentro de WSL pegando una ruta UNC en “Abrir”, por ejemplo `\\\\wsl$\\Ubuntu\\home\\usuario\\proyecto\\README.md`.',
+      'Luego podés editar y guardar normalmente desde Medo.',
+      'No hace falta plugin WSL ni ejecutar comandos WSL desde Medo: se usa el acceso de archivos Windows/WSL del host.'
+    ]
+  },
+  {
     id: 'consejos',
     title: 'Consejos',
     items: [

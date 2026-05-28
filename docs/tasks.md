@@ -1,4 +1,4 @@
-## Estado actual (v0.8.2 - 2026-05-27)
+## Estado actual (v0.9.0 - 2026-05-28)
 - Objetivo de esta iteración: polish visual del layout inferior para corregir definitivamente el espacio sobrante bajo el workspace en ventanas grandes.
 - Decisión técnica adoptada: migrar el layout principal a una columna flex estable (`.app` + `.workspace`) para depender menos de offsets mágicos y posicionar mejor el divisor inferior.
 - Alcance exacto: ajuste visual de `src/App.module.css` y retiro de `max-height` rígidos en paneles de editor/preview para ocupar altura disponible sin overflow global.
@@ -13,7 +13,7 @@
 # Tasks
 
 ## Estado general
-Completado: v0.8.2 polish visual del espacio inferior del workspace.
+Completado: v0.9.0 documentación y validación manual de uso con rutas UNC de WSL en Windows.
 
 ## Fase actual
 Phase 05 - Release.
@@ -41,6 +41,7 @@ Phase 05 - Release.
 - [ ] Validación manual final en Windows instalado
 
 ## Completadas
+- v0.9.0 (esta iteración): se documentó oficialmente que Medo puede abrir, editar y guardar archivos `.md` ubicados en WSL mediante rutas UNC de Windows (`\\\wsl$\\...`) pegadas en el diálogo Abrir; se validó manualmente el flujo abrir → editar → guardar y la verificación desde WSL con `cat`, sin integrar plugins WSL ni ejecutar `wsl.exe`, y sin cambios en cierre nativo, borrador local, Exportar HTML ni Imprimir / Guardar como PDF.
 - v0.8.2 (esta iteración): se aplicó polish visual del layout inferior reduciendo de forma notoria la franja vacía bajo el workspace y bajando la línea separadora inferior mediante estructura flex vertical más estable (`.app` en columna y `.workspace` flexible), manteniendo scroll interno en editor/preview sin scroll global de ventana; sin cambios en cierre nativo, borrador local, exportaciones ni preferencias. Advertencia permanente: no reintroducir `onCloseRequested`, `getCurrentWindow().close()` ni `pendingAction = "close"`.
 - v0.8.1 (esta iteración): se agregaron estilos `@media print` al HTML limpio standalone para forzar fondo blanco y tipografía oscura legible en impresión/Guardar como PDF (headings, párrafos, listas, links, code inline y `pre code`), sin alterar preview interno ni temas claro/oscuro de la app; Exportar HTML e Imprimir/Guardar como PDF se mantienen, y no se tocó cierre nativo ni borrador local. Advertencia permanente: no reintroducir `onCloseRequested`, `getCurrentWindow().close()` ni `pendingAction = "close"`.
 - Follow-up v0.8.0 fix de contraste para código inline en preview (esta iteración): se agregaron variables semánticas `--color-inline-code-bg`, `--color-inline-code-text` y `--color-inline-code-border` en `global.css` con valores seguros para oscuro/claro/sistema, y el selector `.preview :not(pre) > code` ahora consume estas variables para mantener legibilidad en tema claro sin alterar el estilo de bloques de código fenced.
@@ -110,7 +111,7 @@ Phase 05 - Release.
 - Confirmar usabilidad de barra de formato Markdown con selección y sin selección (incluye repetir H1/H2/H3 y numeración con líneas en blanco).
 - Validar manualmente UX de tabla (`Tabla`, `Fila`, `Columna`) en selección simple y multilinea.
 - Exportación PDF (idea futura, fuera de este PR).
-- Soporte de rutas WSL (idea futura, fuera de este PR).
+- [x] Validación manual de rutas WSL por UNC en Windows para abrir/editar/guardar `.md` (documentada en v0.9.0, sin integración nativa WSL).
 - Mejorar continuidad automática alfabética en casos avanzados (p. ej. salir de lista con línea vacía) como seguimiento futuro.
 
 ## Bloqueadas
