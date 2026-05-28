@@ -7,6 +7,17 @@ export type ChangelogEntry = {
 
 export const changelogEntries: ChangelogEntry[] = [
   {
+    version: '0.9.1',
+    date: '2026-05-28',
+    title: 'Hotfix de release candidate: versionado, README WSL y legibilidad del Manual',
+    changes: [
+      'Se alineó la metadata de versión a 0.9.1 en frontend y Tauri/Rust para evitar inconsistencias entre Acerca, changelog e instalador de release candidate.',
+      'Se corrigió en README el ejemplo de ruta UNC de WSL para que se vea y se pueda pegar tal cual en el diálogo Abrir de Windows, sin barras extra ni escapes incorrectos.',
+      'Se ajustaron estilos del Manual de uso para usar variables semánticas de tema y recuperar alto contraste en tema claro, manteniendo legibilidad también en tema oscuro.',
+      'No hubo cambios en cierre nativo, borrador local, filesystem ni flujos de exportación (HTML y Imprimir / Guardar como PDF).'
+    ]
+  },
+  {
     version: '0.9.0',
     date: '2026-05-28',
     title: 'Documentación y validación de uso con WSL por rutas UNC',

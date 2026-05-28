@@ -33,7 +33,7 @@ CodeMirror 6, markdown-it, Tauri API/plugins (dialog/fs/opener/os), Vitest.
 
 ## Uso con WSL
 - Plataforma oficial inicial: Windows.
-- Medo también puede trabajar con archivos Markdown dentro de WSL usando rutas UNC pegadas en el diálogo **Abrir** de Windows (por ejemplo: `\\\wsl$\\Ubuntu\\home\\usuario\\proyecto\\README.md`).
+- Medo también puede trabajar con archivos Markdown dentro de WSL usando rutas UNC pegadas en el diálogo **Abrir** de Windows (por ejemplo: `\\wsl$\Ubuntu\home\usuario\proyecto\README.md`).
 - Una vez abierto, el archivo se puede editar y guardar normalmente desde Medo.
 - Esta integración usa el acceso a archivos de Windows/WSL: no requiere plugin especial ni ejecutar comandos WSL desde Medo.
 

@@ -1,7 +1,7 @@
-## Estado actual (v0.9.0 - 2026-05-28)
-- Objetivo de esta iteración: polish visual del layout inferior para corregir definitivamente el espacio sobrante bajo el workspace en ventanas grandes.
-- Decisión técnica adoptada: migrar el layout principal a una columna flex estable (`.app` + `.workspace`) para depender menos de offsets mágicos y posicionar mejor el divisor inferior.
-- Alcance exacto: ajuste visual de `src/App.module.css` y retiro de `max-height` rígidos en paneles de editor/preview para ocupar altura disponible sin overflow global.
+## Estado actual (v0.9.1 - 2026-05-28)
+- Objetivo de esta iteración: hotfix release candidate 0.9.1 para corregir versionado/metadata, ruta UNC WSL en README y contraste del Manual de uso en tema claro.
+- Decisión técnica adoptada: mantener alcance sin features nuevas y aplicar solo fixes de documentación, metadatos de versión y estilos del modal de ayuda basados en variables semánticas de tema.
+- Alcance exacto: bump de versión a `0.9.1` (frontend + Tauri/Rust), corrección de ejemplo UNC WSL pegable en README y mejora de legibilidad del Manual de uso en tema claro/oscuro.
 - Exportar HTML e Imprimir / Guardar como PDF permanecen intactos; no se tocó cierre nativo, borrador local ni flujo de Nuevo/Abrir/Guardar/Guardar como.
 - Advertencia permanente: no reintroducir `onCloseRequested`, `getCurrentWindow().close()` ni `pendingAction = "close"`.
 
@@ -13,7 +13,7 @@
 # Tasks
 
 ## Estado general
-Completado: v0.9.0 documentación y validación manual de uso con rutas UNC de WSL en Windows.
+Completado: v0.9.1 hotfix de release candidate (versionado/metadata + README WSL + contraste del Manual en tema claro).
 
 ## Fase actual
 Phase 05 - Release.
@@ -24,6 +24,7 @@ Phase 05 - Release.
 - 0.6.1 — Validación manual post-exportación y fixes chicos
 - 0.7.0 — Exportación PDF o editor Markdown avanzado
 - 0.8.0 — Preferencias locales y UX persistente
+- 0.9.1 — Hotfix release candidate
 - 0.9.0 — Release candidate
 - 1.0.0 — Stable Windows
 
@@ -41,6 +42,7 @@ Phase 05 - Release.
 - [ ] Validación manual final en Windows instalado
 
 ## Completadas
+- v0.9.1 (hotfix RC, esta iteración): estado alineado a `v0.9.1`; corregido versionado/metadata en `package.json`, `tauri.conf.json`, `Cargo.toml` y entrada `medo` de `Cargo.lock`; corregida ruta UNC de WSL en README para formato pegable (`\\wsl$\Ubuntu\home\usuario\proyecto\README.md`); corregido contraste del Manual de uso en tema claro usando variables semánticas (sin hardcodes incompatibles). Sin cambios en cierre nativo, borrador local, filesystem ni exportaciones. Advertencia permanente: no reintroducir `onCloseRequested`, `getCurrentWindow().close()` ni `pendingAction = "close"`.
 - v0.9.0 (esta iteración): se documentó oficialmente que Medo puede abrir, editar y guardar archivos `.md` ubicados en WSL mediante rutas UNC de Windows (`\\\wsl$\\...`) pegadas en el diálogo Abrir; se validó manualmente el flujo abrir → editar → guardar y la verificación desde WSL con `cat`, sin integrar plugins WSL ni ejecutar `wsl.exe`, y sin cambios en cierre nativo, borrador local, Exportar HTML ni Imprimir / Guardar como PDF.
 - v0.8.2 (esta iteración): se aplicó polish visual del layout inferior reduciendo de forma notoria la franja vacía bajo el workspace y bajando la línea separadora inferior mediante estructura flex vertical más estable (`.app` en columna y `.workspace` flexible), manteniendo scroll interno en editor/preview sin scroll global de ventana; sin cambios en cierre nativo, borrador local, exportaciones ni preferencias. Advertencia permanente: no reintroducir `onCloseRequested`, `getCurrentWindow().close()` ni `pendingAction = "close"`.
 - v0.8.1 (esta iteración): se agregaron estilos `@media print` al HTML limpio standalone para forzar fondo blanco y tipografía oscura legible en impresión/Guardar como PDF (headings, párrafos, listas, links, code inline y `pre code`), sin alterar preview interno ni temas claro/oscuro de la app; Exportar HTML e Imprimir/Guardar como PDF se mantienen, y no se tocó cierre nativo ni borrador local. Advertencia permanente: no reintroducir `onCloseRequested`, `getCurrentWindow().close()` ni `pendingAction = "close"`.
