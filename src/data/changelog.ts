@@ -7,6 +7,17 @@ export type ChangelogEntry = {
 
 export const changelogEntries: ChangelogEntry[] = [
   {
+    version: '0.9.0',
+    date: '2026-05-28',
+    title: 'Documentación y validación de uso con WSL por rutas UNC',
+    changes: [
+      'Se documentó en README y en el Manual de uso que Medo puede abrir archivos Markdown dentro de WSL pegando rutas UNC en el diálogo Abrir de Windows (por ejemplo `\\\\wsl$\\Ubuntu\\home\\usuario\\proyecto\\README.md`).',
+      'Se validó manualmente el flujo completo: abrir archivo .md desde `\\\\wsl$\\...`, editar en Medo, guardar y verificar cambios desde WSL con `cat`.',
+      'No se agregó integración nativa WSL ni ejecución de comandos WSL desde Medo; la capacidad depende del acceso de archivos Windows/WSL del host.',
+      'Windows se mantiene como plataforma oficial inicial, sin cambios en cierre nativo, borrador local, Exportar HTML o Imprimir / Guardar como PDF.'
+    ]
+  },
+  {
     version: '0.8.2',
     date: '2026-05-27',
     title: 'Polish visual del espacio inferior del workspace',
