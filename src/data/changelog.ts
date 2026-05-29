@@ -7,6 +7,17 @@ export type ChangelogEntry = {
 
 export const changelogEntries: ChangelogEntry[] = [
   {
+    version: '0.9.3',
+    date: '2026-05-29',
+    title: 'Polish visual del menú Medo por tema',
+    changes: [
+      'Se ajustó el botón y menú Medo para conservar apariencia oscura en tema claro y usar apariencia clara de alto contraste en tema oscuro.',
+      'El contraste del menú ahora se invierte respecto del tema activo de la app, incluyendo el modo sistema según la preferencia del sistema operativo.',
+      'Se mantuvieron visibles los estados hover, active y focus del botón y las opciones del menú.',
+      'No hubo cambios funcionales: cierre nativo, borrador local, Nuevo/Abrir/Guardar/Guardar como, Exportar HTML, Imprimir / Guardar como PDF y preferencias locales permanecen intactos.'
+    ]
+  },
+  {
     version: '0.9.2',
     date: '2026-05-28',
     title: 'Pulido de README, licencia GPLv3 y metadata pre-1.0',
