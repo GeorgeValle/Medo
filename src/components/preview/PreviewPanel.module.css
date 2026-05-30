@@ -93,11 +93,16 @@
   border-radius: 0.6rem;
   padding: 0.75rem;
   overflow-x: auto;
+  width: 100%;
   max-width: 100%;
   box-sizing: border-box;
 }
 
 .preview pre code {
+  display: block;
+  width: max-content;
+  min-width: 100%;
+  max-width: none;
   background: transparent;
   border: 0;
   border-radius: 0;
@@ -105,13 +110,15 @@
   color: #86efac;
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
   font-size: 0.9rem;
-  white-space: pre-wrap;
-  overflow-wrap: anywhere;
-  word-break: break-word;
+  white-space: pre;
+  overflow-wrap: normal;
+  word-break: normal;
 }
 
 .preview :global(.codeBlockWrap) {
   position: relative;
+  min-width: 0;
+  max-width: 100%;
 }
 
 .preview :global(.codeCopyButton) {
@@ -204,14 +211,14 @@
 
 .preview th,
 .preview td {
-  border: 1px solid #cbd5e1;
+  border: 1px solid var(--color-table-border);
   padding: 0.35rem 0.6rem;
   text-align: left;
 }
 
 .preview th {
-  background: rgba(148, 163, 184, 0.18);
-  color: #f8fafc;
+  background: var(--color-table-header-bg);
+  color: var(--color-table-header-text);
   font-weight: 700;
 }
 
