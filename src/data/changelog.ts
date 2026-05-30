@@ -7,6 +7,18 @@ export type ChangelogEntry = {
 
 export const changelogEntries: ChangelogEntry[] = [
   {
+    version: '0.9.6',
+    date: '2026-05-30',
+    title: 'Anchors internos y tabla de contenidos',
+    changes: [
+      'Se agregó soporte para enlaces internos con `#anchor`, por ejemplo `[Vista general](#vista-general)`, para navegar dentro del mismo documento Markdown.',
+      'Los headings renderizados en la vista previa ahora reciben IDs estables, con slugs en español y resolución de duplicados (`intro`, `intro-2`, `intro-3`).',
+      'Se incorporó una acción en la toolbar del editor para insertar una tabla de contenidos básica generada desde los headings existentes.',
+      'Exportar HTML conserva los mismos IDs en headings y mantiene los links internos funcionando en el archivo standalone, sin incluir UI interna de Medo.',
+      'No hubo cambios en cierre nativo, borrador local, Nuevo/Abrir/Guardar/Guardar como, Exportar HTML, Imprimir / Guardar como PDF ni preferencias locales.'
+    ]
+  },
+  {
     version: '0.9.5',
     date: '2026-05-30',
     title: 'Polish visual del preview Markdown',

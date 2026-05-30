@@ -26,4 +26,11 @@ describe('renderMarkdown', () => {
     expect(html).toContain('│   └── index.ts');
     expect(html).toContain('└── README.md');
   });
+
+  it('agrega IDs estables a headings renderizados', () => {
+    const html = renderMarkdown('# Intro\n## Intro\n## Vista general');
+    expect(html).toContain('<h1 id="intro">Intro</h1>');
+    expect(html).toContain('<h2 id="intro-2">Intro</h2>');
+    expect(html).toContain('<h2 id="vista-general">Vista general</h2>');
+  });
 });

@@ -1,3 +1,4 @@
+import { openUrl } from '@tauri-apps/plugin-opener';
 import { Save, SaveOff } from 'lucide-react';
 import { useEffect, useRef, useState, type KeyboardEvent as ReactKeyboardEvent } from 'react';
 import styles from './PreviewPanel.module.css';
@@ -19,6 +20,14 @@ function setCopyButtonStatus(button: HTMLButtonElement, status: CopyStatus) {
   const tooltip = button.querySelector<HTMLElement>('.codeCopyTooltip');
   if (tooltip) {
     tooltip.textContent = label;
+  }
+}
+
+function decodeAnchorId(value: string): string {
+  try {
+    return decodeURIComponent(value);
+  } catch {
+    return value;
   }
 }
 
@@ -54,6 +63,23 @@ export function PreviewPanel({
 
     const onClick = async (event: MouseEvent) => {
       const target = event.target as HTMLElement | null;
+      const anchor = target?.closest('a') as HTMLAnchorElement | null;
+      if (anchor) {
+        const href = anchor.getAttribute('href');
+        if (href?.startsWith('#')) {
+          event.preventDefault();
+          const anchorId = decodeAnchorId(href.slice(1));
+          const heading = anchorId ? Array.from(preview.querySelectorAll<HTMLElement>('[id]')).find((element) => element.id === anchorId) : null;
+          heading?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          return;
+        }
+        if (href && /^(https?:|mailto:)/i.test(href)) {
+          event.preventDefault();
+          await openUrl(href);
+          return;
+        }
+      }
+
       const button = target?.closest('button.codeCopyButton') as HTMLButtonElement | null;
       if (!button) return;
       const rawCode = button.dataset.code;

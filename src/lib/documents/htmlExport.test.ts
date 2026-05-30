@@ -18,7 +18,13 @@ describe('htmlExport', () => {
 
   it('incluye markdown renderizado', () => {
     const html = buildStandaloneHtmlDocument('Nota', '## Subtítulo');
-    expect(html).toContain('<h2>Subtítulo</h2>');
+    expect(html).toContain('<h2 id="subtitulo">Subtítulo</h2>');
+  });
+
+  it('preserva anchors internos y IDs de headings en el HTML exportado', () => {
+    const html = buildStandaloneHtmlDocument('Nota', '[Vista general](#vista-general)\n\n## Vista general');
+    expect(html).toContain('<a href="#vista-general">Vista general</a>');
+    expect(html).toContain('<h2 id="vista-general">Vista general</h2>');
   });
 
   it('exporta bloques de código sin UI interna de copiado', () => {
