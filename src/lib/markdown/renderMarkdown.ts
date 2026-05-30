@@ -1,12 +1,28 @@
 import MarkdownIt from 'markdown-it';
+import { createUniqueHeadingSlug, extractHeadingPlainText } from './headingAnchors';
 
 const md = new MarkdownIt({ html: false, linkify: true, breaks: true });
 
 const defaultFenceRenderer = md.renderer.rules.fence;
+const defaultHeadingOpenRenderer = md.renderer.rules.heading_open;
 
 const copyIcon = '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>';
 const checkIcon = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg>';
 const errorIcon = '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><path d="m15 9-6 6"></path><path d="m9 9 6 6"></path></svg>';
+
+
+md.renderer.rules.heading_open = (tokens, idx, options, env, self) => {
+  const token = tokens[idx];
+  const inlineToken = tokens[idx + 1];
+  const headingText = inlineToken?.type === 'inline' ? extractHeadingPlainText(inlineToken.content) : '';
+  const usedSlugs = (env as { headingSlugCounts?: Map<string, number> }).headingSlugCounts ?? new Map<string, number>();
+  (env as { headingSlugCounts?: Map<string, number> }).headingSlugCounts = usedSlugs;
+  token.attrSet('id', createUniqueHeadingSlug(headingText, usedSlugs));
+
+  return defaultHeadingOpenRenderer
+    ? defaultHeadingOpenRenderer(tokens, idx, options, env, self)
+    : self.renderToken(tokens, idx, options);
+};
 
 md.renderer.rules.fence = (tokens, idx, options, env, self) => {
   const token = tokens[idx];

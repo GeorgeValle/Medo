@@ -18,7 +18,23 @@ describe('htmlExport', () => {
 
   it('incluye markdown renderizado', () => {
     const html = buildStandaloneHtmlDocument('Nota', '## Subtítulo');
-    expect(html).toContain('<h2>Subtítulo</h2>');
+    expect(html).toContain('<h2 id="subtitulo">Subtítulo</h2>');
+  });
+
+  it('preserva anchors internos y IDs de headings en el HTML exportado', () => {
+    const html = buildStandaloneHtmlDocument('Nota', '[Vista general](#vista-general)\n\n## Vista general');
+    expect(html).toContain('<a href="#vista-general">Vista general</a>');
+    expect(html).toContain('<h2 id="vista-general">Vista general</h2>');
+  });
+
+  it('exporta headings con Markdown inline usando los mismos IDs de la tabla de contenidos', () => {
+    const markdown = ['- [Intro](#intro)', '- [Uso de pnpm](#uso-de-pnpm)', '', '## [Intro](https://example.com)', '## Uso de `pnpm`'].join('\n');
+    const html = buildStandaloneHtmlDocument('Nota', markdown);
+
+    expect(html).toContain('<a href="#intro">Intro</a>');
+    expect(html).toContain('<h2 id="intro"><a href="https://example.com">Intro</a></h2>');
+    expect(html).toContain('<a href="#uso-de-pnpm">Uso de pnpm</a>');
+    expect(html).toContain('<h2 id="uso-de-pnpm">Uso de <code>pnpm</code></h2>');
   });
 
   it('exporta bloques de código sin UI interna de copiado', () => {

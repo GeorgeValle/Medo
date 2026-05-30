@@ -16,6 +16,7 @@ import {
   Italic,
   Strikethrough,
   Link,
+  ListTree,
   Minus,
   Quote,
   Rows3,
@@ -23,6 +24,7 @@ import {
 } from 'lucide-react';
 import styles from './EditorPanel.module.css';
 import { applyMarkdownFormat, type MarkdownFormatAction } from '../../lib/markdown/applyMarkdownFormat';
+import { buildTableOfContents } from '../../lib/markdown/headingAnchors';
 import type { EditorFontSizePreference } from '../../lib/app/preferences';
 
 type Props = {
@@ -100,6 +102,32 @@ export function EditorPanel({ value, onChange, onEditorScroll, headerMenu, edito
   const onEditorScrollRef = useRef(onEditorScroll);
   const [headingValue, setHeadingValue] = useState<MarkdownFormatAction>('h0');
   const [listValue, setListValue] = useState<MarkdownFormatAction | 'none'>('none');
+
+
+  const insertTableOfContents = () => {
+    const view = viewRef.current;
+    if (!view) return;
+    const currentContent = view.state.doc.toString();
+    const tableOfContents = buildTableOfContents(currentContent);
+    if (!tableOfContents) {
+      view.focus();
+      return;
+    }
+
+    const range = view.state.selection.main;
+    const before = currentContent.slice(0, range.from);
+    const after = currentContent.slice(range.to);
+    const prefix = before.length === 0 || before.endsWith('\n\n') ? '' : before.endsWith('\n') ? '\n' : '\n\n';
+    const suffix = after.length === 0 ? '\n' : after.startsWith('\n\n') ? '' : after.startsWith('\n') ? '\n' : '\n\n';
+    const insert = `${prefix}${tableOfContents}${suffix}`;
+    const cursorPosition = range.from + insert.length;
+
+    view.dispatch({
+      changes: { from: range.from, to: range.to, insert },
+      selection: EditorSelection.cursor(cursorPosition)
+    });
+    view.focus();
+  };
 
   const applyFormat = (action: MarkdownFormatAction) => {
     const view = viewRef.current;
@@ -220,6 +248,10 @@ export function EditorPanel({ value, onChange, onEditorScroll, headerMenu, edito
             <span className={styles.tooltip} role="tooltip">{label}</span>
           </button>
         ))}
+        <button type="button" aria-label="Insertar tabla de contenidos" title="Insertar tabla de contenidos" className={styles.iconButton} onClick={insertTableOfContents}>
+          <ListTree aria-hidden="true" size={16} strokeWidth={2.2} />
+          <span className={styles.tooltip} role="tooltip">Tabla de contenidos</span>
+        </button>
       </div>
       <div ref={containerRef} className={styles.editor} />
     </section>
