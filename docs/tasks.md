@@ -1,22 +1,24 @@
-## Estado actual (v0.9.3 - 2026-05-29)
-- Objetivo de esta iteración: polish visual menor del botón y menú Medo para invertir el contraste respecto del tema activo sin tocar lógica funcional.
-- Decisión técnica adoptada: versionar el ajuste como `0.9.3`, usar variables CSS semánticas del menú Medo y mantener los valores oscuros existentes cuando la app está en tema claro.
-- Alcance exacto: variables de contraste para botón/menú Medo en `global.css`, consumo desde `Toolbar.module.css`, entrada de changelog y metadata de versión alineada en frontend/Tauri/Rust.
-- Tema claro y sistema claro conservan el botón y desplegable oscuros; tema oscuro y sistema oscuro usan botón y desplegable claros con texto oscuro legible y estados hover/active/focus visibles.
-- Sin cambios en cierre nativo, borrador local, Nuevo/Abrir/Guardar/Guardar como, Exportar HTML, Imprimir / Guardar como PDF, preferencias locales ni integración WSL; no se ejecutó ni introdujo `wsl.exe`.
+## Estado actual (v0.9.5 - 2026-05-30)
+- Objetivo de esta iteración: polish visual acotado del preview Markdown para mejorar la legibilidad de cabeceras de tabla en tema claro y eliminar/reducir el mini scroll horizontal innecesario en bloques de código cortos.
+- Decisión técnica adoptada: versionar el ajuste como `0.9.5`, centralizar colores semánticos de tabla en `global.css` y limitar el ajuste de overflow/ancho a los estilos CSS del preview.
+- Alcance exacto: variables `--color-table-header-bg`, `--color-table-header-text` y `--color-table-border`; consumo en tablas del preview; ajuste de `pre`, `pre code` y `.codeBlockWrap` para conservar scroll horizontal real solo cuando el código desborda.
+- Tema claro y sistema claro usan texto oscuro de alto contraste en `th`; tema oscuro y sistema oscuro mantienen encabezados claros sobre fondo oscuro/sutil.
+- Sin cambios en lógica funcional, editor, shortcuts, cierre nativo, borrador local, Nuevo/Abrir/Guardar/Guardar como, Exportar HTML, Imprimir / Guardar como PDF ni preferencias locales.
+- Follow-up de esta revisión: el preview ahora oculta overflow horizontal propio y delega el scroll horizontal real al `pre`; `pre code` deja de usar `width: max-content` para no forzar ancho extra en bloques cortos, y `.codeBlockWrap` queda contenido al 100% sin tocar la lógica del botón de copiado.
 - Advertencia permanente: no reintroducir `onCloseRequested`, `getCurrentWindow().close()` ni `pendingAction = "close"`.
 
-## Validaciones v0.9.3
+## Validaciones v0.9.5
 - `pnpm lint`: ejecutado correctamente; TypeScript no reportó errores.
 - `pnpm test`: ejecutado correctamente; 10 archivos de test y 76 tests pasaron.
-- `pnpm build`: ejecutado correctamente; Vite generó `dist/` y mantuvo la advertencia existente de chunk mayor a 500 kB.
+- `pnpm build`: ejecutado correctamente; Vite generó `dist/` con chunks principales por debajo de 500 kB.
 - `pnpm tauri:build`: limitado por entorno Linux; falla al compilar `glib-sys` porque no está disponible `glib-2.0.pc`/GLib vía `pkg-config`. Impacto: no se puede validar el instalador Tauri/NSIS en este runner. Siguiente acción: ejecutar empaquetado final en Windows o en un runner Linux con dependencias GTK/GLib instaladas.
+- Follow-up de overflow de código: `pnpm lint`, `pnpm test` y `pnpm build` ejecutados correctamente tras el ajuste CSS; `pnpm tauri:build` se reintentó y mantiene la misma limitación ambiental por falta de `glib-2.0.pc`/GLib.
 
 - [x] v0.4.0: estado visible, confirmación anti-pérdida y borrador local implementado (incluye cierre seguro de ventana).
 # Tasks
 
 ## Estado general
-Completado: v0.9.4 polish técnico del build/bundling con separación manual de chunks (sin cambios funcionales).
+Completado: v0.9.5 polish visual del preview Markdown con contraste de tablas y follow-up CSS para evitar scroll horizontal del panel en bloques de código cortos (sin cambios funcionales).
 
 ## Fase actual
 Phase 05 - Release.
@@ -27,6 +29,7 @@ Phase 05 - Release.
 - 0.6.1 — Validación manual post-exportación y fixes chicos
 - 0.7.0 — Exportación PDF o editor Markdown avanzado
 - 0.8.0 — Preferencias locales y UX persistente
+- 0.9.5 — Polish visual del preview Markdown
 - 0.9.4 — Polish técnico del build/bundling
 - 0.9.3 — Polish visual del menú Medo por tema
 - 0.9.2 — README profesional + GPLv3
@@ -48,6 +51,7 @@ Phase 05 - Release.
 - [ ] Validación manual final en Windows instalado
 
 ## Completadas
+- v0.9.5 (polish visual del preview Markdown, esta iteración): se mejoró el contraste de encabezados de tabla (`th`) en tema claro mediante variables semánticas y se ajustaron los bloques de código del preview (`pre`, `pre code` y `.codeBlockWrap`) para evitar mini scroll horizontal innecesario en contenido corto, manteniendo scroll horizontal cuando el código realmente desborda. Se alineó versión a `0.9.5` en `package.json`, `tauri.conf.json`, `Cargo.toml` y entrada `medo` de `Cargo.lock`, y se agregó changelog. Validación: `pnpm install`, `pnpm lint`, `pnpm test` y `pnpm build` OK; `pnpm tauri:build` queda bloqueado en Linux por falta de `glib-2.0`/pkg-config del entorno. Sin cambios funcionales: no se tocó cierre nativo, borrador local, editor, shortcuts, Nuevo/Abrir/Guardar/Guardar como, Exportar HTML, Imprimir / Guardar como PDF ni preferencias locales. Advertencia permanente: no reintroducir `onCloseRequested`, `getCurrentWindow().close()` ni `pendingAction = "close"`.
 - v0.9.4 (polish técnico del build/bundling, esta iteración): se agregó `build.rollupOptions.output.manualChunks` en Vite para separar chunks dedicados de React (`react`, `react-dom`), CodeMirror (`@codemirror/commands`, `@codemirror/lang-markdown`, `@codemirror/state`, `@codemirror/view`), `markdown-it` y `lucide-react`; se alineó versión a `0.9.4` en `package.json`, `tauri.conf.json`, `Cargo.toml` y entrada `medo` de `Cargo.lock`, y se agregó changelog. Validación: `pnpm lint`, `pnpm test` y `pnpm build` OK; `pnpm build` genera chunks principales por debajo de 500 kB (`codemirror` 465.34 kB) sin warning de Vite; `pnpm tauri:build` queda bloqueado en Linux por falta de `glib-2.0`/pkg-config del entorno. Sin cambios funcionales: no se tocó cierre nativo, borrador local, Nuevo/Abrir/Guardar/Guardar como, Exportar HTML, Imprimir / Guardar como PDF ni preferencias locales. Advertencia permanente: no reintroducir `onCloseRequested`, `getCurrentWindow().close()` ni `pendingAction = "close"`.
 - v0.9.3 (polish visual menor, esta iteración): se invirtió el contraste del botón y menú Medo según tema mediante variables CSS semánticas; en tema claro y sistema claro se conserva la apariencia oscura existente, mientras que en tema oscuro y sistema oscuro el botón y desplegable usan apariencia clara con texto oscuro legible y estados hover/active/focus visibles. Se alineó versión a `0.9.3` en `package.json`, `tauri.conf.json`, `Cargo.toml` y entrada `medo` de `Cargo.lock`, y se agregó changelog. Sin cambios en cierre nativo, borrador local, Nuevo/Abrir/Guardar/Guardar como, Exportar HTML, Imprimir / Guardar como PDF ni preferencias locales. Advertencia permanente: no reintroducir `onCloseRequested`, `getCurrentWindow().close()` ni `pendingAction = "close"`.
 - v0.9.2 (release candidate/documentación, esta iteración): README reescrito con badges, secciones semánticas, funcionalidades, descarga futura sin enlaces inventados, desarrollo local, contacto, licencia y roadmap; agregado `LICENSE` GPLv3; metadata de licencia en `package.json` y `src-tauri/Cargo.toml`; versión alineada a `0.9.2` en `package.json`, `tauri.conf.json`, `Cargo.toml` y entrada `medo` de `Cargo.lock`; changelog actualizado. Sin cambios en cierre nativo, borrador local, filesystem, exportaciones, impresión/PDF ni preferencias locales.

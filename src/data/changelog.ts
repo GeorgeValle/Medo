@@ -7,6 +7,16 @@ export type ChangelogEntry = {
 
 export const changelogEntries: ChangelogEntry[] = [
   {
+    version: '0.9.5',
+    date: '2026-05-30',
+    title: 'Polish visual del preview Markdown',
+    changes: [
+      'Se mejoró el contraste de los encabezados de tabla del preview en tema claro mediante variables semánticas de color.',
+      'Se ajustaron los bloques de código del preview para evitar mini scroll horizontal innecesario en contenido corto y conservar scroll horizontal cuando el código realmente desborda.',
+      'No hubo cambios funcionales: cierre nativo, borrador local, Nuevo/Abrir/Guardar/Guardar como, Exportar HTML, Imprimir / Guardar como PDF, editor, shortcuts y preferencias locales permanecen intactos.'
+    ]
+  },
+  {
     version: '0.9.4',
     date: '2026-05-30',
     title: 'Polish técnico del build y separación de chunks',

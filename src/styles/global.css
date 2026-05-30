@@ -13,6 +13,9 @@
   --color-inline-code-bg: rgba(148, 163, 184, 0.2);
   --color-inline-code-text: #f8fafc;
   --color-inline-code-border: rgba(148, 163, 184, 0.35);
+  --color-table-header-bg: rgba(148, 163, 184, 0.18);
+  --color-table-header-text: #f8fafc;
+  --color-table-border: #cbd5e1;
   --color-medo-menu-button-bg: linear-gradient(155deg, #f8fafc 0%, #edf2f7 50%, #e2e8f0 100%);
   --color-medo-menu-button-border: #94a3b8;
   --color-medo-menu-bg: linear-gradient(180deg, #ffffff 0%, #eef2f7 100%);
@@ -50,6 +53,9 @@
   --color-inline-code-bg: #e2e8f0;
   --color-inline-code-text: #0f172a;
   --color-inline-code-border: #cbd5e1;
+  --color-table-header-bg: #e2e8f0;
+  --color-table-header-text: #0f172a;
+  --color-table-border: #cbd5e1;
   --color-medo-menu-button-bg: linear-gradient(155deg, #26303d 0%, #1c2430 50%, #131a24 100%);
   --color-medo-menu-button-border: #415063;
   --color-medo-menu-bg: linear-gradient(180deg, #121926 0%, #0d1420 100%);
@@ -83,6 +89,9 @@
   --color-inline-code-bg: rgba(148, 163, 184, 0.2);
   --color-inline-code-text: #f8fafc;
   --color-inline-code-border: rgba(148, 163, 184, 0.35);
+  --color-table-header-bg: rgba(148, 163, 184, 0.18);
+  --color-table-header-text: #f8fafc;
+  --color-table-border: #cbd5e1;
 }
 
 @media (prefers-color-scheme: light) {
@@ -101,6 +110,9 @@
     --color-inline-code-bg: #e2e8f0;
     --color-inline-code-text: #0f172a;
     --color-inline-code-border: #cbd5e1;
+    --color-table-header-bg: #e2e8f0;
+    --color-table-header-text: #0f172a;
+    --color-table-border: #cbd5e1;
     --color-medo-menu-button-bg: linear-gradient(155deg, #26303d 0%, #1c2430 50%, #131a24 100%);
     --color-medo-menu-button-border: #415063;
     --color-medo-menu-bg: linear-gradient(180deg, #121926 0%, #0d1420 100%);
