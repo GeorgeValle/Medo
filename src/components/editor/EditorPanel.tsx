@@ -242,16 +242,16 @@ export function EditorPanel({ value, onChange, onEditorScroll, headerMenu, edito
             <option key={option.value} value={option.value}>{option.label}</option>
           ))}
         </select>
-        <button type="button" aria-label="Insertar tabla de contenidos" title="Insertar tabla de contenidos" className={styles.iconButton} onClick={insertTableOfContents}>
-          <ListTree aria-hidden="true" size={16} strokeWidth={2.2} />
-          <span className={styles.tooltip} role="tooltip">Tabla de contenidos</span>
-        </button>
         {iconButtons.map(({ label, action, icon: Icon }) => (
           <button key={action} type="button" aria-label={label} className={styles.iconButton} onClick={() => applyFormat(action)}>
             <Icon aria-hidden="true" size={16} strokeWidth={2.2} />
             <span className={styles.tooltip} role="tooltip">{label}</span>
           </button>
         ))}
+        <button type="button" aria-label="Insertar tabla de contenidos" title="Insertar tabla de contenidos" className={styles.iconButton} onClick={insertTableOfContents}>
+          <ListTree aria-hidden="true" size={16} strokeWidth={2.2} />
+          <span className={styles.tooltip} role="tooltip">Tabla de contenidos</span>
+        </button>
       </div>
       <div ref={containerRef} className={styles.editor} />
     </section>

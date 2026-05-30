@@ -87,7 +87,7 @@ export const userGuideSections: UserGuideSection[] = [
     items: [
       'Para saltar a una sección del mismo documento, usá un enlace interno con `#`, por ejemplo `[Vista general](#vista-general)`.',
       'Medo genera anchors estables en la vista previa a partir de los encabezados y normaliza acentos, signos y espacios.',
-      'El botón “Tabla de contenidos” de la toolbar inserta un índice básico desde los encabezados actuales.',
+      'El botón “Tabla de contenidos” de la toolbar inserta automáticamente un índice básico a partir de los títulos de encabezados actuales.',
       'Los anchors también se conservan al usar “Exportar HTML”.'
     ],
     examples: [
