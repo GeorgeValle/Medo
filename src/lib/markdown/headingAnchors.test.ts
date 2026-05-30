@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { buildHeadingAnchors, buildTableOfContents, slugifyHeading } from './headingAnchors';
+import { buildHeadingAnchors, buildTableOfContents, extractHeadingPlainText, slugifyHeading } from './headingAnchors';
 
 describe('headingAnchors', () => {
   it('slugifyHeading normaliza acentos, signos, espacios y español', () => {
@@ -7,6 +7,28 @@ describe('headingAnchors', () => {
     expect(slugifyHeading('¿Qué es Medo?')).toBe('que-es-medo');
     expect(slugifyHeading('Exportar HTML y PDF')).toBe('exportar-html-y-pdf');
     expect(slugifyHeading('  Muchos   espacios --- juntos  ')).toBe('muchos-espacios-juntos');
+  });
+
+  it('extrae texto visible de headings con Markdown inline', () => {
+    expect(extractHeadingPlainText('[Intro](https://example.com)')).toBe('Intro');
+    expect(extractHeadingPlainText('**Intro**')).toBe('Intro');
+    expect(extractHeadingPlainText('Uso de `pnpm`')).toBe('Uso de pnpm');
+    expect(extractHeadingPlainText('![Logo](logo.png) Medo')).toBe('Logo Medo');
+  });
+
+  it('usa texto visible para anchors y tabla de contenidos con Markdown inline', () => {
+    const markdown = ['## [Intro](https://example.com)', '## **Intro**', '## Uso de `pnpm`', '## ![Logo](logo.png) Medo'].join('\n');
+
+    expect(buildHeadingAnchors(markdown)).toEqual([
+      { level: 2, text: 'Intro', slug: 'intro' },
+      { level: 2, text: 'Intro', slug: 'intro-2' },
+      { level: 2, text: 'Uso de pnpm', slug: 'uso-de-pnpm' },
+      { level: 2, text: 'Logo Medo', slug: 'logo-medo' }
+    ]);
+    expect(buildTableOfContents(markdown)).toContain('- [Intro](#intro)');
+    expect(buildTableOfContents(markdown)).toContain('- [Intro](#intro-2)');
+    expect(buildTableOfContents(markdown)).toContain('- [Uso de pnpm](#uso-de-pnpm)');
+    expect(buildTableOfContents(markdown)).toContain('- [Logo Medo](#logo-medo)');
   });
 
   it('resuelve duplicados de forma estable', () => {

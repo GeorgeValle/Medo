@@ -1,5 +1,5 @@
 import MarkdownIt from 'markdown-it';
-import { createUniqueHeadingSlug } from './headingAnchors';
+import { createUniqueHeadingSlug, extractHeadingPlainText } from './headingAnchors';
 
 const md = new MarkdownIt({ html: false, linkify: true, breaks: true });
 
@@ -14,7 +14,7 @@ const errorIcon = '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" c
 md.renderer.rules.heading_open = (tokens, idx, options, env, self) => {
   const token = tokens[idx];
   const inlineToken = tokens[idx + 1];
-  const headingText = inlineToken?.type === 'inline' ? inlineToken.content : '';
+  const headingText = inlineToken?.type === 'inline' ? extractHeadingPlainText(inlineToken.content) : '';
   const usedSlugs = (env as { headingSlugCounts?: Map<string, number> }).headingSlugCounts ?? new Map<string, number>();
   (env as { headingSlugCounts?: Map<string, number> }).headingSlugCounts = usedSlugs;
   token.attrSet('id', createUniqueHeadingSlug(headingText, usedSlugs));

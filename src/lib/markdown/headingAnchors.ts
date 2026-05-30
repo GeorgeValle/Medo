@@ -18,6 +18,10 @@ function stripTrailingHeadingMarkers(input: string): string {
   return input.replace(/\s+#+\s*$/, '').trim();
 }
 
+export function extractHeadingPlainText(markdownHeadingText: string): string {
+  return stripInlineMarkdown(stripTrailingHeadingMarkers(markdownHeadingText));
+}
+
 export function slugifyHeading(text: string): string {
   return text
     .normalize('NFD')
@@ -66,7 +70,7 @@ export function buildHeadingAnchors(markdown: string): HeadingAnchor[] {
     if (!headingMatch) continue;
 
     const level = headingMatch[1].length;
-    const text = stripInlineMarkdown(stripTrailingHeadingMarkers(headingMatch[2]));
+    const text = extractHeadingPlainText(headingMatch[2]);
     if (!text) continue;
 
     const baseSlug = slugifyHeading(text);

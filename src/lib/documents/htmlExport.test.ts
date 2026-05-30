@@ -27,6 +27,16 @@ describe('htmlExport', () => {
     expect(html).toContain('<h2 id="vista-general">Vista general</h2>');
   });
 
+  it('exporta headings con Markdown inline usando los mismos IDs de la tabla de contenidos', () => {
+    const markdown = ['- [Intro](#intro)', '- [Uso de pnpm](#uso-de-pnpm)', '', '## [Intro](https://example.com)', '## Uso de `pnpm`'].join('\n');
+    const html = buildStandaloneHtmlDocument('Nota', markdown);
+
+    expect(html).toContain('<a href="#intro">Intro</a>');
+    expect(html).toContain('<h2 id="intro"><a href="https://example.com">Intro</a></h2>');
+    expect(html).toContain('<a href="#uso-de-pnpm">Uso de pnpm</a>');
+    expect(html).toContain('<h2 id="uso-de-pnpm">Uso de <code>pnpm</code></h2>');
+  });
+
   it('exporta bloques de código sin UI interna de copiado', () => {
     const html = buildStandaloneHtmlDocument('Nota', '```txt\n├── src\n│   └── index.ts\n└── README.md\n```');
     expect(html).not.toContain('codeCopyButton');
