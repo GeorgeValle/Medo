@@ -1,12 +1,12 @@
-## Estado actual (v0.9.2 - 2026-05-28)
-- Objetivo de esta iteración: release candidate/documentación 0.9.2 para profesionalizar README, agregar licencia GPLv3 y alinear metadata antes de 1.0.0.
-- Decisión técnica adoptada: mantener el alcance limitado a documentación, licencia y versionado; no tocar lógica funcional ni configuración Tauri fuera de metadata de versión.
-- Alcance exacto: reescritura visual y semántica de `README.md`, agregado de `LICENSE` con GPLv3, `license` en `package.json`, `license` en `src-tauri/Cargo.toml`, bump de versión a `0.9.2` en frontend/Tauri/Rust y entrada de changelog.
+## Estado actual (v0.9.3 - 2026-05-29)
+- Objetivo de esta iteración: polish visual menor del botón y menú Medo para invertir el contraste respecto del tema activo sin tocar lógica funcional.
+- Decisión técnica adoptada: versionar el ajuste como `0.9.3`, usar variables CSS semánticas del menú Medo y mantener los valores oscuros existentes cuando la app está en tema claro.
+- Alcance exacto: variables de contraste para botón/menú Medo en `global.css`, consumo desde `Toolbar.module.css`, entrada de changelog y metadata de versión alineada en frontend/Tauri/Rust.
+- Tema claro y sistema claro conservan el botón y desplegable oscuros; tema oscuro y sistema oscuro usan botón y desplegable claros con texto oscuro legible y estados hover/active/focus visibles.
 - Sin cambios en cierre nativo, borrador local, Nuevo/Abrir/Guardar/Guardar como, Exportar HTML, Imprimir / Guardar como PDF, preferencias locales ni integración WSL; no se ejecutó ni introdujo `wsl.exe`.
 - Advertencia permanente: no reintroducir `onCloseRequested`, `getCurrentWindow().close()` ni `pendingAction = "close"`.
 
-## Validaciones v0.9.2
-- `pnpm install`: ejecutado correctamente; pnpm reportó lockfile actualizado y advirtió scripts de build ignorados para `esbuild` por política local de aprobación.
+## Validaciones v0.9.3
 - `pnpm lint`: ejecutado correctamente; TypeScript no reportó errores.
 - `pnpm test`: ejecutado correctamente; 10 archivos de test y 76 tests pasaron.
 - `pnpm build`: ejecutado correctamente; Vite generó `dist/` y mantuvo la advertencia existente de chunk mayor a 500 kB.
@@ -16,7 +16,7 @@
 # Tasks
 
 ## Estado general
-Completado: v0.9.2 release candidate/documentación (README profesional + GPLv3 + metadata de versión/licencia).
+Completado: v0.9.3 polish visual menor del menú Medo por tema (contraste invertido sin cambios funcionales).
 
 ## Fase actual
 Phase 05 - Release.
@@ -27,6 +27,7 @@ Phase 05 - Release.
 - 0.6.1 — Validación manual post-exportación y fixes chicos
 - 0.7.0 — Exportación PDF o editor Markdown avanzado
 - 0.8.0 — Preferencias locales y UX persistente
+- 0.9.3 — Polish visual del menú Medo por tema
 - 0.9.2 — README profesional + GPLv3
 - 0.9.1 — Hotfix release candidate
 - 0.9.0 — Release candidate
@@ -46,6 +47,7 @@ Phase 05 - Release.
 - [ ] Validación manual final en Windows instalado
 
 ## Completadas
+- v0.9.3 (polish visual menor, esta iteración): se invirtió el contraste del botón y menú Medo según tema mediante variables CSS semánticas; en tema claro y sistema claro se conserva la apariencia oscura existente, mientras que en tema oscuro y sistema oscuro el botón y desplegable usan apariencia clara con texto oscuro legible y estados hover/active/focus visibles. Se alineó versión a `0.9.3` en `package.json`, `tauri.conf.json`, `Cargo.toml` y entrada `medo` de `Cargo.lock`, y se agregó changelog. Sin cambios en cierre nativo, borrador local, Nuevo/Abrir/Guardar/Guardar como, Exportar HTML, Imprimir / Guardar como PDF ni preferencias locales. Advertencia permanente: no reintroducir `onCloseRequested`, `getCurrentWindow().close()` ni `pendingAction = "close"`.
 - v0.9.2 (release candidate/documentación, esta iteración): README reescrito con badges, secciones semánticas, funcionalidades, descarga futura sin enlaces inventados, desarrollo local, contacto, licencia y roadmap; agregado `LICENSE` GPLv3; metadata de licencia en `package.json` y `src-tauri/Cargo.toml`; versión alineada a `0.9.2` en `package.json`, `tauri.conf.json`, `Cargo.toml` y entrada `medo` de `Cargo.lock`; changelog actualizado. Sin cambios en cierre nativo, borrador local, filesystem, exportaciones, impresión/PDF ni preferencias locales.
 - v0.9.1 (hotfix RC, esta iteración): estado alineado a `v0.9.1`; corregido versionado/metadata en `package.json`, `tauri.conf.json`, `Cargo.toml` y entrada `medo` de `Cargo.lock`; corregida ruta UNC de WSL en README para formato pegable (`\\wsl$\Ubuntu\home\usuario\proyecto\README.md`); corregido contraste del Manual de uso en tema claro usando variables semánticas (sin hardcodes incompatibles). Sin cambios en cierre nativo, borrador local, filesystem ni exportaciones. Advertencia permanente: no reintroducir `onCloseRequested`, `getCurrentWindow().close()` ni `pendingAction = "close"`.
 - v0.9.0 (esta iteración): se documentó oficialmente que Medo puede abrir, editar y guardar archivos `.md` ubicados en WSL mediante rutas UNC de Windows (`\\\wsl$\\...`) pegadas en el diálogo Abrir; se validó manualmente el flujo abrir → editar → guardar y la verificación desde WSL con `cat`, sin integrar plugins WSL ni ejecutar `wsl.exe`, y sin cambios en cierre nativo, borrador local, Exportar HTML ni Imprimir / Guardar como PDF.
