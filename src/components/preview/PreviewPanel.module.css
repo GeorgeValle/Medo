@@ -60,7 +60,8 @@
 .preview {
   min-height: 340px;
   height: 100%;
-  overflow: auto;
+  overflow-y: auto;
+  overflow-x: hidden;
   border-top: 1px solid var(--color-border);
   padding-top: 0.75rem;
   min-width: 0;
@@ -93,6 +94,7 @@
   border-radius: 0.6rem;
   padding: 0.75rem;
   overflow-x: auto;
+  min-width: 0;
   width: 100%;
   max-width: 100%;
   box-sizing: border-box;
@@ -100,7 +102,7 @@
 
 .preview pre code {
   display: block;
-  width: max-content;
+  width: auto;
   min-width: 100%;
   max-width: none;
   background: transparent;
@@ -118,7 +120,9 @@
 .preview :global(.codeBlockWrap) {
   position: relative;
   min-width: 0;
+  width: 100%;
   max-width: 100%;
+  box-sizing: border-box;
 }
 
 .preview :global(.codeCopyButton) {

@@ -4,6 +4,7 @@
 - Alcance exacto: variables `--color-table-header-bg`, `--color-table-header-text` y `--color-table-border`; consumo en tablas del preview; ajuste de `pre`, `pre code` y `.codeBlockWrap` para conservar scroll horizontal real solo cuando el código desborda.
 - Tema claro y sistema claro usan texto oscuro de alto contraste en `th`; tema oscuro y sistema oscuro mantienen encabezados claros sobre fondo oscuro/sutil.
 - Sin cambios en lógica funcional, editor, shortcuts, cierre nativo, borrador local, Nuevo/Abrir/Guardar/Guardar como, Exportar HTML, Imprimir / Guardar como PDF ni preferencias locales.
+- Follow-up de esta revisión: el preview ahora oculta overflow horizontal propio y delega el scroll horizontal real al `pre`; `pre code` deja de usar `width: max-content` para no forzar ancho extra en bloques cortos, y `.codeBlockWrap` queda contenido al 100% sin tocar la lógica del botón de copiado.
 - Advertencia permanente: no reintroducir `onCloseRequested`, `getCurrentWindow().close()` ni `pendingAction = "close"`.
 
 ## Validaciones v0.9.5
@@ -11,12 +12,13 @@
 - `pnpm test`: ejecutado correctamente; 10 archivos de test y 76 tests pasaron.
 - `pnpm build`: ejecutado correctamente; Vite generó `dist/` con chunks principales por debajo de 500 kB.
 - `pnpm tauri:build`: limitado por entorno Linux; falla al compilar `glib-sys` porque no está disponible `glib-2.0.pc`/GLib vía `pkg-config`. Impacto: no se puede validar el instalador Tauri/NSIS en este runner. Siguiente acción: ejecutar empaquetado final en Windows o en un runner Linux con dependencias GTK/GLib instaladas.
+- Follow-up de overflow de código: `pnpm lint`, `pnpm test` y `pnpm build` ejecutados correctamente tras el ajuste CSS; `pnpm tauri:build` se reintentó y mantiene la misma limitación ambiental por falta de `glib-2.0.pc`/GLib.
 
 - [x] v0.4.0: estado visible, confirmación anti-pérdida y borrador local implementado (incluye cierre seguro de ventana).
 # Tasks
 
 ## Estado general
-Completado: v0.9.5 polish visual del preview Markdown con contraste de tablas y ajuste de bloques de código (sin cambios funcionales).
+Completado: v0.9.5 polish visual del preview Markdown con contraste de tablas y follow-up CSS para evitar scroll horizontal del panel en bloques de código cortos (sin cambios funcionales).
 
 ## Fase actual
 Phase 05 - Release.
