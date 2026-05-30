@@ -7,6 +7,16 @@ export type ChangelogEntry = {
 
 export const changelogEntries: ChangelogEntry[] = [
   {
+    version: '0.9.4',
+    date: '2026-05-30',
+    title: 'Polish técnico del build y separación de chunks',
+    changes: [
+      'Se agregó separación manual de chunks en Vite para aislar React, CodeMirror, markdown-it y lucide-react en archivos de build dedicados.',
+      'El build queda más prolijo al reducir la advertencia de Vite por chunks mayores a 500 kB sin aumentar el límite de advertencia.',
+      'No hubo cambios funcionales: cierre nativo, borrador local, Nuevo/Abrir/Guardar/Guardar como, Exportar HTML, Imprimir / Guardar como PDF y preferencias locales permanecen intactos.'
+    ]
+  },
+  {
     version: '0.9.3',
     date: '2026-05-29',
     title: 'Polish visual del menú Medo por tema',
