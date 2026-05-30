@@ -16,7 +16,7 @@
 # Tasks
 
 ## Estado general
-Completado: v0.9.3 polish visual menor del menú Medo por tema (contraste invertido sin cambios funcionales).
+Completado: v0.9.4 polish técnico del build/bundling con separación manual de chunks (sin cambios funcionales).
 
 ## Fase actual
 Phase 05 - Release.
@@ -27,6 +27,7 @@ Phase 05 - Release.
 - 0.6.1 — Validación manual post-exportación y fixes chicos
 - 0.7.0 — Exportación PDF o editor Markdown avanzado
 - 0.8.0 — Preferencias locales y UX persistente
+- 0.9.4 — Polish técnico del build/bundling
 - 0.9.3 — Polish visual del menú Medo por tema
 - 0.9.2 — README profesional + GPLv3
 - 0.9.1 — Hotfix release candidate
@@ -47,6 +48,7 @@ Phase 05 - Release.
 - [ ] Validación manual final en Windows instalado
 
 ## Completadas
+- v0.9.4 (polish técnico del build/bundling, esta iteración): se agregó `build.rollupOptions.output.manualChunks` en Vite para separar chunks dedicados de React (`react`, `react-dom`), CodeMirror (`@codemirror/commands`, `@codemirror/lang-markdown`, `@codemirror/state`, `@codemirror/view`), `markdown-it` y `lucide-react`; se alineó versión a `0.9.4` en `package.json`, `tauri.conf.json`, `Cargo.toml` y entrada `medo` de `Cargo.lock`, y se agregó changelog. Validación: `pnpm lint`, `pnpm test` y `pnpm build` OK; `pnpm build` genera chunks principales por debajo de 500 kB (`codemirror` 465.34 kB) sin warning de Vite; `pnpm tauri:build` queda bloqueado en Linux por falta de `glib-2.0`/pkg-config del entorno. Sin cambios funcionales: no se tocó cierre nativo, borrador local, Nuevo/Abrir/Guardar/Guardar como, Exportar HTML, Imprimir / Guardar como PDF ni preferencias locales. Advertencia permanente: no reintroducir `onCloseRequested`, `getCurrentWindow().close()` ni `pendingAction = "close"`.
 - v0.9.3 (polish visual menor, esta iteración): se invirtió el contraste del botón y menú Medo según tema mediante variables CSS semánticas; en tema claro y sistema claro se conserva la apariencia oscura existente, mientras que en tema oscuro y sistema oscuro el botón y desplegable usan apariencia clara con texto oscuro legible y estados hover/active/focus visibles. Se alineó versión a `0.9.3` en `package.json`, `tauri.conf.json`, `Cargo.toml` y entrada `medo` de `Cargo.lock`, y se agregó changelog. Sin cambios en cierre nativo, borrador local, Nuevo/Abrir/Guardar/Guardar como, Exportar HTML, Imprimir / Guardar como PDF ni preferencias locales. Advertencia permanente: no reintroducir `onCloseRequested`, `getCurrentWindow().close()` ni `pendingAction = "close"`.
 - v0.9.2 (release candidate/documentación, esta iteración): README reescrito con badges, secciones semánticas, funcionalidades, descarga futura sin enlaces inventados, desarrollo local, contacto, licencia y roadmap; agregado `LICENSE` GPLv3; metadata de licencia en `package.json` y `src-tauri/Cargo.toml`; versión alineada a `0.9.2` en `package.json`, `tauri.conf.json`, `Cargo.toml` y entrada `medo` de `Cargo.lock`; changelog actualizado. Sin cambios en cierre nativo, borrador local, filesystem, exportaciones, impresión/PDF ni preferencias locales.
 - v0.9.1 (hotfix RC, esta iteración): estado alineado a `v0.9.1`; corregido versionado/metadata en `package.json`, `tauri.conf.json`, `Cargo.toml` y entrada `medo` de `Cargo.lock`; corregida ruta UNC de WSL en README para formato pegable (`\\wsl$\Ubuntu\home\usuario\proyecto\README.md`); corregido contraste del Manual de uso en tema claro usando variables semánticas (sin hardcodes incompatibles). Sin cambios en cierre nativo, borrador local, filesystem ni exportaciones. Advertencia permanente: no reintroducir `onCloseRequested`, `getCurrentWindow().close()` ni `pendingAction = "close"`.

@@ -1983,7 +1983,7 @@ dependencies = [
 
 [[package]]
 name = "medo"
-version = "0.9.3"
+version = "0.9.4"
 dependencies = [
  "serde",
  "serde_json",
