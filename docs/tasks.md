@@ -1,23 +1,24 @@
-## Estado actual (v0.9.6 - 2026-05-30)
-- Objetivo de esta iteración: agregar soporte MVP para enlaces internos tipo anchor en Markdown y una acción simple para insertar una tabla de contenidos desde los headings del documento. Pulido final pre-merge: mover el botón “Tabla de contenidos” al final de la toolbar y ampliar el texto del Manual de uso sobre links internos/TOC.
-- Decisión técnica adoptada: centralizar slugs y extracción de headings en `src/lib/markdown/headingAnchors.ts`; reutilizar esos slugs en el render Markdown y en Exportar HTML mediante `renderMarkdown`. Follow-up pre-merge: se exportó `extractHeadingPlainText` y se usa también al asignar IDs renderizados para que headings con links, imágenes, énfasis o código inline compartan slug con la tabla de contenidos.
-- Alcance exacto: headings renderizados con `id` estable; links `#...` interceptados dentro del panel de preview con scroll al heading local; acción “Tabla de contenidos” al final de la toolbar; HTML standalone exportado con anchors funcionales; manual y changelog actualizados para que Novedades muestre `0.9.6`.
-- Validación funcional cubierta por tests unitarios: slugify con español/acentos/signos/espacios, extracción de texto visible en Markdown inline, duplicados, fences, generación de tabla de contenidos, IDs en render Markdown y anchors en Exportar HTML sin UI interna de copiado.
-- Sin cambios en lógica de ventana, cierre nativo, borrador local, Nuevo/Abrir/Guardar/Guardar como, Imprimir / Guardar como PDF ni preferencias locales.
+## Estado actual (v0.9.7 - 2026-05-30)
+- Objetivo de esta iteración: polish visual del instalador NSIS de Windows para que el archivo `Medo_0.9.7_x64-setup.exe` generado en `src-tauri/target/release/bundle/nsis/` muestre el logo de Medo en lugar del icono genérico.
+- Decisión técnica adoptada: configurar la clave válida `bundle.windows.nsis.installerIcon` de Tauri 2 apuntando al archivo existente `icons/icon.ico`, manteniendo `bundle.icon` para el icono de la app instalada y accesos directos.
+- Alcance exacto: cambio mínimo de configuración NSIS/Tauri, bump de versión a `0.9.7` y changelog; no se modificaron iconos PNG ni se exigió `icons/128x128@2x.png` para este ajuste.
+- Validación esperada en Windows: ejecutar `pnpm tauri:build`, revisar `src-tauri/target/release/bundle/nsis/Medo_0.9.7_x64-setup.exe` y confirmar que Explorer muestra `icons/icon.ico`; si Explorer conserva un icono genérico, refrescar Explorer, renombrar el instalador, cambiarlo de carpeta o reiniciar Explorer por posible caché de iconos de `.exe`.
+- Sin cambios en lógica funcional, cierre nativo, borrador local, Nuevo/Abrir/Guardar/Guardar como, Exportar HTML, Imprimir / Guardar como PDF, preferencias, editor, shortcuts ni Markdown.
 - Advertencia permanente: no reintroducir `onCloseRequested`, `getCurrentWindow().close()` ni `pendingAction = "close"`.
 
-## Validaciones v0.9.6
-- `pnpm install`: ejecutado correctamente; lockfile ya estaba actualizado. Advertencia informativa de pnpm: scripts de build de `esbuild` ignorados hasta aprobarlos explícitamente.
+## Validaciones v0.9.7
 - `pnpm lint`: ejecutado correctamente; TypeScript no reportó errores.
-- `pnpm test`: ejecutado correctamente; 11 archivos de test y 87 tests pasaron. Chequeo manual por código: el botón “Tabla de contenidos” conserva `onClick={insertTableOfContents}` y queda después del grupo de acciones de formato/inserción; el Manual de uso muestra el texto ampliado y el ejemplo Markdown solicitado.
+- `pnpm test`: ejecutado correctamente; 11 archivos de test y 87 tests pasaron.
 - `pnpm build`: ejecutado correctamente; Vite generó `dist/` sin advertencias de chunks grandes.
-- `pnpm tauri:build`: limitado por entorno Linux; el build frontend previo corre correctamente, pero la compilación Tauri falla en `glib-sys` porque no está disponible `glib-2.0.pc`/GLib vía `pkg-config`. Impacto: no se puede validar el instalador Tauri/NSIS en este runner. Siguiente acción: ejecutar empaquetado final en Windows o en un runner Linux con dependencias GTK/GLib instaladas.
+- `pnpm tauri:build`: limitado por entorno Linux; el build frontend previo corre correctamente y la configuración Tauri/NSIS fue aceptada por la CLI antes de compilar Rust, pero la compilación falla en `glib-sys` porque no está disponible `glib-2.0.pc`/GLib vía `pkg-config`. Impacto: no se puede generar ni validar el instalador NSIS en este runner. Siguiente acción: ejecutar empaquetado final en Windows o en un runner con dependencias GTK/GLib instaladas.
+- Validación manual Windows pendiente: ejecutar `pnpm tauri:build`, abrir `src-tauri/target/release/bundle/nsis/`, confirmar que `Medo_0.9.7_x64-setup.exe` muestra el icono de Medo, ejecutar el instalador y verificar app instalada, acceso directo, menú Inicio y Acerca `0.9.7`.
 
 - [x] v0.4.0: estado visible, confirmación anti-pérdida y borrador local implementado (incluye cierre seguro de ventana).
+
 # Tasks
 
 ## Estado general
-Completado: v0.9.6 anchors internos en Markdown, tabla de contenidos básica y Exportar HTML compatible con anchors (sin tocar flujos críticos).
+Completado: v0.9.7 polish visual del instalador NSIS de Windows para usar `icons/icon.ico` en el `.exe` de setup (sin tocar flujos funcionales).
 
 ## Fase actual
 Phase 05 - Release.
@@ -28,6 +29,7 @@ Phase 05 - Release.
 - 0.6.1 — Validación manual post-exportación y fixes chicos
 - 0.7.0 — Exportación PDF o editor Markdown avanzado
 - 0.8.0 — Preferencias locales y UX persistente
+- 0.9.7 — Icono del instalador NSIS de Windows
 - 0.9.6 — Anchors internos y tabla de contenidos
 - 0.9.5 — Polish visual del preview Markdown
 - 0.9.4 — Polish técnico del build/bundling
@@ -51,6 +53,7 @@ Phase 05 - Release.
 - [ ] Validación manual final en Windows instalado
 
 ## Completadas
+- v0.9.7 (icono del instalador NSIS de Windows, esta iteración): se configuró `bundle.windows.nsis.installerIcon` con `icons/icon.ico` para que el instalador `Medo_0.9.7_x64-setup.exe` use el logo de Medo en lugar del icono genérico. Se alineó versión a `0.9.7` en `package.json`, `tauri.conf.json`, `Cargo.toml` y entrada `medo` de `Cargo.lock`, y se agregó changelog. No se modificaron PNG ni se requirió `icons/128x128@2x.png` para este ajuste. Validación: `pnpm lint`, `pnpm test` (87 tests) y `pnpm build` OK; `pnpm tauri:build` queda bloqueado en Linux por falta de `glib-2.0`/pkg-config del entorno, por lo que la validación final de icono del `.exe` debe realizarse en Windows revisando el instalador generado en `src-tauri/target/release/bundle/nsis/`. Sin cambios funcionales: no se tocó cierre nativo, borrador local, Nuevo/Abrir/Guardar/Guardar como, Exportar HTML, Imprimir / Guardar como PDF, preferencias, editor, shortcuts ni Markdown. Advertencia permanente: no reintroducir `onCloseRequested`, `getCurrentWindow().close()` ni `pendingAction = "close"`.
 - v0.9.6 (anchors internos y tabla de contenidos, esta iteración): se agregó helper puro para slugs/headings/TOC, headings con IDs estables en preview y Exportar HTML, navegación local de links `#...` dentro del panel de preview y botón “Tabla de contenidos” al final de la toolbar. Follow-up pre-merge: `extractHeadingPlainText` queda exportado y compartido por el builder de anchors/TOC y por `renderMarkdown` para que headings con links, imágenes, énfasis o código inline generen IDs iguales a los links del índice. Pulido final: texto del Manual de uso ampliado para explicar links internos, generación automática de tabla de contenidos y preservación de anchors al exportar HTML. Changelog y manual actualizados para que Acerca/Novedades muestre `0.9.6`. Validación: `pnpm install`, `pnpm lint`, `pnpm test` (87 tests) y `pnpm build` OK; `pnpm tauri:build` queda bloqueado en Linux por falta de `glib-2.0`/pkg-config del entorno. Sin cambios en cierre nativo, borrador local, Nuevo/Abrir/Guardar/Guardar como, Imprimir / Guardar como PDF ni preferencias locales. Advertencia permanente: no reintroducir `onCloseRequested`, `getCurrentWindow().close()` ni `pendingAction = "close"`.
 - v0.9.5 (polish visual del preview Markdown, esta iteración): se mejoró el contraste de encabezados de tabla (`th`) en tema claro mediante variables semánticas y se ajustaron los bloques de código del preview (`pre`, `pre code` y `.codeBlockWrap`) para evitar mini scroll horizontal innecesario en contenido corto, manteniendo scroll horizontal cuando el código realmente desborda. Se alineó versión a `0.9.5` en `package.json`, `tauri.conf.json`, `Cargo.toml` y entrada `medo` de `Cargo.lock`, y se agregó changelog. Validación: `pnpm install`, `pnpm lint`, `pnpm test` y `pnpm build` OK; `pnpm tauri:build` queda bloqueado en Linux por falta de `glib-2.0`/pkg-config del entorno. Sin cambios funcionales: no se tocó cierre nativo, borrador local, editor, shortcuts, Nuevo/Abrir/Guardar/Guardar como, Exportar HTML, Imprimir / Guardar como PDF ni preferencias locales. Advertencia permanente: no reintroducir `onCloseRequested`, `getCurrentWindow().close()` ni `pendingAction = "close"`.
 - v0.9.4 (polish técnico del build/bundling, esta iteración): se agregó `build.rollupOptions.output.manualChunks` en Vite para separar chunks dedicados de React (`react`, `react-dom`), CodeMirror (`@codemirror/commands`, `@codemirror/lang-markdown`, `@codemirror/state`, `@codemirror/view`), `markdown-it` y `lucide-react`; se alineó versión a `0.9.4` en `package.json`, `tauri.conf.json`, `Cargo.toml` y entrada `medo` de `Cargo.lock`, y se agregó changelog. Validación: `pnpm install`, `pnpm lint`, `pnpm test` y `pnpm build` OK; `pnpm build` genera chunks principales por debajo de 500 kB (`codemirror` 465.34 kB) sin warning de Vite; `pnpm tauri:build` queda bloqueado en Linux por falta de `glib-2.0`/pkg-config del entorno. Sin cambios funcionales: no se tocó cierre nativo, borrador local, Nuevo/Abrir/Guardar/Guardar como, Exportar HTML, Imprimir / Guardar como PDF ni preferencias locales. Advertencia permanente: no reintroducir `onCloseRequested`, `getCurrentWindow().close()` ni `pendingAction = "close"`.

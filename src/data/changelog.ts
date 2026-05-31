@@ -7,6 +7,16 @@ export type ChangelogEntry = {
 
 export const changelogEntries: ChangelogEntry[] = [
   {
+    version: '0.9.7',
+    date: '2026-05-30',
+    title: 'Icono del instalador NSIS de Windows',
+    changes: [
+      'Se configuró explícitamente el icono del instalador NSIS de Windows para usar `icons/icon.ico` y evitar el icono genérico en el `.exe` de setup.',
+      'El ajuste prepara visualmente el instalador de Windows rumbo a 1.0, manteniendo alineado el branding del archivo `Medo_0.9.7_x64-setup.exe` con la app instalada.',
+      'No hubo cambios funcionales: cierre nativo, borrador local, Nuevo/Abrir/Guardar/Guardar como, Exportar HTML, Imprimir / Guardar como PDF, preferencias, editor, shortcuts y Markdown permanecen intactos.'
+    ]
+  },
+  {
     version: '0.9.6',
     date: '2026-05-30',
     title: 'Anchors internos y tabla de contenidos',
