@@ -11,7 +11,7 @@ Medo es una app de escritorio para escribir, previsualizar, guardar y exportar d
 ![pnpm](https://img.shields.io/badge/pnpm-10-F69220?style=for-the-badge&logo=pnpm&logoColor=white)
 ![Markdown](https://img.shields.io/badge/Markdown-editor-000000?style=for-the-badge&logo=markdown&logoColor=white)
 ![Windows](https://img.shields.io/badge/Windows-soporte_inicial-0078D4?style=for-the-badge&logo=windows&logoColor=white)
-![Release Candidate](https://img.shields.io/badge/estado-release_candidate-7C3AED?style=for-the-badge)
+![Stable](https://img.shields.io/badge/estado-estable_1.0.0-16A34A?style=for-the-badge)
 ![GPLv3](https://img.shields.io/badge/License-GPLv3-blue?style=for-the-badge)
 
 ---
@@ -22,7 +22,7 @@ Medo es una aplicación de escritorio enfocada en edición Markdown local. Está
 
 No busca ser Word, un dashboard ni una suite de productividad pesada. Su objetivo es ser un editor claro, rápido y confiable para trabajar con texto Markdown desde el escritorio.
 
-**Estado actual:** release candidate / pre-1.0. La versión instalada y validada más reciente es **0.9.1**; esta rama prepara la documentación y metadata de **0.9.2** antes de la publicación estable.
+**Estado actual:** versión estable inicial **1.0.0** para Windows. La distribución pública se realiza desde GitHub Releases.
 
 ---
 
@@ -47,7 +47,11 @@ No busca ser Word, un dashboard ni una suite de productividad pesada. Su objetiv
 
 Windows es la plataforma oficial inicial de Medo.
 
-El proyecto usa Tauri 2 y tecnologías multiplataforma, pero **Linux y macOS no se declaran todavía como plataformas estables de usuario final**. La validación principal de instalador, accesos directos y flujo de escritorio se concentra en Windows.
+- **Windows:** soporte estable inicial y objetivo principal del instalador `1.0.0`.
+- **WSL:** uso práctico mediante rutas UNC de Windows para abrir y guardar archivos Markdown dentro de distribuciones WSL.
+- **Linux/macOS:** posibles instaladores futuros; no son plataformas estables de usuario final en esta primera release pública.
+
+El proyecto usa Tauri 2 y tecnologías multiplataforma, pero la validación principal de instalador, accesos directos y flujo de escritorio se concentra en Windows.
 
 ---
 
@@ -76,13 +80,40 @@ Próximamente se agregarán capturas del editor, la vista previa, preferencias y
 
 ---
 
-## 📦 Descargar e instalar
+## 📦 Descargar Medo
 
-Medo está preparando su publicación estable `1.0.0`.
+La versión estable para Windows se descarga desde GitHub Releases:
 
-- El instalador de Windows estará disponible en **GitHub Releases** cuando se publique la versión estable.
-- Hasta entonces, esta rama se mantiene como preparación release candidate / documentación.
-- No se enlazan instaladores inexistentes para evitar enlaces rotos o confusión de descarga.
+[Descargar última versión](https://github.com/GeorgeValle/Medo/releases/latest)
+
+También podés ver el historial completo de publicaciones en:
+
+https://github.com/GeorgeValle/Medo/releases
+
+1. Entrá al enlace de descarga.
+2. Descargá el instalador `Medo_1.0.0_x64-setup.exe` o el `.exe` más reciente disponible.
+3. Ejecutá el instalador.
+4. Abrí Medo desde el menú Inicio o el acceso directo.
+
+### Aviso de Windows SmartScreen
+
+Medo todavía no está firmado digitalmente con certificado de editor. Windows puede mostrar una advertencia indicando “Editor desconocido”. Si descargaste Medo desde el release oficial de este repositorio, podés continuar desde “Más información” → “Ejecutar de todas formas”.
+
+La firma digital será evaluada para versiones futuras.
+
+### Verificación del instalador
+
+En cada release se publicará el hash SHA256 del instalador para que puedas verificar que el archivo descargado no fue modificado.
+
+SHA256: pendiente de completar al publicar el release.
+
+En PowerShell:
+
+```powershell
+Get-FileHash .\Medo_1.0.0_x64-setup.exe -Algorithm SHA256
+```
+
+También puede publicarse un enlace de análisis de VirusTotal como referencia. VirusTotal no certifica la app; solo muestra resultados de múltiples motores antivirus. Si hubiera falsos positivos, se pueden reportar a los vendors correspondientes.
 
 ---
 
@@ -149,12 +180,11 @@ No se usan Tailwind, Bootstrap, Material UI, Chakra, CSS-in-JS ni Sass.
 
 ---
 
-## 🗺️ Roadmap hacia 1.0.0
+## 🗺️ Roadmap y próximos pasos
 
 | Versión | Enfoque |
 | --- | --- |
-| 0.9.1 | Release candidate instalada y validada. |
-| 0.9.2 | Pulido de README, licencia GPLv3 y metadata de documentación. |
+| 0.9.x | Release candidates e instalador Windows validado. |
 | 1.0.0 | Publicación estable inicial para Windows. |
 
 Futuro posterior a `1.0.0`:

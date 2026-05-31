@@ -7,6 +7,18 @@ export type ChangelogEntry = {
 
 export const changelogEntries: ChangelogEntry[] = [
   {
+    version: '1.0.0',
+    date: '2026-05-31',
+    title: 'Primera versión estable para Windows',
+    changes: [
+      'Medo llega a su primera versión estable pública para Windows con editor Markdown, vista previa en vivo y flujos Nuevo, Abrir, Guardar y Guardar como validados desde la línea release candidate.',
+      'La versión estable conserva recuperación de borrador local, Exportar HTML limpio, Imprimir / Guardar como PDF, preferencias locales, temas claro/oscuro/sistema, tamaño de fuente del editor, Manual integrado, Acerca y Novedades.',
+      'Se incluye soporte práctico para links internos con anchors, tabla de contenidos automática y archivos Markdown dentro de WSL mediante rutas UNC de Windows.',
+      'El instalador Windows NSIS mantiene el icono de Medo y la metadata de release queda alineada para descarga pública desde GitHub Releases con README, notas de release, SmartScreen, SHA256 y VirusTotal documentados.',
+      'No hubo cambios de cierre nativo respecto a la línea estable: no se reintrodujeron `onCloseRequested`, `getCurrentWindow().close()` ni `pendingAction = "close"`.'
+    ]
+  },
+  {
     version: '0.9.7',
     date: '2026-05-30',
     title: 'Icono del instalador NSIS de Windows',
