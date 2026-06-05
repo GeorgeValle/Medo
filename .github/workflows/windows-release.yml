@@ -29,6 +29,12 @@ jobs:
 
       - run: pnpm tauri:build
 
+      - name: Read app version
+        shell: pwsh
+        run: |
+          $package = Get-Content "package.json" | ConvertFrom-Json
+          "MEDO_VERSION=$($package.version)" | Out-File -FilePath $env:GITHUB_ENV -Append
+
       - name: Generate SHA256SUMS
         shell: pwsh
         run: |
@@ -44,7 +50,7 @@ jobs:
       - name: Upload Windows NSIS artifact
         uses: actions/upload-artifact@v4
         with:
-          name: medo-windows-nsis-1.0.0
+          name: medo-windows-nsis-${{ env.MEDO_VERSION }}
           path: |
             src-tauri/target/release/bundle/nsis/*.exe
             SHA256SUMS.txt
