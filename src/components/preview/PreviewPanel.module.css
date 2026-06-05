@@ -40,9 +40,9 @@
 .fileNameInput {
   min-width: 220px;
   max-width: min(420px, 62vw);
-  background: #0b1220;
-  color: var(--color-text);
-  border: 1px solid var(--color-border);
+  background: var(--color-title-input-bg);
+  color: var(--color-title-input-text);
+  border: 1px solid var(--color-title-input-border);
   border-radius: 6px;
   padding: 0.2rem 0.35rem;
 }
@@ -53,8 +53,11 @@
   align-items: center;
   gap: 0.35rem;
   font-size: 0.86rem;
-  color: #cbd5e1;
-  opacity: 0.9;
+  color: var(--color-save-status-text);
+}
+
+.saveStatus svg {
+  color: var(--color-save-status-icon);
 }
 
 .preview {
