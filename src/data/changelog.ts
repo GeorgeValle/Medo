@@ -7,6 +7,17 @@ export type ChangelogEntry = {
 
 export const changelogEntries: ChangelogEntry[] = [
   {
+    version: '1.0.1',
+    date: '2026-06-05',
+    title: 'Hotfix visual de contraste en modo claro',
+    changes: [
+      'Se corrigió el contraste del input temporal que aparece al renombrar el documento en modo claro, manteniendo el texto legible mientras el título está editable.',
+      'Se corrigió el contraste del icono y texto de estado `Guardado` / `Sin guardar` en modo claro para que se lean con un color oscuro consistente con los textos principales.',
+      'No hubo cambios funcionales: no se modificaron la lógica de renombrado, guardado, cambios sin guardar, cierre nativo, borrador local, Nuevo/Abrir/Guardar/Guardar como, Exportar HTML, Imprimir / Guardar como PDF, preferencias, editor ni shortcuts.',
+      'Mejora futura posible: diferenciar visualmente `Guardado` y `Sin guardar` por color de texto/icono sin alterar la lógica del estado.'
+    ]
+  },
+  {
     version: '1.0.0',
     date: '2026-05-31',
     title: 'Primera versión estable para Windows',
