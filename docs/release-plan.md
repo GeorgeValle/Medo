@@ -4,14 +4,14 @@
 Distribuir Medo como instalador de escritorio Windows desde GitHub Releases.
 
 ## Release estable actual
-- Versión objetivo: `1.0.0`.
+- Versión estable vigente: `1.0.1`.
 - Release recomendado para usuarios finales: <https://github.com/GeorgeValle/Medo/releases/latest>.
 - Historial completo: <https://github.com/GeorgeValle/Medo/releases>.
-- Notas base: [`docs/releases/v1.0.0.md`](releases/v1.0.0.md).
+- Referencia histórica: las [notas de `v1.0.0`](releases/v1.0.0.md) documentan la primera publicación estable; no son instrucciones ni notas de la release vigente.
 
 ## Instalador
 - Target: NSIS (Tauri bundle).
-- Nombre esperado del instalador: `Medo_1.0.0_x64-setup.exe`.
+- Nombre esperado del instalador vigente: `Medo_1.0.1_x64-setup.exe`.
 - `installMode`: `currentUser`.
 - `startMenuFolder`: `Medo`.
 - Icono del instalador: `src-tauri/icons/icon.ico` mediante `bundle.windows.nsis.installerIcon`.
@@ -28,7 +28,7 @@ En cada release se debe publicar el hash SHA256 del instalador.
 Ejemplo en PowerShell:
 
 ```powershell
-Get-FileHash .\Medo_1.0.0_x64-setup.exe -Algorithm SHA256
+Get-FileHash .\Medo_1.0.1_x64-setup.exe -Algorithm SHA256
 ```
 
 El workflow de release genera `SHA256SUMS.txt` junto al instalador.
@@ -48,10 +48,12 @@ El análisis de VirusTotal puede publicarse manualmente como referencia adiciona
 - Confirmar icono de Medo en el instalador NSIS.
 - Instalar encima de una versión anterior.
 - Desinstalar e instalar limpio.
-- Confirmar Acerca y Novedades en `1.0.0`.
+- Confirmar Acerca y Novedades en `1.0.1`.
 - Smoke test manual: Nuevo, Abrir, Guardar, Guardar como, cierre con X, recuperación de borrador, Exportar HTML, Imprimir / Guardar como PDF, preferencias, manual, links internos y tabla de contenidos.
 
-## Pasos manuales para publicar `v1.0.0`
+## Procedimiento histórico de publicación de `v1.0.0`
+Los pasos siguientes se conservan únicamente como registro de la primera publicación estable. No indican que se deba volver a publicar `v1.0.0` ni describen el estado o las notas de la release vigente `1.0.1`.
+
 1. Ejecutar el workflow manual **Windows Release** desde GitHub Actions.
 2. Descargar artifacts `medo-windows-nsis-1.0.0` y verificar `SHA256SUMS.txt`.
 3. Crear el tag `v1.0.0` si todavía no existe.
