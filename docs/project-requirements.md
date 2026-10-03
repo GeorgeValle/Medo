@@ -26,7 +26,7 @@ Atajos avanzados, plantillas, exportaciones, instalador endurecido, pipeline rel
 Editor Markdown, Preview, Gestor de documentos, Instalador Windows.
 
 ## Decisión sobre el conversor TXT→MD
-El conversor TXT→MD fue descartado por falta de valor para el MVP. Su implementación histórica permanece conservada en el repositorio y fuera de la UI productiva; esta decisión no afecta la capacidad independiente de abrir archivos `.txt` en el editor.
+El conversor TXT→MD fue descartado definitivamente por falta de valor para el MVP: no está pospuesto ni planificado para el futuro. Su implementación histórica permanece conservada en el repositorio y fuera de la UI productiva; una eventual eliminación requiere una tarea separada. Esta decisión no afecta la capacidad independiente de abrir archivos `.txt` en el editor. Véase la [decisión 0001](decisions/0001-descartar-conversor-txt-a-md.md).
 
 ## Tecnologías
 Tauri 2, React, TS, Vite, pnpm, Rust local, CodeMirror 6, markdown-it, Vitest.
