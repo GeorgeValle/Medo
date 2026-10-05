@@ -1,5 +1,9 @@
-## Estado actual (v1.0.1 - 2026-06-05)
-- Objetivo de esta iteración: hotfix visual post-1.0 para corregir contraste en modo claro sin agregar features nuevas ni tocar lógica funcional.
+## Estado actual (v1.0.1 - 2026-10-03)
+- Objetivo de esta iteración documental: reconciliar el estado publicado de `1.0.1` y la decisión del propietario de descartar definitivamente el conversor TXT→MD, sin cambios de producto.
+- `1.0.1` es la versión estable publicada vigente; `1.0.0` se conserva como antecedente histórico.
+- El conversor TXT→MD no está pospuesto ni planificado: fue descartado por no aportar valor al MVP. Abrir archivos `.txt` sigue siendo una capacidad independiente existente. El código histórico del conversor permanece fuera de la UI productiva; una eventual eliminación requerirá otra tarea.
+- La decisión y sus límites quedan registrados en [`docs/decisions/0001-descartar-conversor-txt-a-md.md`](decisions/0001-descartar-conversor-txt-a-md.md); los documentos de fase y módulo anteriores quedan marcados como históricos y reemplazados por esa decisión.
+- Objetivo del hotfix publicado: corregir contraste en modo claro sin agregar features nuevas ni tocar lógica funcional.
 - Versión alineada a `1.0.1` en `package.json`, `src-tauri/tauri.conf.json`, `src-tauri/Cargo.toml` y entrada `medo` de `src-tauri/Cargo.lock`.
 - Contraste del input editable temporal del título/documento corregido con variables semánticas `--color-title-input-bg`, `--color-title-input-text` y `--color-title-input-border`, cubriendo tema claro, oscuro y sistema.
 - Contraste del estado visual `Guardado` / `Sin guardar` corregido con variables semánticas `--color-save-status-text` y `--color-save-status-icon`, cubriendo tema claro, oscuro y sistema.
@@ -10,6 +14,9 @@
 - Advertencia permanente: no reintroducir `onCloseRequested`, `getCurrentWindow().close()` ni `pendingAction = "close"`.
 
 ## Validaciones v1.0.1
+- Segunda reparación documental acotada (2026-10-03): el plan de release y el módulo del instalador se reconciliaron con `1.0.1`; las notas y el procedimiento de publicación de `v1.0.0` quedaron identificados como históricos. Se revisaron las referencias de versión vigentes frente a las históricas, los enlaces relativos, el diff completo y `git diff --check`. No se realizó ni se declara una nueva publicación o validación manual de Windows.
+- Reconciliación documental del 2026-10-03: enlaces relativos comprobados, declaraciones vigentes e históricas revisadas, `git diff --check` sin errores y alcance confirmado mediante la lista completa de archivos y el diff staged.
+- La ejecución histórica de CI del HEAD inicial de este PR (`16e5eede`) finalizó correctamente en [GitHub Actions](https://github.com/GeorgeValle/Medo/actions/runs/37150669787); corresponde al commit anterior y no valida la corrección documental del 2026-10-03.
 - `pnpm install`: ejecutado correctamente; lockfile ya estaba actualizado. Warning informativo de pnpm: scripts de build de `esbuild` ignorados por política de aprobación del entorno.
 - `pnpm lint`: ejecutado correctamente; TypeScript no reportó errores.
 - `pnpm test`: ejecutado correctamente; 11 archivos de test y 87 tests pasaron.
@@ -33,6 +40,7 @@ Phase 05 - Release.
 - 0.7.0 — Exportación PDF o editor Markdown avanzado
 - 0.8.0 — Preferencias locales y UX persistente
 - 1.0.0 — Stable Windows
+- 1.0.1 — Hotfix visual publicado y versión estable vigente
 - 0.9.7 — Icono del instalador NSIS de Windows
 - 0.9.6 — Anchors internos y tabla de contenidos
 - 0.9.5 — Polish visual del preview Markdown
@@ -57,6 +65,8 @@ Phase 05 - Release.
 - [ ] Validación manual final en Windows instalado
 
 ## Completadas
+- Segunda reparación documental v1.0.1 (2026-10-03): `docs/release-plan.md` y `docs/modules/windows-installer.md` ahora identifican `1.0.1` como release y alcance vigentes, usan el nombre actual del instalador y remiten la validación de Acerca/Novedades a `1.0.1`. Las notas y el procedimiento de publicación de `v1.0.0` se preservaron expresamente como historia. Validación limitada a documentación; la QA manual de Windows continúa pendiente.
+- Reconciliación documental v1.0.1 (2026-10-03): se registró el estado publicado, se documentó la decisión existente del propietario de descartar definitivamente el conversor TXT→MD y se marcaron como históricos sus planes anteriores. Se preservaron tanto la apertura independiente de `.txt` como el código histórico fuera de la UI; su eventual limpieza queda fuera de esta tarea. Validación documental: enlaces relativos, declaraciones vigentes frente a históricas, `git diff --check`, lista completa de archivos y diff staged revisados. No se ejecutaron pruebas de producto por no existir cambios de código. La CI histórica del commit inicial del PR no se considera validación de esta corrección.
 - Follow-up review P2 v1.0.1 (esta iteración): se corrigió el nombre del artifact del workflow Windows Release para derivarlo dinámicamente de `package.json` (`MEDO_VERSION`) en lugar de hardcodear `1.0.0`; CI ya usaba nombre genérico y no requirió cambios. Validación: `pnpm lint`, `pnpm test` (87 tests) y `pnpm build` OK. Sin cambios funcionales ni visuales.
 - v1.0.1 (hotfix visual post-1.0, esta iteración): se corrigió contraste en modo claro del input editable temporal del título/documento y del estado `Guardado` / `Sin guardar` mediante variables semánticas CSS. Se actualizó Changelog/Novedades para Acerca → Novedades con nota explícita de ausencia de cambios funcionales y se dejó como mejora futura diferenciar los estados por color. Validación: `pnpm install`, `pnpm lint`, `pnpm test` (87 tests) y `pnpm build` OK; `pnpm tauri:build` queda bloqueado en Linux por falta de `glib-2.0`/pkg-config del entorno. Sin cambios funcionales: no se tocó cierre nativo, borrador local, Nuevo/Abrir/Guardar/Guardar como, Exportar HTML, Imprimir / Guardar como PDF, preferencias locales, editor, shortcuts ni CodeMirror. Advertencia permanente: no reintroducir `onCloseRequested`, `getCurrentWindow().close()` ni `pendingAction = "close"`.
 - v1.0.0 (Stable Windows, esta iteración): se preparó la primera versión estable pública de Medo para Windows sin agregar features nuevas. Se alineó versión a `1.0.0` en package/Tauri/Rust/Cargo.lock; se completó metadata válida de Tauri 2 (`publisher`, `copyright`, NSIS `installerIcon`, `installMode`, `startMenuFolder` e idioma español); README y `docs/releases/v1.0.0.md` documentan descarga desde `/releases/latest`, SmartScreen, SHA256 y VirusTotal como referencia no certificante; `.github/workflows/windows-release.yml` genera manualmente instalador NSIS y `SHA256SUMS.txt` como artifacts, y CI de Windows también sube el hash; `src/data/changelog.ts` muestra Novedades `1.0.0`. El Manual de uso fue revisado y ya cubre recuperación de borrador local, Exportar HTML, Imprimir / Guardar como PDF, links internos/tabla de contenidos y WSL por rutas UNC. Sin cambios funcionales: no se tocó cierre nativo, borrador local, Nuevo/Abrir/Guardar/Guardar como, Exportar HTML, Imprimir / Guardar como PDF, preferencias, editor, shortcuts ni Markdown. Advertencia permanente: no reintroducir `onCloseRequested`, `getCurrentWindow().close()` ni `pendingAction = "close"`.
@@ -132,11 +142,11 @@ Phase 05 - Release.
 
 ## Pendientes
 - Ejecutar smoke E2E real de cierre de ventana (Tauri driver/WebDriver) como deuda técnica controlada, manteniendo cobertura unitaria actual del flujo de cierre.
-- Ejecutar validación manual completa en Windows con instalador NSIS `Medo_1.0.0_x64-setup.exe` generado desde CI (confirmar icono final de Medo en instalador/accesos directos).
+- Ejecutar validación manual completa en Windows con instalador NSIS `Medo_1.0.1_x64-setup.exe` generado desde CI (confirmar icono final de Medo en instalador/accesos directos).
 - Confirmar en Windows real que `Abrir/Guardar/Guardar como` funcionan con `.md` y `.txt` en múltiples rutas.
 - Confirmar usabilidad de barra de formato Markdown con selección y sin selección (incluye repetir H1/H2/H3 y numeración con líneas en blanco).
 - Validar manualmente UX de tabla (`Tabla`, `Fila`, `Columna`) en selección simple y multilinea.
-- Validación manual de Imprimir / Guardar como PDF en Windows real para la release `1.0.0`.
+- Validación manual de Imprimir / Guardar como PDF en Windows real para la release vigente `1.0.1`.
 - [x] Validación manual de rutas WSL por UNC en Windows para abrir/editar/guardar `.md` (documentada en v0.9.0, sin integración nativa WSL).
 - Mejorar continuidad automática alfabética en casos avanzados (p. ej. salir de lista con línea vacía) como seguimiento futuro.
 

@@ -11,7 +11,7 @@ Medo es una app de escritorio para escribir, previsualizar, guardar y exportar d
 ![pnpm](https://img.shields.io/badge/pnpm-10-F69220?style=for-the-badge&logo=pnpm&logoColor=white)
 ![Markdown](https://img.shields.io/badge/Markdown-editor-000000?style=for-the-badge&logo=markdown&logoColor=white)
 ![Windows](https://img.shields.io/badge/Windows-soporte_inicial-0078D4?style=for-the-badge&logo=windows&logoColor=white)
-![Stable](https://img.shields.io/badge/estado-estable_1.0.0-16A34A?style=for-the-badge)
+![Stable](https://img.shields.io/badge/estado-estable_1.0.1-16A34A?style=for-the-badge)
 ![GPLv3](https://img.shields.io/badge/License-GPLv3-blue?style=for-the-badge)
 
 ---
@@ -22,7 +22,7 @@ Medo es una aplicación de escritorio enfocada en edición Markdown local. Está
 
 No busca ser Word, un dashboard ni una suite de productividad pesada. Su objetivo es ser un editor claro, rápido y confiable para trabajar con texto Markdown desde el escritorio.
 
-**Estado actual:** versión estable inicial **1.0.0** para Windows. La distribución pública se realiza desde GitHub Releases.
+**Estado actual:** versión estable **1.0.1** para Windows, hotfix visual posterior a la primera versión estable **1.0.0**. La distribución pública se realiza desde GitHub Releases.
 
 ---
 
@@ -47,7 +47,7 @@ No busca ser Word, un dashboard ni una suite de productividad pesada. Su objetiv
 
 Windows es la plataforma oficial inicial de Medo.
 
-- **Windows:** soporte estable inicial y objetivo principal del instalador `1.0.0`.
+- **Windows:** soporte estable y objetivo principal del instalador `1.0.1`.
 - **WSL:** uso práctico mediante rutas UNC de Windows para abrir y guardar archivos Markdown dentro de distribuciones WSL.
 - **Linux/macOS:** posibles instaladores futuros; no son plataformas estables de usuario final en esta primera release pública.
 
@@ -91,7 +91,7 @@ También podés ver el historial completo de publicaciones en:
 https://github.com/GeorgeValle/Medo/releases
 
 1. Entrá al enlace de descarga.
-2. Descargá el instalador `Medo_1.0.0_x64-setup.exe` o el `.exe` más reciente disponible.
+2. Descargá el instalador `Medo_1.0.1_x64-setup.exe` o el `.exe` más reciente disponible.
 3. Ejecutá el instalador.
 4. Abrí Medo desde el menú Inicio o el acceso directo.
 
@@ -105,12 +105,12 @@ La firma digital será evaluada para versiones futuras.
 
 En cada release se publicará el hash SHA256 del instalador para que puedas verificar que el archivo descargado no fue modificado.
 
-SHA256: pendiente de completar al publicar el release.
+El SHA256 verificado se publica junto con cada release en `SHA256SUMS.txt`.
 
 En PowerShell:
 
 ```powershell
-Get-FileHash .\Medo_1.0.0_x64-setup.exe -Algorithm SHA256
+Get-FileHash .\Medo_1.0.1_x64-setup.exe -Algorithm SHA256
 ```
 
 También puede publicarse un enlace de análisis de VirusTotal como referencia. VirusTotal no certifica la app; solo muestra resultados de múltiples motores antivirus. Si hubiera falsos positivos, se pueden reportar a los vendors correspondientes.
@@ -186,8 +186,9 @@ No se usan Tailwind, Bootstrap, Material UI, Chakra, CSS-in-JS ni Sass.
 | --- | --- |
 | 0.9.x | Release candidates e instalador Windows validado. |
 | 1.0.0 | Publicación estable inicial para Windows. |
+| 1.0.1 | Hotfix visual posterior y versión estable vigente para Windows. |
 
-Futuro posterior a `1.0.0`:
+Futuro posterior a `1.0.1`:
 
 - Capturas oficiales en README.
 - Validación más amplia de empaquetado.
